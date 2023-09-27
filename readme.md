@@ -19,19 +19,20 @@ Allowing for the addition of custom states and callbacks.
 - (custom) Callback functions to Shiny
 
 ### Multiple modes 
-Checkbox:  
-![overview](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/a21e242f-2f06-4cdb-88d0-aa4638ecac8a)
+Checkbox:    
+![overview](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/6f0d3384-722b-44c7-8c56-c941ac9bef4b)
 
 Include/exclude:   
-![include](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/e5676100-ff2d-47b6-aca4-fecc4712ae5d)
+![include](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/829d455c-2b24-4f63-8ee1-81b9dfd0ab93)
 
 Remove checkboxes:  
 Combine this with the clickableLabels [callback](#callbacks) to use the treecheckbox as a navigation tool.
-![no_checkbox](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/141ca8fa-3c38-4576-800e-aa3b72147d42)
+![no_checkbox](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/1e29dc3e-e2d9-485b-8938-2900564491b2)
+![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c)
 
 ### Searching 
 Searching is very fast. A ShinierTreeCheckbox with 18.000 items takes less than 50ms to search. 
-![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
+
 
 ## Installation
 Provide instructions on how to install and use your R Shiny widget. Include code snippets if necessary. For example:
@@ -41,7 +42,8 @@ Provide instructions on how to install and use your R Shiny widget. Include code
 # install.packages("devtools")
 devtools::install_github("SanderJBouwman/shiniertreecheckbox")
 ```
-
+### Requirements
+This package needs the Bootstrap library. You can load this using [bslib](https://CRAN.R-project.org/package=bslib) or load it using a CDN.   
 ## Usage
 ```R
 # Load the package
@@ -241,7 +243,7 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | showSelectAll               | boolean   | `true`        | Whether to show the "Select All" option.                                                                                        |
 | showCollapseAll             | boolean   | `true`        | Whether to show the "Collapse All" option.                                                                                      |
 | showSearchBar               | boolean   | `true`        | Whether to show the search bar.                                                                                                 |
-| advancedSearch              | boolean   | `false`       | Whether to enable advanced search features.                                                                                     |
+| advancedSearch              | boolean   | `false`       | Whether to enable advanced search features. To be added in the feature (e.g. database search)                                   |
 | clickableLabels             | boolean   | `false`       | Whether labels are clickable.                                                                                                   |
 | clickableLabelsCallback     | function  | null          | See [callbacks](#Callbacks)                                                                                                     | Callback function when clickable labels are clicked.                                                |
 | clickableLabelsCallbackArgs | Array     | null          | See [callbacks](#Callbacks)                                                                                                     | Additional arguments for the clickable labels callback.                                             |
