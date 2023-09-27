@@ -5,6 +5,9 @@ This package allows for the rendering of hierarchical checkboxes in Shiny. It us
 It has various options to customize the behavior and appearance of the checkboxes. 
 Allowing for the addition of custom states and callbacks. 
 
+## Features
+- Able to large amount of items in the treecheckbox > 20.000 items
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -26,7 +29,7 @@ devtools::install_github("SanderJBouwman/shiniertreecheckbox")
 # Load the package
 library(shiniertreecheckbox)
 
-# Add the widget to the UI 
+# Add the widget to the UI
 # Basic example
 shinyApp(
     ui <- fluidPage(
@@ -40,7 +43,14 @@ shinyApp(
 ```
 
 ## Demo
-Some pictures here
+### General overview
+![overview](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/a21e242f-2f06-4cdb-88d0-aa4638ecac8a)
+
+### Search 
+Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
+![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
+
+
 
 ## Documentation
 ### Data Parameter
