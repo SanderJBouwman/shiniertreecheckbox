@@ -28,11 +28,10 @@ Include/exclude:
 Remove checkboxes:  
 Combine this with the clickableLabels [callback](#callbacks) to use the treecheckbox as a navigation tool.
 ![no_checkbox](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/1e29dc3e-e2d9-485b-8938-2900564491b2)
-![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c)
 
 ### Searching 
-Searching is very fast. A ShinierTreeCheckbox with 18.000 items takes less than 50ms to search. 
-
+Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 8ms to search. 
+![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c)
 
 ## Installation
 Provide instructions on how to install and use your R Shiny widget. Include code snippets if necessary. For example:
