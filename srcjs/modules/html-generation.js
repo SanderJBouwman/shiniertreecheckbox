@@ -15,7 +15,7 @@ htmlGenerators.createUniqueID = (() => {
 
 
 htmlGenerators.createTreeCheckboxContainer = function (options) {
-    let $container = $("<div>", {"class": `${styles.treeCheckboxContainer} border border-fg rounded`,
+    let $container = $("<div>", {"class": `${styles.treeCheckboxContainer} border border-fg rounded d-flex flex-column`,
         "id": `tree-checkbox-container-${htmlGenerators.createUniqueID()}`})
 
     // Set the max width of the container

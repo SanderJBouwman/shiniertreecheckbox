@@ -24,12 +24,7 @@ utilities.createTree = function ($parent, data, options) {
     $mainContainer.data("options", options)
 
     // Create a container for the nodes $nodeContainer which has class styles.tree_checkbox_node_container
-    let $nodeContainer = $("<div>", {"class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100`})
-    $nodeContainer.css("height", options.height)
-
-    // Set the max height of the container and make it scrollable
-    $nodeContainer.css("max-height", options.height)
-
+    let $nodeContainer = $("<div>", {"class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100 flex-grow-1`})
 
     $mainContainer.append($nodeContainer)
 
