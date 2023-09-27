@@ -14,7 +14,7 @@ Allowing for the addition of custom states and callbacks.
 - [Documentation](#documentation)
   
 ## Features
-- Able to large amount of items in the treecheckbox > 20.000 items
+- Able to process large amounts of items in the treecheckbox > 50.000 items
 - Fast searching
 - (custom) Callback functions to Shiny
 
