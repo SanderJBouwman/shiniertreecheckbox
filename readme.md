@@ -30,7 +30,7 @@ Combine this with the clickableLabels [callback](#callbacks) to use the treechec
 ![no_checkbox](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/141ca8fa-3c38-4576-800e-aa3b72147d42)
 
 ### Searching 
-Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
+Searching is very fast. A ShinierTreeCheckbox with 18.000 items takes less than 50ms to search. 
 ![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
 
 ## Installation
