@@ -1,0 +1,101 @@
+:local .collapsed{}
+:local .expanded{}
+:local .highlight{}
+:local .clickable{}
+
+:local .treeCheckboxContainer {
+    background-color: white;
+    /*border-radius: 5px;*/
+    /*border: black 1px solid;*/
+}
+
+:local .treeCheckboxNodeContainer {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+:local .treeCheckboxButtonContainer {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+:local .treeCheckboxNodeChildren {
+    margin-bottom: 0;
+}
+
+:local .treeCheckboxCaret {
+    min-width: 16px;
+    padding-right: 8px;
+    cursor: pointer;
+    fill: var(--bs-black);
+}
+
+:local .treeCheckboxCaretEmpty {
+    padding-right: 16px;
+}
+
+:local .treeCheckboxCaret.expanded > svg {
+    transform: rotate(45deg);
+
+}
+:local .treeCheckboxCaret.expanded > svg {
+    transform-origin: center;
+    transition: transform 0.3s ease; /* You can adjust the duration and timing function */
+}
+
+:local .treeCheckboxCaret.collapsed > svg {
+    transform: rotate(0deg);
+}
+
+:local .treeCheckboxCaret.collapsed > svg {
+    transform-origin: center;
+    transition: transform 0.3s ease; /* You can adjust the duration and timing function */
+}
+
+
+:local .treeCheckboxCaret:hover{
+    fill: #e37225;
+}
+
+:local .treeCheckboxNodeLabel.highlight{
+    color: var(--bs-black);
+    /* Make the label bold and underlined */
+    font-weight: bold;
+}
+
+:local .treeCheckboxNodeCheckboxInclude {
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 5px;
+}
+
+:local .treeCheckboxNodeCheckbox {
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 5px;
+}
+:local .treeCheckboxSearchBarContainer{
+    padding: 0;
+    margin: 0;
+}
+:local .treeCheckboxSearchBarContainer.clickable{
+    cursor: pointer;
+}
+
+:local .treeCheckboxNodeLabel.clickable:hover{
+    /* Make the label bold and underlined */
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+:local .treeCheckboxSearchResultsContainer{
+}
+
+:local .treeCheckboxNodeChild{
+    white-space: nowrap;
+}
+
+:local .treeCheckboxNode{
+
+}

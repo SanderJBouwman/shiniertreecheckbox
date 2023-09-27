@@ -1,0 +1,101 @@
+/*.tree-checkbox-container*/
+:local .tree_checkbox_container{
+    background-color: white;
+    border-radius: 5px;
+    border: black 1px solid;
+}
+
+/*tree-checkbox-node-container*/
+:local .tree_checkbox_node_container{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/*tree-checkbox-button-container*/
+:local .tree_checkbox_button_container{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+/*tree-checkbox-node-children*/
+:local .tree_checkbox_node_children{
+    margin-bottom: 0;
+}
+
+/*tree-checkbox-caret*/
+:local .tree_checkbox_caret{
+    min-width: 16px;
+    padding-right: 8px;
+    cursor: pointer;
+}
+/*.tree-checkbox-caret-empty*/
+:local .tree_checkbox_caret_empty{
+    padding-right: 16px;
+}
+/*.tree-checkbox-caret.expanded*/
+:local .tree_checkbox_caret.expanded > svg {
+    transform: rotate(45deg);
+
+}
+:local .tree-checkbox-caret.expanded > svg {
+    transform-origin: center;
+    transition: transform 0.3s ease; /* You can adjust the duration and timing function */
+}
+
+:local .tree-checkbox-caret.collapsed > svg {
+    transform: rotate(0deg);
+}
+
+:local .tree-checkbox-caret.collapsed > svg {
+    transform: rotate(0deg);
+}
+
+:local .tree-checkbox-caret.collapsed > svg {
+    transform-origin: center;
+    transition: transform 0.3s ease; /* You can adjust the duration and timing function */
+}
+
+:local .tree-checkbox-caret:hover{
+    fill: #e37225;
+}
+
+/*.tree-checkbox-node-label.highlight*/
+:local .tree-checkbox-node-label.highlight{
+    color: var(--bs-primary);
+    /* Make the label bold and underlined */
+    font-weight: bold;
+
+}
+
+/*tree-checkbox-node-checkbox-include TODO UNUSED??*/
+:local .tree-checkbox-node-checkbox-include {
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 5px;
+}
+
+/*.tree-checkbox-node-checkbox*/
+:local .tree_checkbox_node_checkbox {
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 5px;
+}
+/*.tree-checkbox-search-bar-container.clickable*/
+:local .tree-checkbox-search-bar-container.clickable{
+    cursor: pointer;
+}
+
+/*.tree-checkbox-node-label.clickable:hover{*/
+:local .tree_checkbox_node_label_clickable:hover{
+    /* Make the label bold and underlined */
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+:local .tree-checkbox-search-results-container{
+}
+
+:local .tree-checkbox-node-child{
+    white-space: nowrap;
+}
