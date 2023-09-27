@@ -1,10 +1,18 @@
 # ShinierTreeCheckbox
 
+
 ## Description
 This package allows for the rendering of hierarchical checkboxes in Shiny. It uses bootstrap 5 for the styling. 
 It has various options to customize the behavior and appearance of the checkboxes. 
 Allowing for the addition of custom states and callbacks. 
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Documentation](#documentation)
+  
 ## Features
 - Able to large amount of items in the treecheckbox > 20.000 items
 - Fast searching
@@ -24,12 +32,6 @@ Combine this with the clickableLabels [callback](#callbacks) to use the treechec
 ### Searching 
 Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
 ![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Documentation](#documentation)
 
 ## Installation
 Provide instructions on how to install and use your R Shiny widget. Include code snippets if necessary. For example:
