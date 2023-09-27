@@ -17,6 +17,10 @@ Checkbox:
 Include/exclude:   
 ![include](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/e5676100-ff2d-47b6-aca4-fecc4712ae5d)
 
+Remove checkboxes:  
+Combine this with the clickableLabels [callback](#callbacks) to use the treecheckbox as a navigation tool.
+![no_checkbox](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/141ca8fa-3c38-4576-800e-aa3b72147d42)
+
 ### Searching 
 Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
 ![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
@@ -25,7 +29,6 @@ Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Demo](#demo)
 - [Documentation](#documentation)
 
 ## Installation
