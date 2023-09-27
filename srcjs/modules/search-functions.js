@@ -8,7 +8,9 @@ import styles from "./checkbox.css";
  */
 function searchLogic($mainContainer, options) {
     // If we have less than the minimum search chars, we won't do a search
-    checkMinSearchChars($mainContainer, options)
+    if (!checkMinSearchChars($mainContainer, options)) {
+        return
+    }
     if (options.advancedSearch) {
         doAdvancedSearch($mainContainer, options)
     } else {
@@ -29,7 +31,9 @@ function checkMinSearchChars($mainContainer, options) {
     if (minSearchChars > searchTermLength || searchTermLength === 0) {
         $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
         $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
+        return false
     }
+    return true
 }
 
 /**
@@ -49,10 +53,12 @@ function doSimpleSearch($mainContainer, options) {
         return
     }
     let searchItems = $mainContainer.data("treeData")
+
     let searchResults = Object.values(searchItems).filter(item => item.label.toLowerCase().includes(searchTerm))
 
     // We only want to show the first options.maxSearchResults results
     searchResults = searchResults.slice(0, options.maxSearchResults)
+
     showSearchResultsSimpleSearch($mainContainer, searchResults, searchTerm)
 }
 /**

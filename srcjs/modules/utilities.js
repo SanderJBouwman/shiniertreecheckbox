@@ -29,10 +29,6 @@ utilities.createTree = function ($parent, data, options) {
     $mainContainer.append($nodeContainer)
 
     this.addElementNodes($mainContainer, $nodeContainer, options)
-
-    // $parent.data("getData", () => {
-    // return TreeCheckbox.values($parent.attr("id"))
-    // })
 }
 
 utilities.flattenJSON = function (data) {
