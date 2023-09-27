@@ -23,7 +23,6 @@ shiniertreecheckbox <- function(elementId, data, options=NULL) {
             function(event){
                 const elementId = '%s';
                 const data = $('#' + elementId).data('getValues')();
-                console.log(data);
                 const convertedData = {};
                 data.forEach(item => {
                     convertedData[item.value] = item.state;

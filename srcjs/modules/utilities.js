@@ -3,8 +3,6 @@ import styles from "./checkbox.css"
 import {TreeCheckbox} from "./core";
 const utilities = {
 }
-console.log("Styles")
-console.log(styles)
 
 utilities.createTree = function ($parent, data, options) {
     let $mainContainer = htmlGenerators.createTreeCheckboxContainer(options)

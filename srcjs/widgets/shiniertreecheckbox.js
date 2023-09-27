@@ -14,9 +14,6 @@ HTMLWidgets.widget({
     return {
 
       renderValue: function(args) {
-        console.log("Incoming data")
-        console.log(args)
-        console.log("-----")
         TreeCheckbox.createTreeCheckbox(args.elementId, JSON.parse(args.data), args.options);
         // TODO: code to render the widget, e.g.
         // Set the width and height to 100% to fill the

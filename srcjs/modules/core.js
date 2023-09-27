@@ -246,10 +246,6 @@ TreeCheckbox.options = {
  * @param {object} options - The options to configure the TreeCheckbox. See {@link TreeCheckboxOptions} for more information.
  */
 TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.options) {
-    // Validate containerID
-    console.log("Options:")
-    console.log(options)
-
     // Validate options
     if (typeof options !== "object") {
         throw new Error("options must be an object")
