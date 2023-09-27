@@ -40,12 +40,12 @@ htmlGenerators.createElementNode = function ($mainContainer, value, label, hasCh
     let $node = $("<div>", {"class": `${styles.treeCheckboxNode} ${styles.collapsed}`, "id": "checkbox-node-" + value})
     let $checkBoxSpan = $("<span>", {"class": "tree-checkbox-node-span"})
     let $children = $("<ul>", {"class": styles.treeCheckboxNodeChildren}).hide()
+    const options = $mainContainer.data("options")
 
     // Create the caret
     let $caret = htmlGenerators.createCaret(hasChildren)
     $checkBoxSpan.append($caret)
 
-    const options = $mainContainer.data("options")
     $caret.on("click", function(){
         utilities.caretClickLogic.call(this, $node, $mainContainer, value, options, initialState);
     })
@@ -93,17 +93,15 @@ htmlGenerators.attachCheckbox = function ($mainContainer, $node, value, options,
     return $checkbox
 }
 
-htmlGenerators.createCaret = function (hasChildren, expanded=false) {
+htmlGenerators.createCaret = function (hasChildren, startCollapsed=true) {
     if (hasChildren) {
         let $caret = $("<span>", {"class": styles.treeCheckboxCaret})
-        if (expanded) {
+        if (!startCollapsed) {
             $caret.addClass(styles.expanded)
-            $caret.html('<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>')
         } else {
             $caret.addClass(styles.collapsed)
-            $caret.html('<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 256 512"><path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z"/></svg>')
         }
-        // We fill with the primary-fg
+        $caret.html('<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 256 512"><path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z"/></svg>')
         return $caret
     } else {
         return $("<span>", {"class": styles.treeCheckboxCaretEmpty})

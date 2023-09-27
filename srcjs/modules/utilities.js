@@ -29,6 +29,14 @@ utilities.createTree = function ($parent, data, options) {
     $mainContainer.append($nodeContainer)
 
     this.addElementNodes($mainContainer, $nodeContainer, options)
+
+    // We have to check if we have to start collapsed
+    if (options.startCollapsed) {
+        // We do nothing
+    } else {
+        // We have to expand all the nodes
+        this.expandAll($mainContainer)
+    }
 }
 
 utilities.flattenJSON = function (data) {
@@ -391,6 +399,14 @@ utilities.collapseAll = function ($mainContainer) {
     })
 }
 
+utilities.expandAll = function ($mainContainer) {
+    let $collapsedNodes = $mainContainer.find(`.${styles.treeCheckboxNode}.${styles.collapsed}`)
+    // We get all the expanded nodes and then we click the caret we only do this for the first level else it will be too slow for very large trees
+    $collapsedNodes.each(function () {
+        let $node = $(this)
+        $node.find(`.${styles.treeCheckboxCaret}`).click()
+    })}
+
 /**
  * T
  * @param  $mainContainer
@@ -449,7 +465,12 @@ function iterativeID(data) {
 
 
 utilities.validateOptions = function(options){
-    if (!options.startCollapsed) {
+
+    console.log(options)
+
+
+    // The options.startCollapsed must be a boolean
+    if (typeof options.startCollapsed !== "boolean") {
         throw new Error("startCollapsed must be a boolean")
     }
 
