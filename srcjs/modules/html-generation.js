@@ -244,7 +244,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
     let $buttonGroup = $("<div>", {"class": "btn-group w-100"})
     $buttonContainer.append($buttonGroup)
 
-    if (options.showSelectAll) {
+    if (options.showSelectAll && options.hideCheckboxes === false) {
         htmlGenerators.generateDeSelectAllButton($mainContainer, $buttonGroup, options)
 
     }

@@ -1,6 +1,6 @@
 #' ShinierTreeCheckbox
 #'
-#' This is the updated version of the \code{shinyTreeCheckbox} package.
+#' See the Github page for more information: https://github.com/SanderJBouwman/shiniertreecheckbox
 #'
 #' @import htmlwidgets
 #' @param elementId The ID of the HTML element used to hold the tree.

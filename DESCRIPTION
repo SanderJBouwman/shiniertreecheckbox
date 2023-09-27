@@ -1,10 +1,10 @@
 Package: shiniertreecheckbox
-Title: What the Package Does (One Line, Title Case)
+Title: Render large number of hierarchical checkboxes
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Sander", "Bouwman", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: This package allows for the rendering of hierarchical checkboxes in Shiny. It uses bootstrap 5 for the styling. It has various options to customize the behavior and appearance of the checkboxes. Allowing for the addition of custom states and callbacks.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8

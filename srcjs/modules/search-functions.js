@@ -63,7 +63,10 @@ function doSimpleSearch($mainContainer, options) {
  * @param {object} options - An object containing configuration options.
  */
 function doAdvancedSearch($mainContainer, options) {
-    let searchTerm = $mainContainer.find(".tree-checkbox-search-bar").val().toLowerCase()
+    // Raise an not implemented error
+    throw new Error("Advanced search is not implemented yet")
+
+    const searchTerm = $mainContainer.find(".tree-checkbox-search-bar").val().toLowerCase()
     // If the search term is empty, we show all nodes again.
     if (searchTerm.length === 0) {
         $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()

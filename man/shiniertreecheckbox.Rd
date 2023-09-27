@@ -14,5 +14,5 @@ shiniertreecheckbox(elementId, data, options = NULL)
 \item{options}{A list of options for the tree.}
 }
 \description{
-This is the updated version of the \code{shinyTreeCheckbox} package.
+See the Github page for more information: https://github.com/SanderJBouwman/shiniertreecheckbox
 }
