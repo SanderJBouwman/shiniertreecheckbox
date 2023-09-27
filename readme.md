@@ -281,8 +281,17 @@ options$updateCallback <- JS(
         )
     )
 ```
-This callback will run on every select event.
+This callback will run on every select event. The default updateCallback will send the current state of the tree to the server side.
+We can access this data by using the input$mytestID variable. This variable will contain a JSON string with the current state of the tree.
+Use the _[jsonlite::fromJSON](https://rdrr.io/cran/jsonlite/man/fromJSON.html)_ function to convert the JSON string to dataframe.
 
+```R
+observeEvent(input$mytestID, {
+    json_data <- input$mytestID
+    df <- jsonlite::fromJSON(json_data)
+    print(df)
+})
+```
 #### Clickable Labels Callback
 The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked.
 
