@@ -7,6 +7,19 @@ Allowing for the addition of custom states and callbacks.
 
 ## Features
 - Able to large amount of items in the treecheckbox > 20.000 items
+- Fast searching
+- (custom) Callback functions to Shiny
+
+### Multiple modes 
+Checkbox:  
+![overview](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/a21e242f-2f06-4cdb-88d0-aa4638ecac8a)
+
+Include/exclude:   
+![include](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/e5676100-ff2d-47b6-aca4-fecc4712ae5d)
+
+### Search 
+Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
+![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
 
 ## Table of Contents
 
@@ -41,16 +54,6 @@ shinyApp(
     }
 )
 ```
-
-## Demo
-### General overview
-![overview](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/a21e242f-2f06-4cdb-88d0-aa4638ecac8a)
-
-### Search 
-Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
-![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
-
-
 
 ## Documentation
 ### Data Parameter
