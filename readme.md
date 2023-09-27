@@ -41,7 +41,8 @@ Provide instructions on how to install and use your R Shiny widget. Include code
 # install.packages("devtools")
 devtools::install_github("SanderJBouwman/shiniertreecheckbox")
 ```
-
+### Requirements
+This package needs the Bootstrap library. You can load this using [bslib](https://CRAN.R-project.org/package=bslib) or load it using a CDN.   
 ## Usage
 ```R
 # Load the package
