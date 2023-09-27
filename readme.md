@@ -17,7 +17,7 @@ Checkbox:
 Include/exclude:   
 ![include](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/e5676100-ff2d-47b6-aca4-fecc4712ae5d)
 
-### Search 
+### Searching 
 Searching is very fast. A shiniertreecheckbox with 18.000 items takes less than 50ms to search. 
 ![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7e95a41c-597a-4b4f-a556-c2a5924e5ca3)
 
