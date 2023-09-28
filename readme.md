@@ -1,10 +1,9 @@
 # ShinierTreeCheckbox
 
 
-## Description
-This package allows for the rendering of hierarchical checkboxes in Shiny. It uses bootstrap 5 for the styling. 
-It has various options to customize the behavior and appearance of the checkboxes. 
-Allowing for the addition of custom states and callbacks. 
+## Overview
+ShinierTreeCheckbox is a powerful R Shiny package designed for rendering hierarchical checkboxes in your Shiny applications.
+It leverages Bootstrap 5 for styling and offers various customization options to tailor the behavior and appearance of checkboxes. With ShinierTreeCheckbox, you can add custom states and callbacks to enhance the functionality of your Shiny apps.
 
 ## Table of Contents
 
@@ -34,7 +33,7 @@ Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 
 ![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c)
 
 ## Installation
-Provide instructions on how to install and use your R Shiny widget. Include code snippets if necessary. For example:
+To get started with ShinierTreeCheckbox, follow these installation instructions:
 
 ```R
 # Install the development version from GitHub:
@@ -42,8 +41,10 @@ Provide instructions on how to install and use your R Shiny widget. Include code
 devtools::install_github("SanderJBouwman/shiniertreecheckbox")
 ```
 ### Requirements
-This package needs the Bootstrap library. You can load this using [bslib](https://CRAN.R-project.org/package=bslib) or load it using a CDN.   
+This package relies on the Bootstrap library. You can load it using [bslib](https://CRAN.R-project.org/package=bslib) or include it via a CDN.
+
 ## Usage
+Here's a basic example of how to use ShinierTreeCheckbox in your Shiny app:
 ```R
 # Load the package
 library(shiniertreecheckbox)
@@ -70,8 +71,7 @@ shinyApp(
 
 ## Documentation
 ### Data Parameter
-The data parameter is a JSON string that contains the data to be displayed in the tree. There is only one way this should be applied.
-The first data structure is an array which contains one or more objects. Each object represents a node in the tree. Each object must contain the following properties:
+The data parameter is a JSON string that defines the data to display in the tree. The JSON structure consists of an array containing objects, where each object represents a node in the tree. Each node object must have the following properties:
 
 | Property | Description                                                                                                |
 |----------|------------------------------------------------------------------------------------------------------------|
@@ -264,11 +264,11 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 
 
 ### States
-Currently ... adding more states in R is not supported. However, you can add more states by editing the JS module (TreeCheckbox.defaultStates). 
-The default available states are: "include" and "checkbox".
+Adding custom states via R is not currently supported. However, you can extend the available states by editing the JavaScript module (`TreeCheckbox.defaultStates`). 
+The default states available are: _"include"_ and _"checkbox."_
 
 ### Callbacks
-Callbacks are an important part of the TreeCheckbox component. They allow you to respond to events that occur in the component, such as when the tree is updated or when a label is clicked.
+Callbacks are a crucial part of the TreeCheckbox component, allowing you to respond to various events within the component. Such as when a certain item is clicked or a label is clicked.
 
 #### Update Callback
 As the component is written in JS but we use R Shiny we made a custom callback function to report the changes to the server side. For this we use the updateCallback option. It is possible to overwrite this parameter. The default code is:
@@ -306,7 +306,7 @@ observeEvent(input$mytestID, {
 The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked.
 
 ##### Required Arguments
-The callback function will **always** receive the id of the clicked label as the first argument. Thus the callback function should have at least one argument.
+The callback function will **always** receive the returnValue of the clicked label as the first argument. Thus the callback function should have at least one argument.
 The callback function can also receive additional arguments. These can be specified using the _clickableLabelsCallbackArgs_ option.
 The _clickableLabelsCallbackArgs_ option should be a list.
 
@@ -314,37 +314,33 @@ The _clickableLabelsCallbackArgs_ option should be a list.
 ```R
 options = list(
     clickableLabels = TRUE, 
-    clickableLabelsCallback = htmlwidgets::JS("function(id, elementID){console.log(`clicked label with id ${id} for widget ${elementID}`)}"),
+    clickableLabelsCallback = htmlwidgets::JS("function(returnValue, elementID){console.log(`clicked label with returnValue ${returnValue} for widget ${elementID}`)}"),
     clickableLabelsCallbackArgs = list("mytestID")
 )
 ```
 Output on console:
 ```text
-clicked label with id 0 for widget mytestID
+clicked label with returnValue 0 for widget mytestID
 ```
 
 ##### Communication clicked labels with Shiny
 The callback function can communicate with Shiny by using the _Shiny.setInputValue_ function. This function allows you to send data to Shiny.
 The Shiny.setInputValue function has the following required parameters:
-- _inputId_: The id of the input element to set the value for.
-- _value_: The value to set.
+- `returnValue`: The `returnValue` of the input element to set the value for.
+- `value`: The value to set.
 
 For more information about the Shiny.setInputValue function, see the [Shiny documentation](https://shiny.posit.co/r/articles/build/communicating-with-js/).
 
 ###### Example
-We could for example want to know which label was clicked and do something with it on the server side. We will do this for this example. 
-We will not use the default id as this is already reserved for the _updateCallback_. We will use the id "mytestID_label" instead. 
-Just as the _updateCallback_ the _clickableLabelsCallback_ will also **always** receive the _id/value_ of the clicked label.
-
+Suppose you want to identify which label was clicked and perform an action on the server side. You can achieve this by modifying the callback as follows:
 ```R
 options = list(
     clickableLabels = TRUE, 
-    clickableLabelsCallback = htmlwidgets::JS("function(id, elementID){Shiny.setInputValue(mytestID_labels, id, {priority: 'event'})}"),
+    clickableLabelsCallback = htmlwidgets::JS("function(returnValue, elementID){Shiny.setInputValue(mytestID_labels, returnValue, {priority: 'event'})}"),
     clickableLabelsCallbackArgs = list("mytestID_label") # We add the _label suffix so we can put the full id in a observeEvent. This allows us to do something with the clicked label.
 )
 ```
-
-We can than use the _mytestID_label_ id in a _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_ to do something with the clicked label.
+Then, we can than use the _mytestID_label_ id in a _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_ to do something with the clicked label.
 ```R
 observeEvent(input$mytestID_label, {
     print(input$mytestID_label)
