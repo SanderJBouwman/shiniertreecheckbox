@@ -198,6 +198,8 @@ TreeCheckbox.defaultStates = {
  * @property {function|null} updateCallback - Callback function when the tree is updated.
  * @property {Array|null} updateCallbackArgs - Additional arguments for the update callback.
  * @property {Object} states - The states to use for the checkboxes. See {@link TreeCheckbox.options.defaultStates}
+ * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
+ * @property {string} returnValue - The value to return from the tree. The default value is "value". The other option is "label" or a custom value.
  * for more default states. It is possible to add custom states. For this you have to create an object with
  * the following properties: {<statename>: {@link TreeCheckbox.createState}}. The states "none"
  * and "indeterminate" are required.
@@ -228,7 +230,8 @@ TreeCheckbox.options = {
     updateCallback: null,
     updateCallbackArgs: null,
     states: TreeCheckbox.defaultStates.include,
-    defaultState: "none"
+    defaultState: "none",
+    returnValue: "value"
 }
 /**
  * This is the main function to create the TreeCheckbox. It will create the tree and add it to the containerID.
@@ -320,6 +323,7 @@ TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.opti
  * the following format: [{"label":str, "value":int, "parent":int, "children":[...]}]
  */
 TreeCheckbox.addNodes = function(containerID, data){
+    console.log(styles)
     if (typeof containerID !== "string") {
         throw new Error("containerID must be a string")
     }
@@ -455,7 +459,7 @@ TreeCheckbox.values = function (containerID) {
 
             if (shouldIncludeNode(node, stateKey)) {
                 values.push({
-                    "value": node.value,
+                    "returnValue": node[options.returnValue],
                     "state": stateKey
                 });
             }

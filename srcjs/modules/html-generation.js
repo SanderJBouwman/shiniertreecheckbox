@@ -64,7 +64,8 @@ htmlGenerators.createElementNode = function ($mainContainer, value, label, hasCh
     if (options.clickableLabels) {
         $label.addClass(styles.clickable)
         $label.on("click", function () {
-            utilities.labelClickLogic($mainContainer, value, options)
+            const returnValue = $mainContainer.data("treeData")[value][options.returnValue]
+            utilities.labelClickLogic($mainContainer, returnValue, options)
         })
     }
 
@@ -154,7 +155,6 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
     })
 }
 
-
 htmlGenerators.generateCollapseButton = function ($mainContainer, $buttonGroup) {
     // Add a Collapse All button
     let collapseExpandID = "tree-checkbox-collapse-expand-button-" + htmlGenerators.createUniqueID()
@@ -196,12 +196,48 @@ htmlGenerators.generateSearchBar = function ($buttonGroup, $buttonContainer, opt
 
 
     $searchBar.on("keyup", function (event) {
-        searchLogic($mainContainer, options)
+        const searchBarValueLength = $searchBar.val().length;
+
+        // We only want to show the search results container if the search bar is not empty.
+        if (searchBarValueLength !== 0) {
+            utilities.searchBarOpenLogic($mainContainer, options)
+        }
+
+        // We check if the minimal number of characters has been entered before we start searching
+        const characterWord = options.minSearchChars  === 1 ? "character" : "characters";
+        if (searchBarValueLength === 0) {
+            // If the length is 0, display a message
+            const $searchResult = $("<a>", {
+                "class": "list-group-item list-group-item-action"
+            }).html("Please enter at least " + options.minSearchChars + " " + characterWord + " to start searching");
+
+            // Create a container for the message
+            const $searchResultsList = $("<div>", {
+                "class": "list-group"
+            }).append($searchResult);
+
+            // Find the search results container and replace its content with the message
+            $mainContainer
+                .find(`.${styles.treeCheckboxSearchResultsContainer}`)
+                .empty()
+
+            $mainContainer
+                .find(`.${styles.treeCheckboxSearchResultsContainer}`)
+                .append($searchResultsList)
+
+        } else {
+            searchLogic($mainContainer, options)
+        }
     })
 
     // If the escape key is pressed, then we close the search bar
     $searchBar.on("keydown", function (event) {
         if (event.key === "Escape") {
+            utilities.searchBarCloseLogic($mainContainer, options)
+        }
+
+        // If backspace is pressed and the search bar is empty, then we close the search bar
+        if (event.key === "Backspace" && $searchBar.val() === "") {
             utilities.searchBarCloseLogic($mainContainer, options)
         }
     })
@@ -235,7 +271,7 @@ htmlGenerators.generateSearchBar = function ($buttonGroup, $buttonContainer, opt
 htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
     // Create the main container which will hold items such as buttons for selecting all, deselecting all, etc. Use
     // bootstrap 5 classes for styling
-    let $buttonContainer = $("<div>", {"class": `${styles.treeCheckboxButtonContainer} container-fluid w-100`})
+    let $buttonContainer = $("<div>", {"class": `${styles.treeCheckboxButtonContainer} container-fluid w-100 d-flex flex-column`})
 
 
     // Add a button group to the row
@@ -258,7 +294,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
 
         // We also have to add a container for the search results. This will be placed between the button container and
         // the tree node container
-        let $searchResultsContainer = $("<div>", {"class": `${styles.treeCheckboxSearchResultsContainer} overflow-auto`}).hide()
+        let $searchResultsContainer = $("<div>", {"class": `${styles.treeCheckboxSearchResultsContainer} overflow-auto flex-grow-1`}).hide()
         $searchResultsContainer.css("height", options.height)
         $searchResultsContainer.css("max-height", options.height)
 

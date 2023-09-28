@@ -1,6 +1,5 @@
 import htmlGenerators from "./html-generation";
 import styles from "./checkbox.css"
-import {TreeCheckbox} from "./core";
 const utilities = {
 }
 
@@ -15,7 +14,7 @@ utilities.createTree = function ($parent, data, options) {
         $buttonContainer.hide()
     }
 
-    let flattenedData = this.flattenJSON(data)
+    let flattenedData = this.flattenJSON(data, options)
 
     // The whole module is based on the data object, so we store it in the main container
     $mainContainer.data("treeData", flattenedData)
@@ -37,9 +36,11 @@ utilities.createTree = function ($parent, data, options) {
         // We have to expand all the nodes
         this.expandAll($mainContainer)
     }
+
+    console.log(flattenedData)
 }
 
-utilities.flattenJSON = function (data) {
+utilities.flattenJSON = function (data, options) {
     let map;
     map = {};
     function flatten(node, parent = null, isRendered = false) {
@@ -53,6 +54,12 @@ utilities.flattenJSON = function (data) {
                 // If the item has the parent property, then we use that as the parent
                 if (item.parent) {
                     parent = item.parent
+                }
+
+                // We have to check if the item has the options.returnValue property. If it does not we raise an error
+                if (!item.hasOwnProperty(options.returnValue)) {
+                    throw new Error(`Item does not have the returnValue (options.returnValue) 
+                    ${options.returnValue} property. Available properties: ${Object.keys(item)}`)
                 }
 
                 // Create a new object with the desired properties, including parent ID
@@ -103,7 +110,6 @@ utilities.addNode = function(treeData, parentID, value, label, children) {
 
 utilities.addElementNodes = function($mainContainer, $nodeContainer) {
     let data = $mainContainer.data("treeData")
-    const options = $mainContainer.data("options")
     let queue = Array.from(Object.values(data)).filter(item => item.parent === null && !item.isRendered)
     queue.forEach(function(item){
         let $node = htmlGenerators.createElementNode($mainContainer, item.value, item.label, item.children.length > 0)
@@ -214,7 +220,9 @@ utilities.setCheckboxLogic = function($mainContainer, $checkbox, value, options,
 
         // We run the callback function
         let stateKey = Object.keys(options.states).find(key => options.states[key] === $node.data("state"))
-        utilities.runUpdateCallback($mainContainer, "CheckboxChange", value, stateKey)
+
+        const returnValue = $mainContainer.data("treeData")[value][options.returnValue]
+        utilities.runUpdateCallback($mainContainer, "CheckboxChange", returnValue, stateKey)
     })
 
 
@@ -319,7 +327,7 @@ utilities.caretClickLogic = function ($node, $mainContainer, value, options, ini
 
 utilities.searchBarClickLogic = function ($mainContainer, options) {
     // Find the element with the class btn-group
-    let $btnGroup = $mainContainer.find(".btn-group").hide()
+    $mainContainer.find(".btn-group").hide()
 
     // Find the search bar with class tree-checkbox-search-bar
     let $searchBarContainer = $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`)
@@ -366,7 +374,7 @@ utilities.runUpdateCallback = function ($mainContainer, event, value=null, state
             callbackArgs = []
         }
 
-        options.updateCallback({value: value, state: stateKey, event: event}, ...callbackArgs)
+        options.updateCallback({returnValue: value, state: stateKey, event: event}, ...callbackArgs)
     }
 }
 
@@ -408,13 +416,14 @@ utilities.expandAll = function ($mainContainer) {
     })}
 
 /**
- * T
+ * This function will be called when the search bar is closed. It will hide the search bar and the search results
  * @param  $mainContainer
- * @param options
  */
-utilities.searchBarCloseLogic = function ($mainContainer, options) {
+utilities.searchBarCloseLogic = function ($mainContainer){
     $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`).hide()
     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
+    console.log("Closing search bar")
+    $mainContainer.find(`.${styles.treeCheckboxButtonContainer}`).css("height", "")
 
     // We want to show the node container and button container
     let $nodeContainer = $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`)
@@ -423,17 +432,35 @@ utilities.searchBarCloseLogic = function ($mainContainer, options) {
     // We want to show the btn container
     let $btnContainer = $mainContainer.find(".btn-group")
     $btnContainer.show()
+}
+
+utilities.searchBarOpenLogic = function ($mainContainer) {
+    // We want to hide the node container and button container
+    let $nodeContainer = $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`)
+    $nodeContainer.hide()
+
+    // We want to hide the btn container
+    let $btnContainer = $mainContainer.find(".btn-group")
+    $btnContainer.hide()
+
+    // We want to show the search results
+    let $searchResultsContainer = $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`)
+    $searchResultsContainer.show()
+
+    // We want to set the height of the button container to 100%
+    $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`)
+    $mainContainer.find(`.${styles.treeCheckboxButtonContainer}`).css("height", "100%")
 
 
 }
 
-utilities.labelClickLogic = function ($mainContainer, value, options) {
+utilities.labelClickLogic = function ($mainContainer, returnValue, options) {
     // We have to check if the clickableLabelsCallback is a function if it is not null
     const clickableLabelsCallback = options.clickableLabelsCallback
     if (options.clickableLabelsCallbackArgs === null) {
-        clickableLabelsCallback(value)
+        clickableLabelsCallback(returnValue)
     } else {
-        clickableLabelsCallback(value, ...options.clickableLabelsCallbackArgs)
+        clickableLabelsCallback(returnValue, ...options.clickableLabelsCallbackArgs)
     }
 }
 
@@ -535,6 +562,11 @@ utilities.validateOptions = function(options){
     // the clickableLabelsCallbackArgs must be an array or null
     if (options.clickableLabelsCallbackArgs !== null && !Array.isArray(options.clickableLabelsCallbackArgs)) {
         throw new Error("clickableLabelsCallbackArgs must be an array or null")
+    }
+
+    // returnValue must be a string
+    if (typeof options.returnValue !== "string") {
+        throw new Error("returnValue must be a string")
     }
 
     // Add more validation here

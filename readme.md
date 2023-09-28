@@ -232,27 +232,29 @@ data = '[{"label":"eukaryotes","value":0,"children":[{"label":"vertebrates","val
 The options parameter is an object that contains a large number of options to customize the behaviour of the checkboxes. The following table lists all available options.
 You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget.
 
-| Option                      | Data Type | Default Value | Description                                                                                                                     |
-|-----------------------------|-----------|---------------|---------------------------------------------------------------------------------------------------------------------------------|
-| startCollapsed              | boolean   | `true`        | Whether the tree should start in a collapsed state.                                                                             |
-| width                       | string    | `"450px"`     | The width of the TreeCheckbox component, e.g., "450px".                                                                         |
-| height                      | string    | `"300px"`     | The height of the TreeCheckbox component, e.g., "300px".                                                                        |
-| maxWidth                    | string    | `"100%"`      | The maximum width of the TreeCheckbox component, e.g., "100%".                                                                  |
-| maxHeight                   | string    | `"100%"`      | The maximum height of the TreeCheckbox component, e.g., "100%".                                                                 |
-| showSelectAll               | boolean   | `true`        | Whether to show the "Select All" option.                                                                                        |
-| showCollapseAll             | boolean   | `true`        | Whether to show the "Collapse All" option.                                                                                      |
-| showSearchBar               | boolean   | `true`        | Whether to show the search bar.                                                                                                 |
-| advancedSearch              | boolean   | `false`       | Whether to enable advanced search features. To be added in the feature (e.g. database search)                                   |
-| clickableLabels             | boolean   | `false`       | Whether labels are clickable.                                                                                                   |
-| clickableLabelsCallback     | function  | null          | See [callbacks](#Callbacks)                                                                                                     | Callback function when clickable labels are clicked.                                                |
-| clickableLabelsCallbackArgs | Array     | null          | See [callbacks](#Callbacks)                                                                                                     | Additional arguments for the clickable labels callback.                                             |
-| minSearchChars              | number    | `1`           | Minimum number of characters required to trigger a search.                                                                      |
-| maxSearchResults            | number    | `100`         | Maximum number of search results to display.                                                                                    |
-| hideCheckboxes              | boolean   | `false`       | Whether to hide checkboxes in the component.                                                                                    |
-| updateCallback              | function  | null          | See [callbacks](#Callbacks)                                                                                                     | Callback function when the tree is updated.                                                         |
-| updateCallbackArgs          | Array     | null          | See [callbacks](#Callbacks)                                                                                                     | Additional arguments for the update callback.                                                       |
-| states                      | string    | `"include"`   | Custom states are currently not supported to add via R. Visit the JS module (TreeCheckbox.defaultStates) and add more states there. |
-| defaultState                | string    | `"none"`      | The default state for the checkboxes.                                                                                           |
+| Option                      | Data Type | Default Value | Description                                                                                                                                                                                                                                   |
+|-----------------------------|-----------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| startCollapsed              | boolean   | `true`        | Whether the tree should start in a collapsed state.                                                                                                                                                                                           |
+| width                       | string    | `"450px"`     | The width of the TreeCheckbox component, e.g., "450px".                                                                                                                                                                                       |
+| height                      | string    | `"300px"`     | The height of the TreeCheckbox component, e.g., "300px".                                                                                                                                                                                      |
+| maxWidth                    | string    | `"100%"`      | The maximum width of the TreeCheckbox component, e.g., "100%".                                                                                                                                                                                |
+| maxHeight                   | string    | `"100%"`      | The maximum height of the TreeCheckbox component, e.g., "100%".                                                                                                                                                                               |
+| showSelectAll               | boolean   | `true`        | Whether to show the "Select All" option.                                                                                                                                                                                                      |
+| showCollapseAll             | boolean   | `true`        | Whether to show the "Collapse All" option.                                                                                                                                                                                                    |
+| showSearchBar               | boolean   | `true`        | Whether to show the search bar.                                                                                                                                                                                                               |
+| advancedSearch              | boolean   | `false`       | Whether to enable advanced search features. To be added in the feature (e.g. database search)                                                                                                                                                 |
+| clickableLabels             | boolean   | `false`       | Whether labels are clickable.                                                                                                                                                                                                                 |
+| clickableLabelsCallback     | function  | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Callback function when clickable labels are clicked.                                                |
+| clickableLabelsCallbackArgs | Array     | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Additional arguments for the clickable labels callback.                                             |
+| minSearchChars              | number    | `1`           | Minimum number of characters required to trigger a search.                                                                                                                                                                                    |
+| maxSearchResults            | number    | `100`         | Maximum number of search results to display.                                                                                                                                                                                                  |
+| hideCheckboxes              | boolean   | `false`       | Whether to hide checkboxes in the component.                                                                                                                                                                                                  |
+| updateCallback              | function  | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Callback function when the tree is updated.                                                         |
+| updateCallbackArgs          | Array     | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Additional arguments for the update callback.                                                       |
+| states                      | string    | `"include"`   | Custom states are currently not supported to add via R. Visit the JS module (TreeCheckbox.defaultStates) and add more states there.                                                                                                           |
+| defaultState                | string    | `"none"`      | The default state for the checkboxes.                                                                                                                                                                                                         |
+| returnValue                 | string    | `"value"`     | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
+
 
 ### States
 Currently ... adding more states in R is not supported. However, you can add more states by editing the JS module (TreeCheckbox.defaultStates). 
@@ -341,6 +343,199 @@ observeEvent(input$mytestID_label, {
     print(input$mytestID_label)
 })
 ```
+
+### Custom return values
+It is possible to return custom return values. This can be done by setting the `options.returnValue` parameter. The default value is `value`, but you can set this to any property in the data, such as `label`. 
+
+It is also possible to your own custom return values. For this you must add it to the input data, which can be seen below. 
+
+#### Example
+We want to add a new return value called `labeled_value`. We can do this by adding a new property to the input data. 
+
+<details>
+  <summary>Altered JSON with new property</summary>
+
+```json
+[
+  {
+    "label": "eukaryotes",
+    "value": 0,
+    "labeled_value": "eukaryotes_0",
+    "children": [
+      {
+        "label": "vertebrates",
+        "value": 1,
+        "labeled_value": "vertebrates_1",
+        "children": [
+          {
+            "label": "mammals",
+            "value": 2,
+            "labeled_value": "mammals_2",
+            "children": [
+              {
+                "label": "primates",
+                "value": 3,
+                "labeled_value": "primates_3",
+                "children": [
+                  {
+                    "label": "humans",
+                    "value": 4,
+                    "labeled_value": "humans_4",
+                    "children": []
+                  },
+                  {
+                    "label": "apes",
+                    "value": 5,
+                    "labeled_value": "apes_5",
+                    "children": [
+                      {
+                        "label": "chimpanzees",
+                        "value": 6,
+                        "labeled_value": "chimpanzees_6",
+                        "children": []
+                      },
+                      {
+                        "label": "gorillas",
+                        "value": 7,
+                        "labeled_value": "gorillas_7",
+                        "children": []
+                      },
+                      {
+                        "label": "orangutans",
+                        "value": 8,
+                        "labeled_value": "orangutans_8",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "label": "cats",
+                "value": 9,
+                "labeled_value": "cats_9",
+                "children": [
+                  {
+                    "label": "lions",
+                    "value": 10,
+                    "labeled_value": "lions_10",
+                    "children": []
+                  },
+                  {
+                    "label": "tigers",
+                    "value": 11,
+                    "labeled_value": "tigers_11",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "birds",
+            "value": 12,
+            "labeled_value": "birds_12",
+            "children": [
+              {
+                "label": "owls",
+                "value": 13,
+                "labeled_value": "owls_13",
+                "children": []
+              },
+              {
+                "label": "eagles",
+                "value": 14,
+                "labeled_value": "eagles_14",
+                "children": [
+                  {
+                    "label": "bald eagle",
+                    "value": 15,
+                    "labeled_value": "bald eagle_15",
+                    "children": []
+                  },
+                  {
+                    "label": "common eagle",
+                    "value": 16,
+                    "labeled_value": "common eagle_16",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "invertebrates",
+        "value": 17,
+        "labeled_value": "invertebrates_17",
+        "children": [
+          {
+            "label": "insects",
+            "value": 18,
+            "labeled_value": "insects_18",
+            "children": [
+              {
+                "label": "bees",
+                "value": 19,
+                "labeled_value": "bees_19",
+                "children": []
+              },
+              {
+                "label": "ants",
+                "value": 20,
+                "labeled_value": "ants_20",
+                "children": []
+              }
+            ]
+          },
+          {
+            "label": "mollusks",
+            "value": 21,
+            "labeled_value": "mollusks_21",
+            "children": [
+              {
+                "label": "snails",
+                "value": 22,
+                "labeled_value": "snails_22",
+                "children": []
+              },
+              {
+                "label": "octopuses",
+                "value": 23,
+                "labeled_value": "octopuses_23",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "label": "prokaryotes",
+    "value": 24,
+    "labeled_value": "prokaryotes_24",
+    "children": []
+  },
+  {
+    "label": "archaea",
+    "value": 25,
+    "labeled_value": "archaea_25",
+    "children": []
+  }
+]
+```
+</details>
+
+After adding the new property we can set the `options.returnValue` parameter to `labeled_value`. This will return the `labeled_value` property instead of the `value` property. 
+
+```R
+options = list(
+    returnValue = "labeled_value"
+)
+```
+
 
 ## Maintainer
 - [Sander J. Bouwman](https://github.com/SanderJBouwman)

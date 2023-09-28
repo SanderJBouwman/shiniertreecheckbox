@@ -1,4 +1,5 @@
 import styles from "./checkbox.css";
+import utilities from "./utilities";
 
 /**
  * Performs a search logic operation within a specified main container.
@@ -8,9 +9,9 @@ import styles from "./checkbox.css";
  */
 function searchLogic($mainContainer, options) {
     // If we have less than the minimum search chars, we won't do a search
-    if (!checkMinSearchChars($mainContainer, options)) {
-        return
-    }
+    // if (!checkMinSearchChars($mainContainer, options)) {
+    //     return
+    // }
     if (options.advancedSearch) {
         doAdvancedSearch($mainContainer, options)
     } else {
@@ -28,7 +29,14 @@ function checkMinSearchChars($mainContainer, options) {
     let searchTermLength = $mainContainer.find(".tree-checkbox-search-bar").val().length
     let minSearchChars = options.minSearchChars
 
-    if (minSearchChars > searchTermLength || searchTermLength === 0) {
+    if (searchTermLength === 0) {
+        // We close because the search bar is empty. We can see that as a close operation
+        utilities.searchBarCloseLogic($mainContainer)
+        return false
+    }
+
+    if (minSearchChars > searchTermLength) {
+        // We want to show a message to the user that the search term is too short thus we still display all nodes
         $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
         $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
         return false
@@ -47,11 +55,11 @@ function checkMinSearchChars($mainContainer, options) {
 function doSimpleSearch($mainContainer, options) {
     let searchTerm = $mainContainer.find(".tree-checkbox-search-bar").val().toLowerCase()
     // If the search term is empty, we show all nodes again.
-    if (searchTerm.length === 0) {
-        $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
-        $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
-        return
-    }
+    // if (searchTerm.length === 0) {
+    //     $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
+    //     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
+    //     return
+    // }
     let searchItems = $mainContainer.data("treeData")
 
     let searchResults = Object.values(searchItems).filter(item => item.label.toLowerCase().includes(searchTerm))
@@ -72,19 +80,19 @@ function doAdvancedSearch($mainContainer, options) {
     // Raise an not implemented error
     throw new Error("Advanced search is not implemented yet")
 
-    const searchTerm = $mainContainer.find(".tree-checkbox-search-bar").val().toLowerCase()
-    // If the search term is empty, we show all nodes again.
-    if (searchTerm.length === 0) {
-        $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
-        $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
-        return
-    }
-    // For now we use a pseudo database search
-    let searchResults = pseudoDatabaseSearch($mainContainer, searchTerm)
-
-    // We want to limit the number of results by using the maxSearchResults option
-    searchResults = searchResults.slice(0, options.maxSearchResults)
-    showSearchResultsAdvancedSearch($mainContainer, searchResults, searchTerm)
+    // const searchTerm = $mainContainer.find(".tree-checkbox-search-bar").val().toLowerCase()
+    // // If the search term is empty, we show all nodes again.
+    // if (searchTerm.length === 0) {
+    //     $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
+    //     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
+    //     return
+    // }
+    // // For now we use a pseudo database search
+    // let searchResults = pseudoDatabaseSearch($mainContainer, searchTerm)
+    //
+    // // We want to limit the number of results by using the maxSearchResults option
+    // searchResults = searchResults.slice(0, options.maxSearchResults)
+    // showSearchResultsAdvancedSearch($mainContainer, searchResults, searchTerm)
 }
 
 /**
@@ -126,34 +134,52 @@ function pseudoDatabaseSearch($mainContainer, searchTerm) {
  */
 function goToNode(items, result, $mainContainer) {
     // We want to clear the search bar and show all nodes again when the user clicks on the message
-    let queue = nodeToRoot(items, result.value, [])
-    // Do forEach except for the last item in the array as that is the node we want to go to
-    queue.forEach(function (item) {
-        // .tree-checkbox-caret.collapsed should be changed to use sty
-        let $node = $mainContainer.find("#checkbox-node-" + item)
-        $node.find(`.${styles.treeCheckboxCaret}.${styles.collapsed}`).first().click()
-    })
+
+    // Create a queue of node IDs from 'items' to the root node with 'result.value'
+    let queue = nodeToRoot(items, result.value, []);
+
+    // Iterate through the queue, excluding the last item as it's the target node
+    queue.forEach(function (item, index) {
+        // Find the node element by its ID
+        let $node = $mainContainer.find("#checkbox-node-" + item).first();
+
+        // Get the caret element, which is a child of the node
+        // Avoid using find to prevent selecting children's carets
+        let $caret = $node.children('.tree-checkbox-node-span').children(`.${styles.treeCheckboxCaret}`).first();
+
+        // If the caret is collapsed, expand it by clicking on it
+        if ($caret.hasClass(styles.collapsed)) {
+            $caret.click();
+        }
+    });
+
+    // Cache the treeCheckboxNodeContainer for later use
+    let $treeCheckboxNodeContainer = $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`);
+
     // We want to colorize the search term in the label by adding the highlight class
-    // First we remove the highlight class from all labels
-    $mainContainer.find(`.${styles.treeCheckboxNodeLabel}`).removeClass(styles.highlight)
-    let $targetNode = $mainContainer.find("#checkbox-node-" + result.value)
-    $targetNode.find(`.${styles.treeCheckboxNodeLabel}`).first().addClass(styles.highlight)
+    // First, we remove the highlight class from all labels
+    $mainContainer.find(`.${styles.treeCheckboxNodeLabel}`).removeClass(styles.highlight);
+
+    let $targetNode = $mainContainer.find("#checkbox-node-" + result.value);
+    $targetNode.find(`.${styles.treeCheckboxNodeLabel}`).first().addClass(styles.highlight);
 
     // We want to hide the search results and show the node container again
-    $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
-    $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
+    $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide();
+    $treeCheckboxNodeContainer.show();
 
     // We want to clear the search bar
-    $mainContainer.find(".tree-checkbox-search-bar").val("")
+    $mainContainer.find(".tree-checkbox-search-bar").val("");
 
-    // We want to scroll to the node
-    $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).animate({
-        scrollTop: $targetNode.offset().top - $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).offset().top + $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).scrollTop()
-    }, 500)
-    // Also scroll horizontally if the node is not visible
-    $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).animate({
-        scrollLeft: $targetNode.offset().left - $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).offset().left + $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).scrollLeft()
-    }, 500)
+    // Calculate the scroll offsets for both vertical and horizontal scrolling
+    let scrollTopOffset = $targetNode.offset().top - $treeCheckboxNodeContainer.offset().top + $treeCheckboxNodeContainer.scrollTop();
+    let scrollLeftOffset = $targetNode.offset().left - $treeCheckboxNodeContainer.offset().left + $treeCheckboxNodeContainer.scrollLeft();
+
+    // Scroll to the node with animations
+    $treeCheckboxNodeContainer.animate({
+        scrollTop: scrollTopOffset,
+        scrollLeft: scrollLeftOffset
+    }, 500);
+
 }
 
 /**
@@ -167,7 +193,6 @@ function goToNode(items, result, $mainContainer) {
 function showSearchResultsAdvancedSearch($mainContainer, searchResults, searchTerm) {
     $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).hide()
     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).show()
-    const options = $mainContainer.data("options")
     const items = $mainContainer.data("treeData")
     // Instead of showing the search results in a list, we want to show them in a table
     // The table should have the following columns: label, search term found in
@@ -213,6 +238,8 @@ function showSearchResultsAdvancedSearch($mainContainer, searchResults, searchTe
 function showSearchResultsSimpleSearch($mainContainer, searchResults, searchTerm) {
     $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).hide()
     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).show()
+    $mainContainer.find(`.${styles.treeCheckboxButtonContainer}`).css("height", "100%")
+
     const options = $mainContainer.data("options")
     const items = $mainContainer.data("treeData")
     let $searchResultsList = $("<div> ", {"class": "list-group"})
@@ -242,6 +269,7 @@ function showSearchResultsSimpleSearch($mainContainer, searchResults, searchTerm
         $searchResultsList.append($searchResult)
 
         $searchResult.on("click", function () {
+            utilities.searchBarCloseLogic($mainContainer)
             goToNode(items, result, $mainContainer);
         })
     })
