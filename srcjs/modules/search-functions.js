@@ -1,5 +1,6 @@
 import styles from "./checkbox.css";
 import utilities from "./utilities";
+import DOMPurify from "dompurify";
 
 /**
  * Performs a search logic operation within a specified main container.
@@ -54,6 +55,7 @@ function checkMinSearchChars($mainContainer, options) {
  */
 function doSimpleSearch($mainContainer, options) {
     let searchTerm = $mainContainer.find(".tree-checkbox-search-bar").val().toLowerCase()
+    const cleanSearchTerm = DOMPurify.sanitize(searchTerm)
     // If the search term is empty, we show all nodes again.
     // if (searchTerm.length === 0) {
     //     $mainContainer.find(`.${styles.treeCheckboxNodeContainer}`).show()
@@ -62,12 +64,12 @@ function doSimpleSearch($mainContainer, options) {
     // }
     let searchItems = $mainContainer.data("treeData")
 
-    let searchResults = Object.values(searchItems).filter(item => item.label.toLowerCase().includes(searchTerm))
+    let searchResults = Object.values(searchItems).filter(item => item.label.toLowerCase().includes(cleanSearchTerm))
 
     // We only want to show the first options.maxSearchResults results
     searchResults = searchResults.slice(0, options.maxSearchResults)
 
-    showSearchResultsSimpleSearch($mainContainer, searchResults, searchTerm)
+    showSearchResultsSimpleSearch($mainContainer, searchResults, cleanSearchTerm)
 }
 /**
  * Performs an advanced search operation within the main container. This will work with a database search.
@@ -276,7 +278,10 @@ function showSearchResultsSimpleSearch($mainContainer, searchResults, searchTerm
     // If there are no search results, we show a message to the user. But only if there is a search term.
     if (searchResults.length === 0 && searchTerm.length > 0) {
         let $searchResult = $("<a>", {"class": "list-group-item list-group-item-action"})
-        $searchResult.html("No results found for <strong>" + searchTerm + "</strong>")
+
+        // Clean the searchTerm to prevent XSS
+        let cleanSearchTerm = DOMPurify.sanitize(searchTerm)
+        $searchResult.html("No results found for <strong>" + cleanSearchTerm + "</strong>")
         $searchResultsList.append($searchResult)
     }
     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).html($searchResultsList)
