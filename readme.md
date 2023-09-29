@@ -254,6 +254,7 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | states                      | string    | `"include"`   | Custom states are currently not supported to add via R. Visit the JS module (TreeCheckbox.defaultStates) and add more states there.                                                                                                           |
 | defaultState                | string    | `"none"`      | The default state for the checkboxes.                                                                                                                                                                                                         |
 | returnValue                 | string    | `"value"`     | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
+| returnNonLeafNodes          | boolean   | `"false"`     | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.                                                                                             |
 
 
 ### States

@@ -191,7 +191,7 @@ TreeCheckbox.defaultStates = {
  * @property {boolean} clickableLabels - Whether labels are clickable.
  * @property {function|null} clickableLabelsCallback - Callback function when clickable labels are clicked.
  * @property {Array|null} clickableLabelsCallbackArgs - Additional arguments for the clickable labels callback.
- * @property {boolean} returnNonLeafNodes - Whether to return non-leaf nodes in tree operations.
+ * @property {boolean} returnNonLeafNodes - Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.
  * @property {number} minSearchChars - Minimum number of characters required to trigger a search.
  * @property {number} maxSearchResults - Maximum number of search results to display.
  * @property {boolean} hideCheckboxes - Whether to hide checkboxes in the component.
@@ -204,6 +204,7 @@ TreeCheckbox.defaultStates = {
  * the following properties: {<statename>: {@link TreeCheckbox.createState}}. The states "none"
  * and "indeterminate" are required.
  * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
+ * @property {string} returnValue - The value to return from the tree. The default value is "value". The other option is "label" or a custom value.
  */
 
 /**
@@ -231,7 +232,8 @@ TreeCheckbox.options = {
     updateCallbackArgs: null,
     states: TreeCheckbox.defaultStates.include,
     defaultState: "none",
-    returnValue: "value"
+    returnValue: "value",
+    renderErrorMessages: true
 }
 /**
  * This is the main function to create the TreeCheckbox. It will create the tree and add it to the containerID.
@@ -299,9 +301,7 @@ TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.opti
         throw new Error("options.states must have an indeterminate state")
     }
 
-
     utilities.createTree($container, data, options)
-
     // We also attach a getValues function to the container
     $container.data("getValues", function () {
         return TreeCheckbox.values(containerID)
@@ -323,7 +323,6 @@ TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.opti
  * the following format: [{"label":str, "value":int, "parent":int, "children":[...]}]
  */
 TreeCheckbox.addNodes = function(containerID, data){
-    console.log(styles)
     if (typeof containerID !== "string") {
         throw new Error("containerID must be a string")
     }

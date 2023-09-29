@@ -30,14 +30,9 @@ utilities.createTree = function ($parent, data, options) {
     this.addElementNodes($mainContainer, $nodeContainer, options)
 
     // We have to check if we have to start collapsed
-    if (options.startCollapsed) {
-        // We do nothing
-    } else {
-        // We have to expand all the nodes
+    if (!options.startCollapsed) {
         this.expandAll($mainContainer)
     }
-
-    console.log(flattenedData)
 }
 
 utilities.flattenJSON = function (data, options) {
@@ -48,7 +43,7 @@ utilities.flattenJSON = function (data, options) {
             node.forEach((item) => {
                 // Check if the item has already been added to the map
                 if (map[item.value]) {
-                    throw new Error(`Duplicate value/ID '${item.value}'`);
+                    throw new Error(`Received a duplicate value/ID '${item.value}'. All values/IDs must be unique`);
                 }
 
                 // If the item has the parent property, then we use that as the parent
@@ -58,8 +53,9 @@ utilities.flattenJSON = function (data, options) {
 
                 // We have to check if the item has the options.returnValue property. If it does not we raise an error
                 if (!item.hasOwnProperty(options.returnValue)) {
-                    throw new Error(`Item does not have the returnValue (options.returnValue) 
-                    ${options.returnValue} property. Available properties: ${Object.keys(item)}`)
+                    let errorMessage = `Item (${item.label}) does not have the '${options.returnValue}' property, which was set using the options.returnValue parameter. 
+                    Available properties: ${Object.keys(item)}`;
+                    throw new Error(errorMessage);
                 }
 
                 // Create a new object with the desired properties, including parent ID
@@ -93,17 +89,17 @@ utilities.addNode = function(treeData, parentID, value, label, children) {
 
     // Validate value
     if (typeof value !== "string") {
-        throw new Error("value must be a string")
+        throw new Error(`${label} -> The property 'value' must be a string`)
     }
 
     // Validate label
     if (typeof label !== "string") {
-        throw new Error("label must be a string")
+        throw new Error(`${label} -> The property 'label' must be a string`)
     }
 
     // Validate children must be array or null
     if (typeof children !== "object" && children !== null) {
-        throw new Error("children must be an array or null")
+        throw new Error(`${label} -> The property 'children' must be an array or null`)
     }
 
 }
@@ -325,7 +321,7 @@ utilities.caretClickLogic = function ($node, $mainContainer, value, options, ini
     }
 }
 
-utilities.searchBarClickLogic = function ($mainContainer, options) {
+utilities.searchBarClickLogic = function ($mainContainer) {
     // Find the element with the class btn-group
     $mainContainer.find(".btn-group").hide()
 
@@ -422,7 +418,6 @@ utilities.expandAll = function ($mainContainer) {
 utilities.searchBarCloseLogic = function ($mainContainer){
     $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`).hide()
     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
-    console.log("Closing search bar")
     $mainContainer.find(`.${styles.treeCheckboxButtonContainer}`).css("height", "")
 
     // We want to show the node container and button container
@@ -492,26 +487,13 @@ function iterativeID(data) {
 
 
 utilities.validateOptions = function(options){
-
-    console.log(options)
-
-
-    // The options.startCollapsed must be a boolean
+        // The options.startCollapsed must be a boolean
     if (typeof options.startCollapsed !== "boolean") {
-        throw new Error("startCollapsed must be a boolean")
+        throw new Error("options.startCollapsed must be a boolean")
     }
 
-    // // Height and width must be a string or null. The string must be a valid CSS value or
-    // if (typeof options.width !== "string") {
-    //     if (options.width !== null) {
-    //         throw new Error("width must be a string or null")
-    //     }
-    // }
-    //
-    // }
-    //
     if (typeof options.height !== "string") {
-        throw new Error("height must be a string")
+        throw new Error("options.height must be a string")
     }
 
     // If the height string ends with a non numeric character, we append px
@@ -531,42 +513,42 @@ utilities.validateOptions = function(options){
     }
 
     if (typeof options.showSelectAll !== "boolean") {
-        throw new Error("showSelectAll must be a boolean")
+        throw new Error("options.showSelectAll must be a boolean")
     }
 
     if (typeof options.showCollapseAll !== "boolean") {
-        throw new Error("showCollapseAll must be a boolean")
+        throw new Error("options.showCollapseAll must be a boolean")
     }
 
     if (typeof options.showSearchBar !== "boolean") {
-        throw new Error("showSearchBar must be a boolean")
+        throw new Error("options.showSearchBar must be a boolean")
     }
 
     if (typeof options.advancedSearch !== "boolean") {
-        throw new Error("advancedSearch must be a boolean")
+        throw new Error("options.advancedSearch must be a boolean")
     }
 
     if (typeof options.clickableLabels !== "boolean") {
-        throw new Error("clickableLabels must be a boolean")
+        throw new Error("options.clickableLabels must be a boolean")
     }
 
     if (options.clickableLabels === true && options.clickableLabelsCallback === null) {
-        throw new Error("clickableLabelsCallback must be a function, when clickableLabels is true")
+        throw new Error("options.clickableLabelsCallback must be a function, when clickableLabels is true")
     }
 
     // We have to check if the clickableLabelsCallback is a function if it is not null
     if (options.clickableLabelsCallback !== null && typeof options.clickableLabelsCallback !== "function") {
-        throw new Error("clickableLabelsCallback must be a function")
+        throw new Error("options.clickableLabelsCallback must be a function")
     }
 
     // the clickableLabelsCallbackArgs must be an array or null
     if (options.clickableLabelsCallbackArgs !== null && !Array.isArray(options.clickableLabelsCallbackArgs)) {
-        throw new Error("clickableLabelsCallbackArgs must be an array or null")
+        throw new Error("options.clickableLabelsCallbackArgs must be an array or null")
     }
 
     // returnValue must be a string
     if (typeof options.returnValue !== "string") {
-        throw new Error("returnValue must be a string")
+        throw new Error("options.returnValue must be a string")
     }
 
     // Add more validation here

@@ -264,7 +264,7 @@ htmlGenerators.generateSearchBar = function ($buttonGroup, $buttonContainer, opt
 
     // Set the click event for the search button
     $openSearchBar.on("click", function () {
-        utilities.searchBarClickLogic($mainContainer, options)
+        utilities.searchBarClickLogic($mainContainer)
     })
 }
 
