@@ -37,6 +37,21 @@ shiniertreecheckbox <- function(elementId, data, options=NULL) {
     )
   }
 
+  # We also set a default label callback, which will be used to display the labels
+  if (is.null(options$clickableLabelsCallback)){
+    options$clickableLabelsCallback <- JS(
+        sprintf(
+            "
+            function(returnValue){
+                const jsonData = JSON.stringify(returnValue);
+                Shiny.setInputValue('%s' + '_click', jsonData, {priority: 'event'});
+            }
+            "
+            , elementId
+        )
+    )
+  }
+
   # Parse the options list into a JSON string
   args = list(
     elementId = elementId,
