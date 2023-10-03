@@ -255,6 +255,7 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | defaultState                | string    | `"none"`        | The default state for the checkboxes.                                                                                                                                                                                                         |
 | returnValue                 | string    | `"value"`       | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
 | returnNonLeafNodes          | boolean   | `false`         | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.                                                                                             |
+| nodeIdProperty              | string    | `value`         | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
 
 
 ### States

@@ -225,7 +225,7 @@ TreeCheckbox.options = {
     clickableLabels: false,
     clickableLabelsCallback: null,
     clickableLabelsCallbackArgs: null,
-    returnNonLeafNodes: false, // To be implemented would return all (active e.g. included/excluded) values in the tree not just the leaf nodes
+    returnNonLeafNodes: false,
     minSearchChars: 1,
     maxSearchResults: 100,
     hideCheckboxes: false,
@@ -234,7 +234,7 @@ TreeCheckbox.options = {
     states: TreeCheckbox.defaultStates.include,
     defaultState: "none",
     returnValue: "value",
-    nodeIdProperty: "value", // The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
+    nodeIdProperty: "value"
 }
 /**
  * This is the main function to create the TreeCheckbox. It will create the tree and add it to the containerID.
