@@ -296,11 +296,11 @@ observeEvent(input$mytestID, {
     print(df)
 })
 ```
-#### Clickable Labels Callback
-The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked.
+#### Clickable Labels
+The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked. Ther is also a default callback which will return `returnValue` of the item to to a Shiny variable. View the _Default callback_ section for more information. 
 
 ##### Required Arguments
-The callback function will **always** receive the id of the clicked label as the first argument. Thus the callback function should have at least one argument.
+The callback function will **always** receive the _returnValue_ (can be changed by setting the `returnValue` option parameter) of the clicked label as the first argument. Thus the callback function should have at least one argument.
 The callback function can also receive additional arguments. These can be specified using the _clickableLabelsCallbackArgs_ option.
 The _clickableLabelsCallbackArgs_ option should be a list.
 
