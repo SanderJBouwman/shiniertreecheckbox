@@ -69,7 +69,6 @@ The first data structure is an array which contains one or more objects. Each ob
 | Property                   | Description                                                                                   |
 |----------------------------|-----------------------------------------------------------------------------------------------|
 | `label`                    | The label to display for the node.                                                            |
-| `value` (**not required**) | **MUST** be unique. If not supplied Shinier Treecheckbox will create unique id's instead.     |
 | `children`                 | An array of child nodes. If the node has no children, this property should be an empty array. |
 
 > Note: It is also possible to supply a `value` property. This property is used to make every item unique. Thus the `value` parameter **MUST** be unique and a string. If the property is not supplied Shinier Treecheckbox will generate these IDs on it's own. Do you have other properties that are always unique (such as `label`)? You can set this property to be used as a unique id by setting the options.nodeIdProperty to `label` or any other property.
