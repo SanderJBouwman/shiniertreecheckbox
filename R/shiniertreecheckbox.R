@@ -43,8 +43,7 @@ shiniertreecheckbox <- function(elementId, data, options=NULL) {
         sprintf(
             "
             function(returnValue){
-                const jsonData = JSON.stringify(returnValue);
-                Shiny.setInputValue('%s' + '_click', jsonData, {priority: 'event'});
+                Shiny.setInputValue('%s' + '_click', JSON.stringify(returnValue), {priority: 'event'});
             }
             "
             , elementId
