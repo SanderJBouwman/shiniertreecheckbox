@@ -66,11 +66,11 @@ shinyApp(
 The data parameter is a JSON string that contains the data to be displayed in the tree. There is only one way this should be applied.
 The first data structure is an array which contains one or more objects. Each object represents a node in the tree. Each object must contain the following properties:
 
-| Property | Description                                                                                   |
-|----------|-----------------------------------------------------------------------------------------------|
-| label    | The label to display for the node.                                                            |
-| value    | **MUST** be unique.                                                                           |
-| children | An array of child nodes. If the node has no children, this property should be an empty array. |
+| Property                   | Description                                                                                   |
+|----------------------------|-----------------------------------------------------------------------------------------------|
+| `label`                    | The label to display for the node.                                                            |
+| `value` (**not required**) | **MUST** be unique. If not supplied Shinier Treecheckbox will create unique id's instead.     |
+| `children`                 | An array of child nodes. If the node has no children, this property should be an empty array. |
 
 #### Example 
 <details>
