@@ -205,6 +205,7 @@ TreeCheckbox.defaultStates = {
  * and "indeterminate" are required.
  * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
  * @property {string} returnValue - The value to return from the tree. The default value is "value". The other option is "label" or a custom value.
+ * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
  */
 
 /**
@@ -233,7 +234,7 @@ TreeCheckbox.options = {
     states: TreeCheckbox.defaultStates.include,
     defaultState: "none",
     returnValue: "value",
-    renderErrorMessages: true
+    nodeIdProperty: "value", // The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
 }
 /**
  * This is the main function to create the TreeCheckbox. It will create the tree and add it to the containerID.
@@ -365,8 +366,8 @@ TreeCheckbox.addNodes = function(containerID, data){
     // We have to make sure the values are unique and not already in the tree
     Object.keys(flatData).forEach(function (key) {
         let node = flatData[key]
-        if (node.value in treeData) {
-            throw new Error(`The value ${node.value} is already in the tree`)
+        if (node[options.nodeIdProperty] in treeData) {
+            throw new Error(`The value ${node[options.nodeIdProperty]} is already in the tree`)
         }
     })
     treeData = {...treeData, ...flatData}
@@ -377,11 +378,11 @@ TreeCheckbox.addNodes = function(containerID, data){
         let node = flatData[key]
         if (node.parent !== null) {
             let parentNode = $mainContainer.data("treeData")[node.parent]
-            parentNode.children.push(node.value)
+            parentNode.children.push(node[options.nodeIdProperty])
 
             // If the parent is rendered we have to call TreeCheckbox.utilities.updateChildrenElements
             if (parentNode.isRendered) {
-                let parentValue = parentNode.value
+                let parentValue = parentNode[options.nodeIdProperty]
                 let $parentNode = $mainContainer.find("#checkbox-node-" + parentValue)
                 let parentState = $parentNode.data("state")
 

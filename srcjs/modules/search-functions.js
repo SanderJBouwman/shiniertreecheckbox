@@ -136,9 +136,9 @@ function pseudoDatabaseSearch($mainContainer, searchTerm) {
  */
 function goToNode(items, result, $mainContainer) {
     // We want to clear the search bar and show all nodes again when the user clicks on the message
-
+    const options = $mainContainer.data("options")
     // Create a queue of node IDs from 'items' to the root node with 'result.value'
-    let queue = nodeToRoot(items, result.value, []);
+    let queue = nodeToRoot(items, result[options.nodeIdProperty], []);
 
     // Iterate through the queue, excluding the last item as it's the target node
     queue.forEach(function (item, index) {
@@ -162,7 +162,7 @@ function goToNode(items, result, $mainContainer) {
     // First, we remove the highlight class from all labels
     $mainContainer.find(`.${styles.treeCheckboxNodeLabel}`).removeClass(styles.highlight);
 
-    let $targetNode = $mainContainer.find("#checkbox-node-" + result.value);
+    let $targetNode = $mainContainer.find("#checkbox-node-" + result[options.nodeIdProperty]);
     $targetNode.find(`.${styles.treeCheckboxNodeLabel}`).first().addClass(styles.highlight);
 
     // We want to hide the search results and show the node container again

@@ -21,7 +21,6 @@ shiniertreecheckbox <- function(elementId, data, options=NULL) {
         sprintf(
             "
             function(event){
-                console.log(event)
                 const elementId = '%s';
                 const data = $('#' + elementId).data('getValues')();
                 const convertedData = {};

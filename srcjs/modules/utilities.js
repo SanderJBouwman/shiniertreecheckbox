@@ -14,6 +14,8 @@ utilities.createTree = function ($parent, data, options) {
         $buttonContainer.hide()
     }
 
+
+
     let flattenedData = this.flattenJSON(data, options)
 
     // The whole module is based on the data object, so we store it in the main container
@@ -41,8 +43,22 @@ utilities.flattenJSON = function (data, options) {
     function flatten(node, parent = null, isRendered = false) {
         if (node && Array.isArray(node)) {
             node.forEach((item) => {
+                // Check if the item has the options.nodeIdProperty property
+                if (!item.hasOwnProperty(options.nodeIdProperty)) {
+                    throw new Error(`Item (${item.label}) does not have the '${options.nodeIdProperty}' property, 
+                    which was set using the options.idProperty parameter. 
+                    The property must be unique for each item. 
+                    If the default value is used, then the property must be called 'value', 
+                    which will generate unique IDs for each item. If the value property is not supplied.`);
+                } else {
+                    // Check if the value is a string and not empty
+                    if (typeof item[options.nodeIdProperty] !== "string" || item[options.nodeIdProperty] === "") {
+                        throw new Error(`Item (${item.label}) has an invalid value for the '${options.nodeIdProperty}'. 
+                        The value must be a non-empty unique string`);
+                    }
+                }
                 // Check if the item has already been added to the map
-                if (map[item.value]) {
+                if (map[item[options.nodeIdProperty]]) {
                     throw new Error(`Received a duplicate value/ID '${item.value}'. All values/IDs must be unique`);
                 }
 
@@ -65,15 +81,22 @@ utilities.flattenJSON = function (data, options) {
                     isRendered
                 };
 
-                map[item.value] = flattenedItem;
+                map[item[options.nodeIdProperty]] = flattenedItem;
 
                 if (item.children) {
                     // Map the children to their values and add them to the flattenedItem
-                    flattenedItem.children = item.children.map(child => child.value);
+                    flattenedItem.children = item.children.map(child => child[options.nodeIdProperty]);
                 }
 
-                flatten(item.children, item.value); // Pass the current item's value as the parent for child nodes
+                flatten(item.children, item[options.nodeIdProperty]); // Pass the current item's value as the parent for child nodes
             });
+        }
+    }
+
+    // If the nodeIdProperty is value, and it is not present, then we have to add it. This allows the user to not have to add the value property to the data.
+    if (options.nodeIdProperty === "value") {
+        if (!data.hasOwnProperty("value")) {
+            iterativeID(data)
         }
     }
 
@@ -106,11 +129,12 @@ utilities.addNode = function(treeData, parentID, value, label, children) {
 
 utilities.addElementNodes = function($mainContainer, $nodeContainer) {
     let data = $mainContainer.data("treeData")
+    let options = $mainContainer.data("options")
     let queue = Array.from(Object.values(data)).filter(item => item.parent === null && !item.isRendered)
     queue.forEach(function(item){
-        let $node = htmlGenerators.createElementNode($mainContainer, item.value, item.label, item.children.length > 0)
+        let $node = htmlGenerators.createElementNode($mainContainer, item[options.nodeIdProperty], item.label, item.children.length > 0)
         $nodeContainer.append($node)
-        data[item.value].isRendered = true
+        data[item[options.nodeIdProperty]].isRendered = true
     })
 }
 
@@ -277,11 +301,11 @@ utilities.attachChildElement = function ($mainContainer, value, $node) {
 }
 
 utilities.updateChildrenElements = function ($mainContainer, value, $node, initialState) {
+    const options = $mainContainer.data("options")
     // Behaviour for expanded
     // As the node is expanded, we check if the children have been rendered yet
     let children = $mainContainer.data("treeData")[value].children.map(child => $mainContainer.data("treeData")[child]);
 
-    const options = $mainContainer.data("options")
 
     // We check if the children have been rendered yet. For this we use the isRendered property with filter
     children.filter(child => !child.isRendered).forEach(function (child) {
@@ -294,10 +318,10 @@ utilities.updateChildrenElements = function ($mainContainer, value, $node, initi
             parentStateKey = "none"
         }
 
-        let $childNode = htmlGenerators.createElementNode($mainContainer, child.value, child.label, child.children.length > 0, parentStateKey)
+        let $childNode = htmlGenerators.createElementNode($mainContainer, child[options.nodeIdProperty], child.label, child.children.length > 0, parentStateKey)
         // We have to attach the child to the parent
         utilities.attachChildElement($mainContainer, value, $childNode, initialState)
-        $mainContainer.data("treeData")[child.value].isRendered = true
+        $mainContainer.data("treeData")[child[options.nodeIdProperty]].isRendered = true
     })
 }
 
@@ -469,10 +493,9 @@ function iterativeID(data) {
             iterativeID(item)
         })
     } else {
-        // If the data is an object then we have to check if it has a value property
-        if (data.hasOwnProperty("value")) {
-            // We have to replace the value with a unique ID
-            data.value = idCounter
+            // If the data is an object then we have to check if it has a value property
+            // We have to replace the value with a unique ID and cast to string
+            data.value = idCounter.toString()
             idCounter++
 
             // We also have to check if the children property exists
@@ -480,7 +503,6 @@ function iterativeID(data) {
                 // We have to call the function again with the children property
                 iterativeID(data.children)
             }
-        }
     }
 }
 
