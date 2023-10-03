@@ -244,12 +244,12 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | showSearchBar               | boolean   | `true`        | Whether to show the search bar.                                                                                                                                                                                                               |
 | advancedSearch              | boolean   | `false`       | Whether to enable advanced search features. To be added in the feature (e.g. database search)                                                                                                                                                 |
 | clickableLabels             | boolean   | `false`       | Whether labels are clickable.                                                                                                                                                                                                                 |
-| clickableLabelsCallback     | function  | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Callback function when clickable labels are clicked.                                                |
+| clickableLabelsCallback     | function  | custom function          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Callback function when clickable labels are clicked.                                                |
 | clickableLabelsCallbackArgs | Array     | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Additional arguments for the clickable labels callback.                                             |
 | minSearchChars              | number    | `1`           | Minimum number of characters required to trigger a search.                                                                                                                                                                                    |
 | maxSearchResults            | number    | `100`         | Maximum number of search results to display.                                                                                                                                                                                                  |
 | hideCheckboxes              | boolean   | `false`       | Whether to hide checkboxes in the component.                                                                                                                                                                                                  |
-| updateCallback              | function  | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Callback function when the tree is updated.                                                         |
+| updateCallback              | function  | custom function          |  If using default callback you can access the clicked label by accessing the input 'input$<id>_click'. See [callbacks](#Callbacks) for more information.                                                                                                                                                                                                                  | Callback function when the tree is updated.                                                         |
 | updateCallbackArgs          | Array     | null          | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Additional arguments for the update callback.                                                       |
 | states                      | string    | `"include"`   | Custom states are currently not supported to add via R. Visit the JS module (TreeCheckbox.defaultStates) and add more states there.                                                                                                           |
 | defaultState                | string    | `"none"`      | The default state for the checkboxes.                                                                                                                                                                                                         |
@@ -317,6 +317,29 @@ Output on console:
 clicked label with id 0 for widget mytestID
 ```
 
+##### Default callback
+The default callback returns the returnValue of the latest clicked label. The callback is a custom JavaScript function.
+```R
+ options$clickableLabelsCallback <- htmlwidgets::JS(
+        sprintf(
+            "
+            function(returnValue){
+                Shiny.setInputValue('%s' + '_click', JSON.stringify(returnValue), {priority: 'event'});
+            }
+            "
+            , elementId
+        )
+    )
+```
+We can than retrieve the value using the `input$<id>_click` variable. We can do this in an _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_:
+
+```R
+# Our id is 'mytestID'. We have to add '_click' to it in order to access it.
+  observeEvent(input$mytestID_click, {
+    print(input$mytestID_click)
+  })
+```
+
 ##### Communication clicked labels with Shiny
 The callback function can communicate with Shiny by using the _Shiny.setInputValue_ function. This function allows you to send data to Shiny.
 The Shiny.setInputValue function has the following required parameters:
@@ -328,7 +351,7 @@ For more information about the Shiny.setInputValue function, see the [Shiny docu
 ###### Example
 We could for example want to know which label was clicked and do something with it on the server side. We will do this for this example. 
 We will not use the default id as this is already reserved for the _updateCallback_. We will use the id "mytestID_label" instead. 
-Just as the _updateCallback_ the _clickableLabelsCallback_ will also **always** receive the _id/value_ of the clicked label.
+Just as the _updateCallback_ the _clickableLabelsCallback_ will also **always** receive the _returnValue_ of the clicked label.
 
 ```R
 options = list(
