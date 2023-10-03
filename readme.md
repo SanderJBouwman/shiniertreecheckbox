@@ -331,41 +331,13 @@ The default callback returns the returnValue of the latest clicked label. The ca
         )
     )
 ```
-We can than retrieve the value using the `input$<id>_click` variable. We can do this in an _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_:
+We can than retrieve the value using the `input$<id>_click` variable. We can do this in by accessing the variable (`input$mytestID_click`) or by using a _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_:
 
 ```R
 # Our id is 'mytestID'. We have to add '_click' to it in order to access it.
   observeEvent(input$mytestID_click, {
     print(input$mytestID_click)
   })
-```
-
-##### Communication clicked labels with Shiny
-The callback function can communicate with Shiny by using the _Shiny.setInputValue_ function. This function allows you to send data to Shiny.
-The Shiny.setInputValue function has the following required parameters:
-- _inputId_: The id of the input element to set the value for.
-- _value_: The value to set.
-
-For more information about the Shiny.setInputValue function, see the [Shiny documentation](https://shiny.posit.co/r/articles/build/communicating-with-js/).
-
-###### Example
-We could for example want to know which label was clicked and do something with it on the server side. We will do this for this example. 
-We will not use the default id as this is already reserved for the _updateCallback_. We will use the id "mytestID_label" instead. 
-Just as the _updateCallback_ the _clickableLabelsCallback_ will also **always** receive the _returnValue_ of the clicked label.
-
-```R
-options = list(
-    clickableLabels = TRUE, 
-    clickableLabelsCallback = htmlwidgets::JS("function(id, elementID){Shiny.setInputValue(mytestID_labels, id, {priority: 'event'})}"),
-    clickableLabelsCallbackArgs = list("mytestID_label") # We add the _label suffix so we can put the full id in a observeEvent. This allows us to do something with the clicked label.
-)
-```
-
-We can than use the _mytestID_label_ id in a _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_ to do something with the clicked label.
-```R
-observeEvent(input$mytestID_label, {
-    print(input$mytestID_label)
-})
 ```
 
 ### Custom return values
