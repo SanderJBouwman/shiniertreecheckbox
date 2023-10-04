@@ -69,9 +69,12 @@ The first data structure is an array which contains one or more objects. Each ob
 | Property                   | Description                                                                                   |
 |----------------------------|-----------------------------------------------------------------------------------------------|
 | `label`                    | The label to display for the node.                                                            |
-| `value` (**not required**) | **MUST** be unique. If not supplied Shinier Treecheckbox will create unique id's instead.     |
 | `children`                 | An array of child nodes. If the node has no children, this property should be an empty array. |
 
+> Note: You can supply a unique string value for the `value` property to make every item unique. If you don't supply a `value` propery, Shinier Treecheckbox will generate one for you. You can also set a different property to be used as the unique ID by setting the options.nodeIdProperty option.
+> ```R
+> options = list(nodeIdProperty = 'label')
+> ```
 #### Example 
 <details>
   <summary>Raw JSON</summary>
@@ -80,42 +83,33 @@ The first data structure is an array which contains one or more objects. Each ob
 [
   {
     "label": "eukaryotes",
-    "value": 0,
     "children": [
       {
         "label": "vertebrates",
-        "value": 1,
         "children": [
           {
             "label": "mammals",
-            "value": 2,
             "children": [
               {
                 "label": "primates",
-                "value": 3,
                 "children": [
                   {
                     "label": "humans",
-                    "value": 4,
                     "children": []
                   },
                   {
                     "label": "apes",
-                    "value": 5,
                     "children": [
                       {
                         "label": "chimpanzees",
-                        "value": 6,
                         "children": []
                       },
                       {
                         "label": "gorillas",
-                        "value": 7,
                         "children": []
                       },
                       {
                         "label": "orangutans",
-                        "value": 8,
                         "children": []
                       }
                     ]
@@ -124,16 +118,13 @@ The first data structure is an array which contains one or more objects. Each ob
               },
               {
                 "label": "cats",
-                "value": 9,
                 "children": [
                   {
                     "label": "lions",
-                    "value": 10,
                     "children": []
                   },
                   {
                     "label": "tigers",
-                    "value": 11,
                     "children": []
                   }
                 ]
@@ -142,25 +133,20 @@ The first data structure is an array which contains one or more objects. Each ob
           },
           {
             "label": "birds",
-            "value": 12,
             "children": [
               {
                 "label": "owls",
-                "value": 13,
                 "children": []
               },
               {
                 "label": "eagles",
-                "value": 14,
                 "children": [
                   {
                     "label": "bald eagle",
-                    "value": 15,
                     "children": []
                   },
                   {
                     "label": "common eagle",
-                    "value": 16,
                     "children": []
                   }
                 ]
@@ -171,36 +157,29 @@ The first data structure is an array which contains one or more objects. Each ob
       },
       {
         "label": "invertebrates",
-        "value": 17,
         "children": [
           {
             "label": "insects",
-            "value": 18,
             "children": [
               {
                 "label": "bees",
-                "value": 19,
                 "children": []
               },
               {
                 "label": "ants",
-                "value": 20,
                 "children": []
               }
             ]
           },
           {
             "label": "mollusks",
-            "value": 21,
             "children": [
               {
                 "label": "snails",
-                "value": 22,
                 "children": []
               },
               {
                 "label": "octopuses",
-                "value": 23,
                 "children": []
               }
             ]
@@ -211,12 +190,10 @@ The first data structure is an array which contains one or more objects. Each ob
   },
   {
     "label": "prokaryotes",
-    "value": 24,
     "children": []
   },
   {
     "label": "archaea",
-    "value": 25,
     "children": []
   }
 ]
