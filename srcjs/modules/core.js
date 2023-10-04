@@ -206,7 +206,7 @@ TreeCheckbox.defaultStates = {
  * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
  * @property {string} returnValue - The value to return from the tree. The default value is "label". The other option is "nodeId" or a custom value.
  * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
- * @property {boolean} searchTriggersLabelClick - Whether to trigger a label click when a search result is clicked. Default is true.
+ * @property {boolean} searchTriggersLabelClick - Whether to trigger a label click when a search result is clicked.
  */
 
 /**
