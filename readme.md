@@ -231,7 +231,7 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | updateCallbackArgs          | Array     | null            | See [callbacks](#Callbacks)                                                                                                                                                                                                                   | Additional arguments for the update callback.                                                       |
 | states                      | string    | `"include"`     | Custom states are currently not supported to add via R. Visit the JS module (TreeCheckbox.defaultStates) and add more states there.                                                                                                           |
 | defaultState                | string    | `"none"`        | The default state for the checkboxes.                                                                                                                                                                                                         |
-| returnValue                 | string    | `"value"`       | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
+| returnValue                 | string    | `"nodeId"`       | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
 | returnNonLeafNodes          | boolean   | `false`         | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.                                                                                             |
 | nodeIdProperty              | string    | `nodeId`         | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
 
@@ -507,8 +507,8 @@ After adding the new property we can set the `options.returnValue` parameter to 
 
 ```R
 options = list(
-    nodeIdProperty = 'value',
-    returnValue = "labeled_value"
+    nodeIdProperty = 'value', # We use the 'value' property as the unique ID here, as we already have unique id's we wont let Shinier Treecheckbox render it's own.
+    returnValue = "labeled_value" # We now receive the 'labeled_value' property instead of the default nodeIdProperty
 )
 ```
 
