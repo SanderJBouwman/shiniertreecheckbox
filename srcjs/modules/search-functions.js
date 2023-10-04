@@ -182,6 +182,11 @@ function goToNode(items, result, $mainContainer) {
         scrollLeft: scrollLeftOffset
     }, 500);
 
+    // We want to trigger a click on the label of the node
+    if (options.searchTriggersLabelClick && options.clickableLabels){
+        $targetNode.find(`.${styles.treeCheckboxNodeLabel}`).first().click();
+    }
+
 }
 
 /**
