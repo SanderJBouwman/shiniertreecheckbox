@@ -43,6 +43,7 @@ utilities.flattenJSON = function (data, options) {
     function flatten(node, parent = null, isRendered = false) {
         if (node && Array.isArray(node)) {
             node.forEach((item) => {
+                //
                 // Check if the item has the options.nodeIdProperty property
                 if (!item.hasOwnProperty(options.nodeIdProperty)) {
                     throw new Error(`Item (${item.label}) does not have the '${options.nodeIdProperty}' property, 
@@ -51,10 +52,15 @@ utilities.flattenJSON = function (data, options) {
                     If the default value is used, then the property must be called 'value', 
                     which will generate unique IDs for each item. If the value property is not supplied.`);
                 } else {
-                    // Check if the value is a string and not empty
-                    if (typeof item[options.nodeIdProperty] !== "string" || item[options.nodeIdProperty] === "") {
-                        throw new Error(`Item (${item.label}) has an invalid value for the '${options.nodeIdProperty}'. 
-                        The value must be a non-empty unique string`);
+                    // Check if the value is a string or number and if it is not empty
+                    if (typeof item[options.nodeIdProperty] !== "string" && typeof item[options.nodeIdProperty] !== "number") {
+                        throw new Error(`Item (${item.label}) does not have a valid value for the '${options.nodeIdProperty}' property. 
+                        The value must be a string or number.`);
+                    }
+
+                    if (item[options.nodeIdProperty] === "") {
+                        throw new Error(`Item (${item.label}) does not have a valid value for the '${options.nodeIdProperty}' property. 
+                        The value must not be empty.`);
                     }
                 }
                 // Check if the item has already been added to the map
@@ -494,8 +500,7 @@ function iterativeID(data) {
         })
     } else {
             // If the data is an object then we have to check if it has a value property
-            // We have to replace the value with a unique ID and cast to string
-            data.value = idCounter.toString()
+            data.value = idCounter
             idCounter++
 
             // We also have to check if the children property exists
