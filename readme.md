@@ -71,9 +71,10 @@ The first data structure is an array which contains one or more objects. Each ob
 | `label`                    | The label to display for the node.                                                            |
 | `children`                 | An array of child nodes. If the node has no children, this property should be an empty array. |
 
-> Note: You can supply a unique string value for the `value` property to make every item unique. If you don't supply a `value` propery, Shinier Treecheckbox will generate one for you. You can also set a different property to be used as the unique ID by setting the options.nodeIdProperty option.
+> Note: You can supply a unique string value for the `nodeId` property to make every item unique. If you don't supply a `nodeId` propery, Shinier Treecheckbox will generate one for you. You can also set a different property to be used as the unique ID by setting the options.nodeIdProperty option. So for example if you have a json consisting of the property `value` that is unique, you can set the nodeIdProperty to `value`
 > ```R
-> options = list(nodeIdProperty = 'label')
+> options = list(nodeIdProperty = 'value')
+> # Now the Shinier Treecheckbox will use the `value` property as the unique ID. 
 > ```
 #### Example 
 <details>
@@ -232,7 +233,7 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | defaultState                | string    | `"none"`        | The default state for the checkboxes.                                                                                                                                                                                                         |
 | returnValue                 | string    | `"value"`       | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
 | returnNonLeafNodes          | boolean   | `false`         | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.                                                                                             |
-| nodeIdProperty              | string    | `value`         | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
+| nodeIdProperty              | string    | `nodeId`         | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
 
 
 ### States
@@ -506,6 +507,7 @@ After adding the new property we can set the `options.returnValue` parameter to 
 
 ```R
 options = list(
+    nodeIdProperty = 'value',
     returnValue = "labeled_value"
 )
 ```
