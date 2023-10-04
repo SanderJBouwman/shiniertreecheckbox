@@ -204,7 +204,7 @@ TreeCheckbox.defaultStates = {
  * the following properties: {<statename>: {@link TreeCheckbox.createState}}. The states "none"
  * and "indeterminate" are required.
  * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
- * @property {string} returnValue - The value to return from the tree. The default value is "value". The other option is "label" or a custom value.
+ * @property {string} returnValue - The value to return from the tree. The default value is "label". The other option is "nodeId" or a custom value.
  * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
  */
 
@@ -234,7 +234,7 @@ TreeCheckbox.options = {
     states: TreeCheckbox.defaultStates.include,
     defaultState: "none",
     returnValue: "value",
-    nodeIdProperty: "value"
+    nodeIdProperty: "nodeId"
 }
 /**
  * This is the main function to create the TreeCheckbox. It will create the tree and add it to the containerID.
@@ -454,7 +454,7 @@ TreeCheckbox.values = function (containerID) {
     Object.keys(treeData).forEach(function (key) {
         const node = treeData[key];
         if (node.isRendered) {
-            const state = $mainContainer.find("#checkbox-node-" + node.value).data("state");
+            const state = $mainContainer.find("#checkbox-node-" + node[options.nodeIdProperty]).data("state");
             const stateKey = Object.keys(options.states).find(key => options.states[key] === state);
 
             if (shouldIncludeNode(node, stateKey)) {

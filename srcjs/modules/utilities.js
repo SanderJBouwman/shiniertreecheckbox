@@ -94,8 +94,8 @@ utilities.flattenJSON = function (data, options) {
     }
 
     // If the nodeIdProperty is value, and it is not present, then we have to add it. This allows the user to not have to add the value property to the data.
-    if (options.nodeIdProperty === "value") {
-        if (!data.hasOwnProperty("value")) {
+    if (options.nodeIdProperty === "nodeId") {
+        if (!data.hasOwnProperty("nodeId")) {
             iterativeID(data)
         }
     }
