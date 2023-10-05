@@ -180,8 +180,7 @@ utilities.handleIntermediate = function ($mainContainer, value, options, $node) 
 
 
         // We can get the state of the siblings by getting the state of the nodes, thus we have to get the nodes first
-        let siblingsStates = siblings.map(sibling => $mainContainer.find("#checkbox-node-" + sibling.value).data("state"))
-        console.log(siblingsStates)
+        let siblingsStates = siblings.map(sibling => $mainContainer.find("#checkbox-node-" + sibling[options.nodeIdProperty]).data("state"))
 
         // Now we can check if all the siblings are the same state
         let allSiblingsSameState = siblingsStates.every(siblingState => siblingState === siblingsStates[0])
@@ -191,15 +190,17 @@ utilities.handleIntermediate = function ($mainContainer, value, options, $node) 
             let $parentNode = $mainContainer.find("#checkbox-node-" + parentID)
             $parentNode.data("state", options.states.indeterminate)
             utilities.setCheckBoxState($parentNode.find(`.${styles.treeCheckboxNodeCheckbox}`).first(), options.states.indeterminate)
+            utilities.handleIntermediate($mainContainer, parentID, options, $parentNode)
 
         } else {
             // As they all have the same state we can set the parent to that state
             let $parentNode = $mainContainer.find("#checkbox-node-" + parentID)
             $parentNode.data("state", $node.data("state"))
             utilities.setCheckBoxState($parentNode.find(`.${styles.treeCheckboxNodeCheckbox}`).first(), $node.data("state"))
+            utilities.handleIntermediate($mainContainer, parentID, options, $parentNode)
         }
 
-        utilities.handleIntermediate($mainContainer, parentID, options, $parentNode)
+
     }
 }
 
