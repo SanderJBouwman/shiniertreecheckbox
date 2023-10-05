@@ -102,7 +102,7 @@ utilities.flattenJSON = function (data, options) {
     // If the nodeIdProperty is value, and it is not present, then we have to add it. This allows the user to not have to add the value property to the data.
     if (options.nodeIdProperty === "nodeId") {
         if (!data.hasOwnProperty("nodeId")) {
-            iterativeID(data)
+            iterativeID(data, options)
         }
     }
 
@@ -181,6 +181,7 @@ utilities.handleIntermediate = function ($mainContainer, value, options, $node) 
 
         // We can get the state of the siblings by getting the state of the nodes, thus we have to get the nodes first
         let siblingsStates = siblings.map(sibling => $mainContainer.find("#checkbox-node-" + sibling.value).data("state"))
+        console.log(siblingsStates)
 
         // Now we can check if all the siblings are the same state
         let allSiblingsSameState = siblingsStates.every(siblingState => siblingState === siblingsStates[0])
@@ -191,15 +192,14 @@ utilities.handleIntermediate = function ($mainContainer, value, options, $node) 
             $parentNode.data("state", options.states.indeterminate)
             utilities.setCheckBoxState($parentNode.find(`.${styles.treeCheckboxNodeCheckbox}`).first(), options.states.indeterminate)
 
-            // We have to set the state of the parents parent as well if it exists
-            utilities.handleIntermediate($mainContainer, parentID, options, $parentNode)
-
         } else {
             // As they all have the same state we can set the parent to that state
             let $parentNode = $mainContainer.find("#checkbox-node-" + parentID)
             $parentNode.data("state", $node.data("state"))
             utilities.setCheckBoxState($parentNode.find(`.${styles.treeCheckboxNodeCheckbox}`).first(), $node.data("state"))
         }
+
+        utilities.handleIntermediate($mainContainer, parentID, options, $parentNode)
     }
 }
 
@@ -496,21 +496,21 @@ utilities.labelClickLogic = function ($mainContainer, returnValue, options) {
 // Create a function that will receive node data in the form of a object with three properties: value, label and children
 // Replace the value with a unique ID and then go through the children and replace the value with a unique ID
 let idCounter = 0
-function iterativeID(data) {
+function iterativeID(data, options) {
     // If the data is an array then we have to itterate through it and call the function again
     if (Array.isArray(data)) {
         data.forEach(function (item) {
-            iterativeID(item)
+            iterativeID(item, options)
         })
     } else {
             // If the data is an object then we have to check if it has a value property
-            data.value = idCounter
+            data[options.nodeIdProperty] = idCounter
             idCounter++
 
             // We also have to check if the children property exists
             if (data.hasOwnProperty("children")) {
                 // We have to call the function again with the children property
-                iterativeID(data.children)
+                iterativeID(data.children, options)
             }
     }
 }
