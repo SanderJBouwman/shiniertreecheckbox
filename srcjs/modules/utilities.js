@@ -49,7 +49,7 @@ utilities.flattenJSON = function (data, options) {
                     throw new Error(`Item (${item.label}) does not have the '${options.nodeIdProperty}' property, 
                     which was set using the options.idProperty parameter. 
                     The property must be unique for each item. 
-                    If the default value is used, then the property must be called 'value', 
+                    If the default value is used, then the property must be called 'nodeId', 
                     which will generate unique IDs for each item. If the value property is not supplied.`);
                 } else {
                     // Check if the value is a string or number and if it is not empty
