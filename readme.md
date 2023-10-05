@@ -15,6 +15,7 @@ Allowing for the addition of custom states and callbacks.
   
 ## Features
 - Able to process large amounts of items in the treecheckbox > 50.000 items
+- Only renders the visible checkboxes using Lazy Loading
 - Fast searching
 - (custom) Callback functions to Shiny
 
@@ -69,7 +70,7 @@ The first data structure is an array which contains one or more objects. Each ob
 | Property                   | Description                                                                                   |
 |----------------------------|-----------------------------------------------------------------------------------------------|
 | `label`                    | The label to display for the node.                                                            |
-| `children`                 | An array of child nodes. If the node has no children, this property should be an empty array. |
+| `children`                 | An array of child nodes. Not required, but needed to create hierarchical relationsships.
 
 > Note: You can supply a unique string value for the `nodeId` property to make every item unique. If you don't supply a `nodeId` propery, Shinier Treecheckbox will generate one for you. You can also set a different property to be used as the unique ID by setting the options.nodeIdProperty option. So for example if you have a json consisting of the property `value` that is unique, you can set the nodeIdProperty to `value`
 > ```R
