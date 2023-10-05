@@ -6,13 +6,6 @@ const utilities = {
 utilities.createTree = function ($parent, data, options) {
     let $mainContainer = htmlGenerators.createTreeCheckboxContainer(options)
     $parent.append($mainContainer)
-    let $buttonContainer = htmlGenerators.createTreeButtonContainer($mainContainer, options)
-
-    // If the $buttonContainer.find("btn-group) is empty, then we hide it
-    $mainContainer.append($buttonContainer)
-    if ($buttonContainer.find(".btn-group").children().length === 0) {
-        $buttonContainer.hide()
-    }
 
 
 
@@ -23,6 +16,16 @@ utilities.createTree = function ($parent, data, options) {
 
     // We also add the options to the main container
     $mainContainer.data("options", options)
+
+    let $buttonContainer = htmlGenerators.createTreeButtonContainer($mainContainer, options)
+
+    // If the $buttonContainer.find("btn-group) is empty, then we hide it
+    $mainContainer.append($buttonContainer)
+    if ($buttonContainer.find(".btn-group").children().length === 0) {
+        $buttonContainer.hide()
+    }
+
+
 
     // Create a container for the nodes $nodeContainer which has class styles.tree_checkbox_node_container
     let $nodeContainer = $("<div>", {"class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100 flex-grow-1`})
@@ -88,6 +91,11 @@ utilities.flattenJSON = function (data, options) {
                 };
 
                 map[item[options.nodeIdProperty]] = flattenedItem;
+
+                // If it doesnt have the children property, then we add it
+                if (!item.hasOwnProperty("children")) {
+                    flattenedItem.children = [];
+                }
 
                 if (item.children) {
                     // Map the children to their values and add them to the flattenedItem

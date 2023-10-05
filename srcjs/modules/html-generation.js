@@ -196,51 +196,31 @@ htmlGenerators.generateSearchBar = function ($buttonGroup, $buttonContainer, opt
 
 
     $searchBar.on("keyup", function (event) {
-        const searchBarValueLength = $searchBar.val().length;
+        const searchBarValue = $searchBar.val().trim();
+        const characterWord = options.minSearchChars === 1 ? "character" : "characters";
 
-        // We only want to show the search results container if the search bar is not empty.
-        if (searchBarValueLength !== 0) {
-            utilities.searchBarOpenLogic($mainContainer, options)
-        }
-
-        // We check if the minimal number of characters has been entered before we start searching
-        const characterWord = options.minSearchChars  === 1 ? "character" : "characters";
-        if (searchBarValueLength === 0) {
-            // If the length is 0, display a message
+        if (searchBarValue.length === 0) {
+            // If the search bar is empty, display a message
             const $searchResult = $("<a>", {
                 "class": "list-group-item list-group-item-action"
             }).html("Please enter at least " + options.minSearchChars + " " + characterWord + " to start searching");
 
-            // Create a container for the message
             const $searchResultsList = $("<div>", {
                 "class": "list-group"
             }).append($searchResult);
 
-            // Find the search results container and replace its content with the message
-            $mainContainer
-                .find(`.${styles.treeCheckboxSearchResultsContainer}`)
-                .empty()
-
-            $mainContainer
-                .find(`.${styles.treeCheckboxSearchResultsContainer}`)
-                .append($searchResultsList)
-
+            $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).empty().append($searchResultsList);
         } else {
-            searchLogic($mainContainer, options)
+            utilities.searchBarOpenLogic($mainContainer, options);
+            searchLogic($mainContainer, options);
         }
-    })
+    });
 
-    // If the escape key is pressed, then we close the search bar
     $searchBar.on("keydown", function (event) {
-        if (event.key === "Escape") {
-            utilities.searchBarCloseLogic($mainContainer, options)
+        if (event.key === "Escape" || (event.key === "Backspace" && $searchBar.val() === "")) {
+            utilities.searchBarCloseLogic($mainContainer, options);
         }
-
-        // If backspace is pressed and the search bar is empty, then we close the search bar
-        if (event.key === "Backspace" && $searchBar.val() === "") {
-            utilities.searchBarCloseLogic($mainContainer, options)
-        }
-    })
+    });
 
 
     // Add a cancel button
@@ -285,21 +265,25 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
 
     // If collapseAll and expandAll are true, then we need to add dropdown buttons
     if (options.showCollapseAll) {
-        htmlGenerators.generateCollapseButton($mainContainer, $buttonGroup);
+        // If the data has no children, then we do not need to add a collapse all button
+        const treeData = $mainContainer.data("treeData");
+        const hasChildren = Object.values(treeData).some(item => item.children.length > 0);
+
+        if (hasChildren) {
+            htmlGenerators.generateCollapseButton($mainContainer, $buttonGroup);
+        }
     }
 
     // We also have to add a search bar which will be in another group. There will be a input and search button
     if (options.showSearchBar) {
+        const $searchResultsContainer = $("<div>", {
+            "class": `${styles.treeCheckboxSearchResultsContainer} overflow-auto flex-grow-1`,
+            "height": options.height,
+            "max-height": options.height
+        }).hide();
+
         htmlGenerators.generateSearchBar($buttonGroup, $buttonContainer, options, $mainContainer);
-
-        // We also have to add a container for the search results. This will be placed between the button container and
-        // the tree node container
-        let $searchResultsContainer = $("<div>", {"class": `${styles.treeCheckboxSearchResultsContainer} overflow-auto flex-grow-1`}).hide()
-        $searchResultsContainer.css("height", options.height)
-        $searchResultsContainer.css("max-height", options.height)
-
-
-        $buttonContainer.append($searchResultsContainer)
+        $buttonContainer.append($searchResultsContainer);
     }
     return $buttonContainer
 }
