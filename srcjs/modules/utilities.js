@@ -190,6 +190,10 @@ utilities.handleIntermediate = function ($mainContainer, value, options, $node) 
             let $parentNode = $mainContainer.find("#checkbox-node-" + parentID)
             $parentNode.data("state", options.states.indeterminate)
             utilities.setCheckBoxState($parentNode.find(`.${styles.treeCheckboxNodeCheckbox}`).first(), options.states.indeterminate)
+
+            // We have to set the state of the parents parent as well if it exists
+            utilities.handleIntermediate($mainContainer, parentID, options, $parentNode)
+
         } else {
             // As they all have the same state we can set the parent to that state
             let $parentNode = $mainContainer.find("#checkbox-node-" + parentID)

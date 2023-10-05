@@ -38,7 +38,7 @@ htmlGenerators.createTreeCheckboxContainer = function (options) {
 htmlGenerators.createElementNode = function ($mainContainer, value, label, hasChildren, initialState=null) {
     // We create a span which hold the caret, checkbox and label. And then we create a div which holds the children
     let $node = $("<div>", {"class": `${styles.treeCheckboxNode} ${styles.collapsed}`, "id": "checkbox-node-" + value})
-    let $checkBoxSpan = $("<span>", {"class": "tree-checkbox-node-span"})
+    let $checkBoxSpan = $("<span>", {"class": styles.treeCheckboxNodeSpan})
     let $children = $("<ul>", {"class": styles.treeCheckboxNodeChildren}).hide()
     const options = $mainContainer.data("options")
 

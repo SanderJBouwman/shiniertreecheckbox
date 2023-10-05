@@ -147,7 +147,7 @@ function goToNode(items, result, $mainContainer) {
 
         // Get the caret element, which is a child of the node
         // Avoid using find to prevent selecting children's carets
-        let $caret = $node.children('.tree-checkbox-node-span').children(`.${styles.treeCheckboxCaret}`).first();
+        let $caret = $node.children(`.${styles.treeCheckboxNodeSpan}`).children(`.${styles.treeCheckboxCaret}`).first();
 
         // If the caret is collapsed, expand it by clicking on it
         if ($caret.hasClass(styles.collapsed)) {

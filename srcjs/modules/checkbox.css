@@ -25,6 +25,10 @@
     margin-bottom: 0;
 }
 
+:local .treeCheckboxNodeSpan {
+
+}
+
 :local .treeCheckboxCaret {
     min-width: 16px;
     padding-right: 8px;
