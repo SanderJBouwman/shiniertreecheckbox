@@ -15,6 +15,7 @@ Allowing for the addition of custom states and callbacks.
   
 ## Features
 - Able to process large amounts of items in the treecheckbox > 50.000 items
+- Only renders the visible checkboxes using Lazy Loading
 - Fast searching
 - (custom) Callback functions to Shiny
 
