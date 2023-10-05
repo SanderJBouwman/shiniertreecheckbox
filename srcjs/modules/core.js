@@ -234,7 +234,7 @@ TreeCheckbox.options = {
     updateCallbackArgs: null,
     states: TreeCheckbox.defaultStates.include,
     defaultState: "none",
-    returnValue: "value",
+    returnValue: "label",
     nodeIdProperty: "nodeId",
     searchTriggersLabelClick: true
 }
