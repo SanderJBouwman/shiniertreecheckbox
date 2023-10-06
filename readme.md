@@ -63,6 +63,17 @@ ____
 ### Requirements
 This package needs the Bootstrap library. You can load this using [bslib](https://CRAN.R-project.org/package=bslib) or load it using a CDN.   
 ## Usage
+
+```R
+ shiniertreecheckbox(
+        "mytestID",  # Widget ID
+        data = '[{"label":"eukaryotes","children":[{"label":"vertebrates","children":[{"label":"mammals","children":[{"label":"primates","children":[{"label":"humans","children":[]},{"label":"apes","children":[{"label":"chimpanzees","children":[]},{"label":"gorillas","children":[]},{"label":"orangutans","children":[]}]}]},{"label":"cats","children":[{"label":"lions","children":[]},{"label":"tigers","children":[]}]}]},{"label":"birds","children":[{"label":"owls","children":[]},{"label":"eagles","children":[{"label":"bald eagle","children":[]},{"label":"common eagle","children":[]}]}]}]},{"label":"invertebrates","children":[{"label":"insects","children":[{"label":"bees","children":[]},{"label":"ants","children":[]}]},{"label":"mollusks","children":[{"label":"snails","children":[]},{"label":"octopuses","children":[]}]}]}]},{"label":"prokaryotes","children":[]},{"label":"archaea","children":[]}]',
+      )
+```
+
+<details>
+  <summary>Full example script</summary>
+  
 We use `bslib` in the example: 
 
 ```R
@@ -106,6 +117,7 @@ server <- function(input, output) {
 # Create and run the Shiny app
 shinyApp(ui, server)
 ```
+</details>
 
 ____
 
