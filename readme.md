@@ -1,4 +1,7 @@
 # ShinierTreeCheckbox
+![GitHub release (with filter)](https://img.shields.io/github/v/release/SanderJBouwman/shiniertreecheckbox?label=latest)
+![GitHub](https://img.shields.io/github/license/sanderJBouwman/shiniertreecheckbox)
+![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/sanderJbouwman/shiniertreecheckbox)
 
 
 ## Description
