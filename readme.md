@@ -90,136 +90,40 @@ The first data structure is an array which contains one or more objects. Each ob
 > options = list(nodeIdProperty = 'value')
 > # Now the Shinier Treecheckbox will use the `value` property as the unique ID. 
 > ```
-#### Example 
-<details>
-  <summary>Raw JSON</summary>
 
-```json
-[
-  {
-    "label": "eukaryotes",
-    "children": [
-      {
-        "label": "vertebrates",
-        "children": [
-          {
-            "label": "mammals",
-            "children": [
-              {
-                "label": "primates",
-                "children": [
-                  {
-                    "label": "humans",
-                    "children": []
-                  },
-                  {
-                    "label": "apes",
-                    "children": [
-                      {
-                        "label": "chimpanzees",
-                        "children": []
-                      },
-                      {
-                        "label": "gorillas",
-                        "children": []
-                      },
-                      {
-                        "label": "orangutans",
-                        "children": []
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "label": "cats",
-                "children": [
-                  {
-                    "label": "lions",
-                    "children": []
-                  },
-                  {
-                    "label": "tigers",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "label": "birds",
-            "children": [
-              {
-                "label": "owls",
-                "children": []
-              },
-              {
-                "label": "eagles",
-                "children": [
-                  {
-                    "label": "bald eagle",
-                    "children": []
-                  },
-                  {
-                    "label": "common eagle",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "label": "invertebrates",
-        "children": [
-          {
-            "label": "insects",
-            "children": [
-              {
-                "label": "bees",
-                "children": []
-              },
-              {
-                "label": "ants",
-                "children": []
-              }
-            ]
-          },
-          {
-            "label": "mollusks",
-            "children": [
-              {
-                "label": "snails",
-                "children": []
-              },
-              {
-                "label": "octopuses",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "label": "prokaryotes",
-    "children": []
-  },
-  {
-    "label": "archaea",
-    "children": []
-  }
-]
+#### Examples
+<details>
+  <summary>Simplest form</summary>
+This is the simplest form of creating a shiniertreecheckbox, as only labels are provided.
+    
+```r
+shiniertreecheckbox("mytestID",
+                  data = '[{"label":"Panthera leo"},{"label":"Canis lupus"},{"label":"Felis catus"},{"label":"Equus ferus caballus"},{"label":"Puma concolor"}]'
+)
 ```
+
+Results in:   
+<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7eebe177-093e-4959-8196-f66b25af3939" width=50% height=50%>
 </details>
 
-This should be converted to a string and then passed to the data parameter. For example:
+<details>
+  <summary>Hierarchy</summary>
+A simple hierarchical data structure.
+    
 ```R
-data = '[{"label":"eukaryotes","value":0,"children":[{"label":"vertebrates","value":1,"children":[{"label":"mammals","value":2,"children":[{"label":"primates","value":3,"children":[{"label":"humans","value":4,"children":[]},{"label":"apes","value":5,"children":[{"label":"chimpanzees","value":6,"children":[]},{"label":"gorillas","value":7,"children":[]},{"label":"orangutans","value":8,"children":[]}]}]},{"label":"cats","value":9,"children":[{"label":"lions","value":10,"children":[]},{"label":"tigers","value":11,"children":[]}]}]},{"label":"birds","value":12,"children":[{"label":"owls","value":13,"children":[]},{"label":"eagles","value":14,"children":[{"label":"bald eagle","value":15,"children":[]},{"label":"common eagle","value":16,"children":[]}]}]}]},{"label":"invertebrates","value":17,"children":[{"label":"insects","value":18,"children":[{"label":"bees","value":19,"children":[]},{"label":"ants","value":20,"children":[]}]},{"label":"mollusks","value":21,"children":[{"label":"snails","value":22,"children":[]},{"label":"octopuses","value":23,"children":[]}]}]}]},{"label":"prokaryotes","value":24,"children":[]},{"label":"archaea","value":25,"children":[]}]',
+shiniertreecheckbox("mytestID",
+                     data = '[{"label":"eukaryotes","children":[{"label":"vertebrates","children":[{"label":"mammals","children":[{"label":"primates","children":[{"label":"humans","children":[]},{"label":"apes","children":[{"label":"chimpanzees","children":[]},{"label":"gorillas","children":[]},{"label":"orangutans","children":[]}]}]},{"label":"cats","children":[{"label":"lions","children":[]},{"label":"tigers","children":[]}]}]},{"label":"birds","children":[{"label":"owls","children":[]},{"label":"eagles","children":[{"label":"bald eagle","children":[]},{"label":"common eagle","children":[]}]}]}]},{"label":"invertebrates","children":[{"label":"insects","children":[{"label":"bees","children":[]},{"label":"ants","children":[]}]},{"label":"mollusks","children":[{"label":"snails","children":[]},{"label":"octopuses","children":[]}]}]}]},{"label":"prokaryotes","children":[]},{"label":"archaea","children":[]}]'
+)
 ```
+
+Results in:   
+
+<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/319cdc6d-69fd-4c30-a7a9-d34c16bdc962" width=50% height=50%>
+</details>
+
 ____
+
+
 ### Options Parameter
 The options parameter is an object that contains a large number of options to customize the behaviour of the checkboxes. The following table lists all available options.
 You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget.
