@@ -249,26 +249,7 @@ The default available states are: "include" and "checkbox".
 Callbacks are an important part of the TreeCheckbox component. They allow you to respond to events that occur in the component, such as when the tree is updated or when a label is clicked.
 
 #### Update Callback
-As the component is written in JS but we use R Shiny we made a custom callback function to report the changes to the server side. For this we use the updateCallback option. It is possible to overwrite this parameter. The default code is:
-```R
-options$updateCallback <- JS(
-        sprintf(
-            "
-            function(event){ // The event parameter is required. And returns the event that triggered the callback.
-                const elementId = '%s';
-                const data = $('#' + elementId).data('getValues')(); // The getValues function is defined in the JS module. It will return the current state of the tree.
-                const convertedData = {};
-                data.forEach(item => {
-                    convertedData[item.value] = item.state;
-                });
-                const jsonData = JSON.stringify(data);
-                Shiny.setInputValue(elementId, jsonData, {priority: 'event'});
-            }
-            "
-            , elementId
-        )
-    )
-```
+As the component is written in JS but we use R Shiny we made a custom callback function to report the changes to the server side. For this we use the updateCallback option. It is possible to overwrite this parameter.
 This callback will run on every select event. The default updateCallback will send the current state of the tree to the server side.
 We can access this data by using the input$mytestID variable. This variable will contain a JSON string with the current state of the tree.
 Use the _[jsonlite::fromJSON](https://rdrr.io/cran/jsonlite/man/fromJSON.html)_ function to convert the JSON string to dataframe.
