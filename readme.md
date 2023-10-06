@@ -8,19 +8,23 @@
 This package allows for the rendering of hierarchical checkboxes in Shiny. It uses bootstrap 5 for the styling. 
 It has various options to customize the behavior and appearance of the checkboxes. 
 Allowing for the addition of custom states and callbacks. 
-
+____
 ## Table of Contents
 
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Documentation](#documentation)
-  
+- 
+____
+
 ## Features
 - Able to process large amounts of items in the treecheckbox > 50.000 items
 - Only renders the visible checkboxes using Lazy Loading
 - Fast searching
 - (customisable) Callback functions to Shiny
+
+____
 
 ### Multiple modes 
 Checkbox:    
@@ -37,6 +41,8 @@ Combine this with the clickableLabels [callback](#callbacks) to use the treechec
 Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 8ms to search. 
 ![search](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c)
 
+____
+
 ## Installation
 Provide instructions on how to install and use your R Shiny widget. Include code snippets if necessary. For example:
 
@@ -45,6 +51,8 @@ Provide instructions on how to install and use your R Shiny widget. Include code
 # install.packages("devtools")
 devtools::install_github("SanderJBouwman/shiniertreecheckbox")
 ```
+____
+
 ### Requirements
 This package needs the Bootstrap library. You can load this using [bslib](https://CRAN.R-project.org/package=bslib) or load it using a CDN.   
 ## Usage
@@ -64,6 +72,9 @@ shinyApp(
     }
 )
 ```
+
+____
+
 
 ## Documentation
 ### Data Parameter
@@ -506,6 +517,7 @@ options = list(
 )
 ```
 
+____
 
 ## Maintainer
 - [Sander J. Bouwman](https://github.com/SanderJBouwman)
