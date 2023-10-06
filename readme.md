@@ -355,7 +355,7 @@ ____
 ### Custom return values
 It is possible to return custom return values. This can be done by setting the `options.returnValue` parameter. The default value is `label`, but you can set this to any property in the data. 
 
-It is also possible to your own custom data to the items, whereafter it is possible to return them by setting the `options.returnValue`. For this you must add it to the input data, which can be seen below. 
+It is also possible to add your own custom data to the items, whereafter it is possible to return them by setting the `options.returnValue`. For this you must add it to the input data, which can be seen below. 
 We want to add a new return value called `labeled_value`.  
 <details>
   <summary>Altered JSON with new property</summary>
