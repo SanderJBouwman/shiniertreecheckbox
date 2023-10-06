@@ -46,7 +46,7 @@ Combine this with the clickableLabels [callback](#callbacks) to use the treechec
 <details>
   <summary>Allow search of items</summary>
 Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 8ms to search. 
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c" width=50% height=50%>
+<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/fa223d6e-f902-4b60-aa7b-5d64254af957" width=50% height=50%>
 </details>
 
 ____
