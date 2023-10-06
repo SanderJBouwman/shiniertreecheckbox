@@ -37,7 +37,8 @@ ____
 </details>
 
 <details>
-  <summary>Remove checkboxes</summary>
+  <summary>Remove checkboxes</summary>  
+  
 Combine this with the clickableLabels [callback](#callbacks) to use the treecheckbox as a navigation tool.
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/1e29dc3e-e2d9-485b-8938-2900564491b2" width=50% height=50%>
 </details>
