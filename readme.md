@@ -209,7 +209,7 @@ This should be converted to a string and then passed to the data parameter. For 
 ```R
 data = '[{"label":"eukaryotes","value":0,"children":[{"label":"vertebrates","value":1,"children":[{"label":"mammals","value":2,"children":[{"label":"primates","value":3,"children":[{"label":"humans","value":4,"children":[]},{"label":"apes","value":5,"children":[{"label":"chimpanzees","value":6,"children":[]},{"label":"gorillas","value":7,"children":[]},{"label":"orangutans","value":8,"children":[]}]}]},{"label":"cats","value":9,"children":[{"label":"lions","value":10,"children":[]},{"label":"tigers","value":11,"children":[]}]}]},{"label":"birds","value":12,"children":[{"label":"owls","value":13,"children":[]},{"label":"eagles","value":14,"children":[{"label":"bald eagle","value":15,"children":[]},{"label":"common eagle","value":16,"children":[]}]}]}]},{"label":"invertebrates","value":17,"children":[{"label":"insects","value":18,"children":[{"label":"bees","value":19,"children":[]},{"label":"ants","value":20,"children":[]}]},{"label":"mollusks","value":21,"children":[{"label":"snails","value":22,"children":[]},{"label":"octopuses","value":23,"children":[]}]}]}]},{"label":"prokaryotes","value":24,"children":[]},{"label":"archaea","value":25,"children":[]}]',
 ```
-
+____
 ### Options Parameter
 The options parameter is an object that contains a large number of options to customize the behaviour of the checkboxes. The following table lists all available options.
 You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget.
@@ -239,19 +239,17 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | returnNonLeafNodes          | boolean   | `false`         | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.                                                                                             |
 | nodeIdProperty              | string    | `nodeId`        | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
 | searchTriggersLabelClick    | boolean   | `true`          | Whether to trigger a label click when a search result is clicked                                                                                                                                                                              |
-
-
+____
 ### States
 Currently ... adding more states in R is not supported. However, you can add more states by editing the JS module (TreeCheckbox.defaultStates). 
 The default available states are: "include" and "checkbox".
-
+____
 ### Callbacks
 Callbacks are an important part of the TreeCheckbox component. They allow you to respond to events that occur in the component, such as when the tree is updated or when a label is clicked.
 
-#### Update Callback
-As the component is written in JS but we use R Shiny we made a custom callback function to report the changes to the server side. For this we use the updateCallback option. It is possible to overwrite this parameter.
-This callback will run on every select event. The default updateCallback will send the current state of the tree to the server side.
-We can access this data by using the input$mytestID variable. This variable will contain a JSON string with the current state of the tree.
+#### Callback - Update Callback
+The default updateCallback will send the current state of the tree to the server side.
+This data can be accessed by using the `input$mytestID` variable. This variable will contain a JSON string with the current state of the tree.
 Use the _[jsonlite::fromJSON](https://rdrr.io/cran/jsonlite/man/fromJSON.html)_ function to convert the JSON string to dataframe.
 
 ```R
@@ -261,19 +259,78 @@ observeEvent(input$mytestID, {
     print(df)
 })
 ```
-#### Clickable Labels
-The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked. There is also a default callback which will return the `returnValue` of the item to to a Shiny variable. View the _Default callback_ section for more information. 
 
-##### Required Arguments
-The callback function will **always** receive the _returnValue_ (can be changed by setting the `returnValue` option parameter) of the clicked label as the first argument. Thus the callback function should have at least one argument.
-The callback function can also receive additional arguments. These can be specified using the _clickableLabelsCallbackArgs_ option.
-The _clickableLabelsCallbackArgs_ option should be a list.
+##### Adjusting the _update_ Callback  
+The default callback provided should suffice for most use cases. However, in situations where additional functionality is required, you have the option to create a custom callback. This can be achieved by assigning a custom JavaScript function to the `options.updateCallback` variable. The custom callback function should, at a minimum, accept one argument, which will always be the event variable passed to the callback.
 
-##### Basic Example
+Additionally, if you need to provide extra arguments to your custom callback, you can do so by assigning them to the `options.updateCallbackArgs` variable, which should be a list.
+
+For reference, the preset callback function is provided below:
+
+<details>
+  <summary>Default callback</summary>  
+  
+```R
+    options$updateCallback <- JS(
+        sprintf(
+            "
+            function(event){
+                const elementId = '%s';
+                const data = $('#' + elementId).data('getValues')(); // Retrieve the input data from the widget.
+                const convertedData = {};
+                data.forEach(item => {
+                    convertedData[item.value] = item.state; // A transformation step is done
+                });
+                const jsonData = JSON.stringify(data); 
+                Shiny.setInputValue(elementId, jsonData, {priority: 'event'}); // Push the value to Shiny
+            }
+            "
+            , elementId
+        )
+    )
+```   
+</details> 
+
+____  
+
+#### Callback - Clickable Labels  
+
+The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked. There is also a default callback which will return the `returnValue` of the item to to a Shiny variable. View the _Default callback_ section for more information. The labels are not clickable by default, but this can be changed by setting the options.clickableLabels to `TRUE`. Just as the updateCallback the clickableLabelsCallback also has a default function that would suffice in most situations. The default behaviour is that when a label is clicked it gets reported back to Shiny. The clicked label value can be accessed by `input$mytestID_click` (<inputID> + "_click"). 
+
+```R
+  # Gets triggered whenever a label got clicked. 
+  observeEvent(input$mytestID_click, {
+    print(input$mytestID_click)
+  })
+```
+
+##### Adjusting the _clickableLabelsCallback_
+The callback will always receive the `returnValue` (of the label clicked). Thus the callback should always have one parameter. Just as the _update_ callback it is here also possible to add extra arguments. This can be done by parsing the arguments to the `options.clickableLabelsCallbackArgs` variable (list). 
+
+<details>
+  <summary>Default callback</summary>  
+  
+```R
+  options$clickableLabelsCallback <- JS(
+        sprintf(
+            "
+            function(returnValue){
+                Shiny.setInputValue('%s' + '_click', returnValue, {priority: 'event'});
+            }
+            "
+            , elementId
+        )
+    )
+```   
+</details> 
+
+<details>
+  <summary>Creating a simple callback</summary>  
+  
 ```R
 options = list(
     clickableLabels = TRUE, 
-    clickableLabelsCallback = htmlwidgets::JS("function(id, elementID){console.log(`clicked label with id ${id} for widget ${elementID}`)}"),
+    clickableLabelsCallback = htmlwidgets::JS("function(returnValue, elementID){console.log(`clicked label with id ${returnValue} for widget ${elementID}`)}"),
     clickableLabelsCallbackArgs = list("mytestID")
 )
 ```
@@ -281,32 +338,12 @@ Output on console:
 ```text
 clicked label with id 0 for widget mytestID
 ```
+</details> 
 
-##### Default callback
-The default callback returns the returnValue of the latest clicked label. The callback is a custom JavaScript function.
-```R
- options$clickableLabelsCallback <- htmlwidgets::JS(
-        sprintf(
-            "
-            function(returnValue){
-                Shiny.setInputValue('%s' + '_click', JSON.stringify(returnValue), {priority: 'event'});
-            }
-            "
-            , elementId
-        )
-    )
-```
-We can than retrieve the value using the `input$<id>_click` variable. We can do this in by accessing the variable (`input$mytestID_click`) or by using a _[observeEvent](https://shiny.posit.co/r/reference/shiny/0.11/observeevent)_:
-
-```R
-# Our id is 'mytestID'. We have to add '_click' to it in order to access it.
-  observeEvent(input$mytestID_click, {
-    print(input$mytestID_click)
-  })
-```
+____  
 
 ### Custom return values
-It is possible to return custom return values. This can be done by setting the `options.returnValue` parameter. The default value is `label`, but you can set this to any property in the data, such as `value` (in this case). 
+It is possible to return custom return values. This can be done by setting the `options.returnValue` parameter. The default value is `label`, but you can set this to any property in the data. 
 
 It is also possible to your own custom return values. For this you must add it to the input data, which can be seen below. 
 We want to add a new return value called `labeled_value`. We can do this by adding a new property to the input data. 
