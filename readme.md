@@ -26,19 +26,27 @@ ____
 ____
 
 ### Multiple modes 
-Checkbox:    
+<details>
+  <summary>Checkbox</summary>
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/6f0d3384-722b-44c7-8c56-c941ac9bef4b" width=50% height=50%>
+</details>
 
-Include/exclude:   
+<details>
+  <summary>Include/exclude</summary>
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/829d455c-2b24-4f63-8ee1-81b9dfd0ab93" width=50% height=50%>
+</details>
 
-Remove checkboxes:  
+<details>
+  <summary>Remove checkboxes</summary>
 Combine this with the clickableLabels [callback](#callbacks) to use the treecheckbox as a navigation tool.
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/1e29dc3e-e2d9-485b-8938-2900564491b2" width=50% height=50%>
+</details>
 
-### Searching 
+<details>
+  <summary>Allow search of items</summary>
 Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 8ms to search. 
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/322af518-072f-4a00-9c7f-c271373bea0c" width=50% height=50%>
+</details>
 
 ____
 
