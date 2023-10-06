@@ -15,7 +15,6 @@ ____
 - [Installation](#installation)
 - [Usage](#usage)
 - [Documentation](#documentation)
-- 
 ____
 
 ## Features
@@ -252,8 +251,8 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | searchTriggersLabelClick    | boolean   | `true`          | Whether to trigger a label click when a search result is clicked                                                                                                                                                                              |
 ____
 ### States
-Currently ... adding more states in R is not supported. However, you can add more states by editing the JS module (TreeCheckbox.defaultStates). 
-The default available states are: "include" and "checkbox".
+Currently adding more states in R is not supported. 
+> Note: you can add more states by editing the JS module (TreeCheckbox.defaultStates). The default available states are: "include" and "checkbox".
 ____
 ### Callbacks
 Callbacks are an important part of the TreeCheckbox component. They allow you to respond to events that occur in the component, such as when the tree is updated or when a label is clicked.
