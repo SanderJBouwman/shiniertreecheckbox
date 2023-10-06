@@ -64,38 +64,47 @@ ____
 This package needs the Bootstrap library. You can load this using [bslib](https://CRAN.R-project.org/package=bslib) or load it using a CDN.   
 ## Usage
 We use `bslib` in the example: 
+
 ```R
-# Load the package
+# Load the necessary packages
 library(shiniertreecheckbox)
 library(bslib)
 
-# A custom theme
+# Define a custom Bootstrap theme
 custom_theme <- bs_theme(
-  version = "5",
-  bootswatch = "sandstone",
-  fg = "#0056B0",
-  bg = "rgb(250, 249, 246)",
-  primary = "#ffcb99",
-  secondary = "#ffcb99",
-  base_font = font_google("Lato"),
-  panel_bg = "#ffffff",
-  panel_border = "#dddddd",
-  tab_selected_bg = "#007bff",
-  tab_selected_text = "#ffffff"
+  version = "5"
 )
 
-# Add the widget to the UI
-# Basic example
-shinyApp(
-    ui <- fluidPage(
-      theme = custom_theme,
-      shiniertreecheckbox("mytestID", 
-                              data = '[{"label":"eukaryotes","children":[{"label":"vertebrates","children":[{"label":"mammals","children":[{"label":"primates","children":[{"label":"humans","children":[]},{"label":"apes","children":[{"label":"chimpanzees","children":[]},{"label":"gorillas","children":[]},{"label":"orangutans","children":[]}]}]},{"label":"cats","children":[{"label":"lions","children":[]},{"label":"tigers","children":[]}]}]},{"label":"birds","children":[{"label":"owls","children":[]},{"label":"eagles","children":[{"label":"bald eagle","children":[]},{"label":"common eagle","children":[]}]}]}]},{"label":"invertebrates","children":[{"label":"insects","children":[{"label":"bees","children":[]},{"label":"ants","children":[]}]},{"label":"mollusks","children":[{"label":"snails","children":[]},{"label":"octopuses","children":[]}]}]}]},{"label":"prokaryotes","children":[]},{"label":"archaea","children":[]}]',
+# Define the Shiny app UI
+ui <- fluidPage(
+  theme = custom_theme,  # Apply the custom theme to the UI
+  
+  # Create a sidebar layout
+  sidebarLayout(
+    sidebarPanel(
+      # Add the ShinyTreeCheckbox widget to the sidebar
+      shiniertreecheckbox(
+        "mytestID",  # Widget ID
+        data = '[{"label":"eukaryotes","children":[{"label":"vertebrates","children":[{"label":"mammals","children":[{"label":"primates","children":[{"label":"humans","children":[]},{"label":"apes","children":[{"label":"chimpanzees","children":[]},{"label":"gorillas","children":[]},{"label":"orangutans","children":[]}]}]},{"label":"cats","children":[{"label":"lions","children":[]},{"label":"tigers","children":[]}]}]},{"label":"birds","children":[{"label":"owls","children":[]},{"label":"eagles","children":[{"label":"bald eagle","children":[]},{"label":"common eagle","children":[]}]}]}]},{"label":"invertebrates","children":[{"label":"insects","children":[{"label":"bees","children":[]},{"label":"ants","children":[]}]},{"label":"mollusks","children":[{"label":"snails","children":[]},{"label":"octopuses","children":[]}]}]}]},{"label":"prokaryotes","children":[]},{"label":"archaea","children":[]}]',
+      )
     ),
-    server <- function(input, output) {
-    # Server code goes here
-    }
+    mainPanel()
+  )
 )
+
+# Define the Shiny app server logic
+server <- function(input, output) {
+  # Server code goes here
+  
+  # Define an observer for the ShinyTreeCheckbox widget
+  observeEvent(input$mytestID, {
+    # When the widget is interacted with, print the selected JSON data
+    print(jsonlite::fromJSON(input$mytestID))
+  })
+}
+
+# Create and run the Shiny app
+shinyApp(ui, server)
 ```
 
 ____
