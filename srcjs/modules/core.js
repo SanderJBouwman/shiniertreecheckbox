@@ -62,9 +62,10 @@ let TreeCheckbox = {
  * @param {string} spanClasses - The classes for the span element. This should be bootstrap bg and text colours, e.g., "bg-primary text-white".
  * @param {string} symbol - The symbol to be used for the checkbox. This should be svg code.
  * @param {boolean} skipCursor - Whether the cursor should be skipped when clicked. Default is false, we set it true for states like indeterminate
+ * @param {boolean} isDefault - Whether the state is a default state. Default is false. There should be only one default state.
  * @returns {{symbol, textColour, spanClasses, skipCursor: boolean}}
  */
-TreeCheckbox.createState = function (textColour, spanClasses, symbol, skipCursor=false) {
+TreeCheckbox.createState = function (textColour, spanClasses, symbol, skipCursor=false, isDefault=false) {
     let defaultStates = {
         "textColour": "text-secondary",
         "spanClasses": "bg-secondary text-white",
@@ -77,7 +78,8 @@ TreeCheckbox.createState = function (textColour, spanClasses, symbol, skipCursor
         textColour: textColour,
         spanClasses: spanClasses,
         symbol: symbol,
-        skipCursor: skipCursor
+        skipCursor: skipCursor,
+        isDefault: isDefault
     }
 }
 
@@ -122,7 +124,7 @@ TreeCheckbox.defaultStates = {
             "bg-dark text-white",
             '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-square" viewBox="0 0 16 16">\n' +
             '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
-            '</svg>'),
+            '</svg>', true, true),
         include: TreeCheckbox.createState(
             "text-success",
             "bg-success text-white",
@@ -149,7 +151,7 @@ TreeCheckbox.defaultStates = {
             "bg-dark text-white",
             '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-square" viewBox="0 0 16 16">\n' +
             '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
-            '</svg>'),
+            '</svg>', true, true),
         include: TreeCheckbox.createState(
             "text-success",
             "bg-success text-white",
@@ -171,7 +173,59 @@ TreeCheckbox.defaultStates = {
             '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
             '  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>\n' +
             '</svg>')
-    }
+    },
+    /**
+     * Exclude checkbox state. There are three states: none, exclude and indeterminate. The default state is none.
+     * The other states can be found here {@link TreeCheckbox.options.defaultStates}
+     * @access public
+     */
+    exclude: {
+        none: TreeCheckbox.createState(
+            "text-dark",
+            "bg-dark text-white",
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-square" viewBox="0 0 16 16">\n' +
+            '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+            '</svg>', true, true),
+        indeterminate: TreeCheckbox.createState(
+            "text-warning",
+            "bg-warning text-white",
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square" viewBox="0 0 16 16">\n' +
+            '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+            '  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>\n' +
+            '</svg>', true),
+        exclude: TreeCheckbox.createState(
+            "text-danger",
+            "bg-danger text-white",
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">\n' +
+            '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+            '  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>\n' +
+            '</svg>')
+    },
+    /** The toggle state. There are two states: include and exclude. The default state is include.
+     */
+    toggle: {
+        include: TreeCheckbox.createState(
+            "text-success",
+            "bg-success text-white",
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">\n' +
+            '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+            '  <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>\n' +
+            '</svg>', false, true),
+        indeterminate: TreeCheckbox.createState(
+            "text-warning",
+            "bg-warning text-white",
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-square" viewBox="0 0 16 16">\n' +
+            '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+            '  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>\n' +
+            '</svg>', true),
+        exclude: TreeCheckbox.createState(
+            "text-danger",
+            "bg-danger text-white",
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">\n' +
+            '  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+            '  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>\n' +
+            '</svg>', false)
+    },
 }
 
 /**
@@ -198,7 +252,7 @@ TreeCheckbox.defaultStates = {
  * @property {function|null} updateCallback - Callback function when the tree is updated.
  * @property {Array|null} updateCallbackArgs - Additional arguments for the update callback.
  * @property {Object} states - The states to use for the checkboxes. See {@link TreeCheckbox.options.defaultStates}
- * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
+ * @property {string} defaultState - The default state for the checkboxes. The default state is "null" as it will base the state on the data.
  * @property {string} returnValue - The value to return from the tree. The default value is "value". The other option is "label" or a custom value.
  * for more default states. It is possible to add custom states. For this you have to create an object with
  * the following properties: {<statename>: {@link TreeCheckbox.createState}}. The states "none"
@@ -233,7 +287,7 @@ TreeCheckbox.options = {
     updateCallback: null,
     updateCallbackArgs: null,
     states: TreeCheckbox.defaultStates.include,
-    defaultState: "none",
+    defaultState: null,
     returnValue: "label",
     nodeIdProperty: "nodeId",
     searchTriggersLabelClick: true
@@ -299,9 +353,36 @@ TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.opti
     }
 
 
-    // There should always be an indeterminate and none state
-    if (!Object.keys(options.states).includes("indeterminate") || !Object.keys(options.states).includes("none")) {
+    // There should always be an indeterminate state
+    //     if (!Object.keys(options.states).includes("indeterminate") || !Object.keys(options.states).includes("none")) {
+    if (!Object.keys(options.states).includes("indeterminate")) {
         throw new Error("options.states must have an indeterminate state")
+    }
+
+    // If the defaultState is not provided (null) we set it to the state where the isDefault is true
+    let defaultStates = Object.keys(options.states).filter(function (key) {
+        return options.states[key].isDefault === true
+    })
+    if (defaultStates.length === 0) {
+        throw new Error("options.states must have one state with isDefault set to true")
+    }
+    if (defaultStates.length > 1) {
+        throw new Error("options.states must have only one state with isDefault set to true")
+    }
+
+    if (options.defaultState === null) {
+        options.defaultState = defaultStates[0]
+    } else {
+        // We check if the defaultState is in the options.states and skipCursor is false
+        if (!Object.keys(options.states).includes(options.defaultState) || options.states[options.defaultState].skipCursor === true) {
+            // Report that the defaultState is not available and report the available states. The available states are the keys of the options.states where the skipCursor is false
+            const availableStates = Object.keys(options.states).filter(function (key) {
+                return options.states[key].skipCursor === false
+            })
+
+            throw new Error(`The defaultState ${options.defaultState} is not a valid state. 
+            The available states are: ${availableStates}`)
+        }
     }
 
     utilities.createTree($container, data, options)
