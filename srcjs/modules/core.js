@@ -261,6 +261,7 @@ TreeCheckbox.defaultStates = {
  * @property {string} returnValue - The value to return from the tree. The default value is "label". The other option is "nodeId" or a custom value.
  * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
  * @property {boolean} searchTriggersLabelClick - Whether to trigger a label click when a search result is clicked.
+ * @property {boolean} showToggle - Whether to show the toggle button (OR/AND).
  */
 
 /**
@@ -290,7 +291,9 @@ TreeCheckbox.options = {
     defaultState: null,
     returnValue: "label",
     nodeIdProperty: "nodeId",
-    searchTriggersLabelClick: true
+    searchTriggersLabelClick: true,
+    showToggle: false,
+    toggleDefaultState: "OR"
 }
 /**
  * This is the main function to create the TreeCheckbox. It will create the tree and add it to the containerID.

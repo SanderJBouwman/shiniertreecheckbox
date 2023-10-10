@@ -29,6 +29,10 @@
 
 }
 
+:local .treeCheckboxToggleButton{
+    max-width: 5em;
+}
+
 :local .treeCheckboxCaret {
     min-width: 16px;
     padding-right: 8px;

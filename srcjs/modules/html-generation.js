@@ -297,6 +297,26 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
         htmlGenerators.generateSearchBar($buttonGroup, $buttonContainer, options, $mainContainer);
         $buttonContainer.append($searchResultsContainer);
     }
+
+    // We add a toggle button which switches from OR to AND and vice versa when clicked
+    if (options.showToggle) {
+        let $toggleButton = $("<button>", {"class": `btn btn-outline-fg border-bottom border-start ${styles.treeCheckboxToggleButton}`, "type": "button"})
+        $toggleButton.html(`<strong>${options.toggleDefaultState}</strong>`)
+        $toggleButton.css("border-radius", "0")
+        // Add the value to the button
+        $toggleButton.data("value", options.toggleDefaultState)
+        $buttonGroup.append($toggleButton)
+
+        // on document ready, we set the value of the toggle button
+        $(document).ready(function () {
+            Shiny.setInputValue(options.containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
+        })
+
+        $toggleButton.on("click", function () {
+            utilities.toggleLogic($mainContainer, options)
+        })
+    }
+
     return $buttonContainer
 }
 

@@ -182,11 +182,11 @@ utilities.setCheckBoxState = function($checkbox, state){
     return state
 }
 
-utilities.setChildState = function ($mainContainer, value, $node) {
+utilities.setChildState = function ($mainContainer, value, $node, options) {
     // We have to set the state of the children as well
     let children = $mainContainer.data("treeData")[value].children.map(child => $mainContainer.data("treeData")[child]);
     children.forEach(function (child) {
-        let $childNode = $mainContainer.find("#checkbox-node-" + child.value)
+        let $childNode = $mainContainer.find("#checkbox-node-" + child[options.nodeIdProperty])
         $childNode.data("state", $node.data("state"))
         utilities.setCheckBoxState($childNode.find(`.${styles.treeCheckboxNodeCheckbox}`), $node.data("state"))
     })
@@ -271,7 +271,7 @@ utilities.setCheckboxLogic = function($mainContainer, $checkbox, value, options,
         setNextState($node, $(this), options.states)
 
         // We have to set the state of the children as well
-        utilities.setChildState($mainContainer, value, $node);
+        utilities.setChildState($mainContainer, value, $node, options);
 
         // We have to set the state of the parents as well. If all the siblings are the same state,
         // then the parent should be that state as well otherwise it should be indeterminate
@@ -544,7 +544,23 @@ function iterativeID(data, options) {
     }
 }
 
+utilities.toggleLogic = function ($mainContainer, options){
+    // Get the state of the button
+    const $toggleButton = $mainContainer.find(`.${styles.treeCheckboxToggleButton}`)
+    const buttonValue = $toggleButton.data("value")
+    // IF the button has the value "OR" then we have to change it to "AND" and vice versa
+    if (buttonValue === "OR") {
+        $toggleButton.data("value", "AND")
+        $toggleButton.html("<strong>AND</strong>")
+    } else if (buttonValue === "AND") {
+        $toggleButton.data("value", "OR")
+        $toggleButton.html("<strong>OR</strong>")
+    }
+    const containerID = options.containerID
+    console.log(containerID + '_logic')
+    Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
 
+}
 
 utilities.validateOptions = function(options){
         // The options.startCollapsed must be a boolean
@@ -612,6 +628,12 @@ utilities.validateOptions = function(options){
     }
 
     // Add more validation here
+    // toggleDefaultState must be a string and can only be "OR" or "AND"
+    if (typeof options.toggleDefaultState !== "string") {
+        throw new Error("options.toggleDefaultState must be a string")
+    } else if (options.toggleDefaultState !== "OR" && options.toggleDefaultState !== "AND") {
+        throw new Error("options.toggleDefaultState must be 'OR' or 'AND'")
+    }
 }
 
 utilities.validateContainer = function(containerId){
