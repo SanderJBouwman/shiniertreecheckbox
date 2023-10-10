@@ -22,6 +22,7 @@ ____
 - Only renders the visible checkboxes using Lazy Loading
 - Fast searching
 - (customisable) Callback functions to Shiny
+- Let users change the search logic toggling between "OR" & "AND"
 
 ____
 
