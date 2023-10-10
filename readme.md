@@ -168,7 +168,7 @@ shiniertreecheckbox("mytestID",
 )
 ```
 
-Results the same as method 1:   
+Results are the same as method 1:   
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7eebe177-093e-4959-8196-f66b25af3939" width=50% height=50%>
 </details>
 
