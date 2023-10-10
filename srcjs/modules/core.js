@@ -320,24 +320,12 @@ TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.opti
     // Validate options
     utilities.validateOptions(options)
 
-    if (typeof containerID !== "string") {
-        throw new Error("containerID must be a string")
-    }
-    // If the container does not begin wih a #, then add it
-    if (!containerID.startsWith("#")) {
-        containerID = "#" + containerID
-    }
+    // validate Container
+    containerID = utilities.validateContainer(containerID)
+    const $container = $(containerID)
 
-    let $container = $(containerID)
-    if($container.length === 0){
-        throw new Error("Container does not exist")
-    }
-
-    // Validate data
-    if (typeof data !== "object") {
-        throw new Error("data must be an object")
-    }
-
+    // Validate data. This will also convert an array of strings to an array of objects.
+    data = utilities.validateData(data)
 
     // If the options.states is a string we have to evaluate it to get the correct states.
     if (typeof options.states === "string") {

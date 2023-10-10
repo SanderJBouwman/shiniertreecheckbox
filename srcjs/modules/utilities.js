@@ -141,6 +141,25 @@ utilities.addNode = function(treeData, parentID, value, label, children) {
 
 }
 
+utilities.validateData = function(data) {
+    // If the data is an Array we convert it to an object
+    if (Array.isArray(data)) {
+        // If the data is an array and it  contains strings, then we convert it to an object
+        if (data.every(item => typeof item === "string")) {
+            let newData = []
+            data.forEach(function(item){
+                newData.push({"label": item})
+            })
+            return newData
+        } else if (data.every(item => typeof item === "object")) {
+            return data
+        }
+    } else {
+        throw new Error("Data must be an array containing strings or an object")
+    }
+
+}
+
 utilities.addElementNodes = function($mainContainer, $nodeContainer) {
     let data = $mainContainer.data("treeData")
     let options = $mainContainer.data("options")
@@ -151,6 +170,7 @@ utilities.addElementNodes = function($mainContainer, $nodeContainer) {
         data[item[options.nodeIdProperty]].isRendered = true
     })
 }
+
 
 utilities.setCheckBoxState = function($checkbox, state){
 
@@ -592,6 +612,24 @@ utilities.validateOptions = function(options){
     }
 
     // Add more validation here
+}
+
+utilities.validateContainer = function(containerId){
+    if (typeof containerId !== "string") {
+        throw new Error("containerID must be a string")
+    }
+
+    // If the container does not begin wih a #, then add it
+    if (!containerId.startsWith("#")) {
+        containerId = "#" + containerId
+    }
+
+    let $container = $(containerId)
+    if($container.length === 0){
+        throw new Error("Container does not exist")
+    }
+
+    return containerId
 }
 
 export default utilities

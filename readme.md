@@ -125,7 +125,11 @@ ____
 
 ## Documentation
 ### Data Parameter
-The data parameter is a JSON string that contains the data to be displayed in the tree. There is only one way this should be applied.
+The data parameter is a JSON string that contains the data to be displayed in the tree. There are two methods for supplying data to the TreeCheckbox component:
+#### Method 1: JSON String that is list containing only strings (does not allow for hierarchical data)
+The most simple way of creating non-hierarchical checkboxes. Only an array of strings is needed. Each string represents a node in the tree.
+
+#### Method 2: JSON String that is list containing objects (allows for hierarchical data)
 The first data structure is an array which contains one or more objects. Each object represents a node in the tree. Each object must contain the following properties:
 
 | Property                   | Description                                                                                   |
@@ -141,8 +145,22 @@ The first data structure is an array which contains one or more objects. Each ob
 
 #### Examples
 <details>
-  <summary>Simplest form</summary>
-This is the simplest form of creating a shiniertreecheckbox, as only labels are provided.
+  <summary>Simplest form (method 1)</summary>
+This is the simplest form of creating a shiniertreecheckbox (method 1)
+
+```r
+shiniertreecheckbox("mytestID",
+                  data = '["Panthera leo","Canis lupus","Felis catus", "Equus ferus caballus", "Puma concolor"]'
+)
+```
+
+Results in:   
+<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7eebe177-093e-4959-8196-f66b25af3939" width=50% height=50%>
+</details>
+
+<details>
+  <summary>Simplest form (method 2)</summary>
+This is the simplest form of creating a shiniertreecheckbox (method 2)
     
 ```r
 shiniertreecheckbox("mytestID",
@@ -150,7 +168,7 @@ shiniertreecheckbox("mytestID",
 )
 ```
 
-Results in:   
+Results the same as method 1:   
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7eebe177-093e-4959-8196-f66b25af3939" width=50% height=50%>
 </details>
 
