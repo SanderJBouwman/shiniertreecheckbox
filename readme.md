@@ -160,7 +160,7 @@ Results in:
 
 <details>
   <summary>Simplest form (method 2)</summary>
-This is the simplest form of creating a shiniertreecheckbox (method 2)
+This is the simplest form of creating a shiniertreecheckbox using method 2
     
 ```r
 shiniertreecheckbox("mytestID",
