@@ -262,6 +262,7 @@ TreeCheckbox.defaultStates = {
  * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
  * @property {boolean} searchTriggersLabelClick - Whether to trigger a label click when a search result is clicked.
  * @property {boolean} showToggle - Whether to show the toggle button (OR/AND).
+ * @property {string} toggleDefaultState - The default state for the toggle button. The default state is "OR".
  */
 
 /**

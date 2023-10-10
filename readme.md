@@ -218,8 +218,12 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | returnValue                 | string    | `"label"`       | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
 | returnNonLeafNodes          | boolean   | `false`         | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes.                                                                                             |
 | nodeIdProperty              | string    | `nodeId`        | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
-| searchTriggersLabelClick    | boolean   | `true`          | Whether to trigger a label click when a search result is clicked                                                                                                                                                                              |
+| showToggle                  | boolean   | `false`         | Whether to show the logic switch button. This allows the user to change the search query from AND to OR. (Note: the logic for this has to be implemented in the Shiny app. Accessable by the (<id>_logic) variable.                           |
+| toggleDefaultState          | string    | `OR`            | The default value for the toggle button. Can be OR and AND.                                                                                                                                                                                   |
+
+
 ____
+
 ### States
 Currently adding more states in R is not supported. 
 > Note: you can add more states by editing the JS module (TreeCheckbox.defaultStates). The default available states are: "include" and "checkbox".
