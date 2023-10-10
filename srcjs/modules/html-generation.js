@@ -128,9 +128,27 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
 
     // Create the deselect all button
     let $deselectAll = $("<li>")
-    let $deselectAllButton = $("<button>", {"class": "dropdown-item", "type": "button", "id": "tree-checkbox-deselect-all-button"})
-    $deselectAllButton.html("Deselect All")
-    $deselectAll.append($deselectAllButton)
+    if (options.states.hasOwnProperty("none")) {
+        let $deselectAllButton = $("<button>", {
+            "class": "dropdown-item",
+            "type": "button",
+            "id": "tree-checkbox-deselect-all-button"
+        })
+        $deselectAllButton.html("Deselect All")
+        $deselectAll.append($deselectAllButton)
+
+        $deselectAllButton.on("click", function () {
+            // If the "none" select state is available (it is in the options.states object), then we should use that
+            // Else we use the defaultState
+            const newState = options.states.hasOwnProperty("none") ? "none" : options.defaultState;
+            utilities.deSelectAll($mainContainer, options, newState)
+            utilities.runUpdateCallback($mainContainer,"deSelectAll" ,null, newState)
+        })
+    } else {
+        // We can now only select and not deselect. Thus we changed the text from $selectButton to Select
+        $selectButton.html("Select")
+    }
+
     $dropdownMenu.append($deselectAll)
 
     // Cycle over the states
@@ -147,12 +165,6 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
             })
         }
     }
-
-    // All buttons should point to the same function utilities.selectAll()
-    $deselectAllButton.on("click", function () {
-        utilities.deSelectAll($mainContainer, options, "none")
-        utilities.runUpdateCallback($mainContainer,"deSelectAll" ,null, "none")
-    })
 }
 
 htmlGenerators.generateCollapseButton = function ($mainContainer, $buttonGroup) {
