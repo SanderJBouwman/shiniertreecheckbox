@@ -160,7 +160,7 @@ Results in:
 
 <details>
   <summary>Simplest form (method 2)</summary>
-This is the simplest form of creating a shiniertreecheckbox (method 2)
+This is the simplest form of creating a shiniertreecheckbox using method 2
     
 ```r
 shiniertreecheckbox("mytestID",
@@ -168,7 +168,7 @@ shiniertreecheckbox("mytestID",
 )
 ```
 
-Results the same as method 1:   
+Results are the same as method 1:   
 <img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/7eebe177-093e-4959-8196-f66b25af3939" width=50% height=50%>
 </details>
 
