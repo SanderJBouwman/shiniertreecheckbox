@@ -300,22 +300,34 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
 
     // We add a toggle button which switches from OR to AND and vice versa when clicked
     if (options.showToggle) {
-        let $toggleButton = $("<button>", {"class": `btn btn-outline-fg border-bottom border-start ${styles.treeCheckboxToggleButton}`, "type": "button"})
-        $toggleButton.html(`${options.toggleDefaultState}`)
-        $toggleButton.css("border-radius", "0")
-        // Add the value to the button
-        $toggleButton.data("value", options.toggleDefaultState)
-        $buttonGroup.append($toggleButton)
+        // Create the toggle button element with a class and type
+        let $toggleButton = $("<button>", {
+            "class": `btn btn-outline-fg border-bottom border-start ${styles.treeCheckboxToggleButton}`,
+            "type": "button",
+            "data-bs-toggle": "tooltip",
+            "data-bs-placement": "bottom",
+            "title": "Switch between requiring all selected checkboxes (AND) or any of them (OR) in the search.", // Add the tooltip title
+            "data-value": options.toggleDefaultState,
+        });
 
-        // on document ready, we set the value of the toggle button
-        $(document).ready(function () {
-            Shiny.setInputValue(options.containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
-        })
+        $toggleButton.html(options.toggleDefaultState);
+
+        $toggleButton.css("border-radius", "0");
+
+        $buttonGroup.append($toggleButton);
 
         $toggleButton.on("click", function () {
-            utilities.toggleLogic($mainContainer, options)
-        })
+            utilities.toggleLogic($mainContainer, options);
+        });
+
+        // When the document is ready, set the initial value of the toggle button
+        $(document).ready(function () {
+            Shiny.setInputValue(options.containerID + '_logic', $toggleButton.data("value"), {
+                priority: 'event'
+            });
+        });
     }
+
 
     return $buttonContainer
 }
