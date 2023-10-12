@@ -551,13 +551,12 @@ utilities.toggleLogic = function ($mainContainer, options){
     // IF the button has the value "OR" then we have to change it to "AND" and vice versa
     if (buttonValue === "OR") {
         $toggleButton.data("value", "AND")
-        $toggleButton.html("<strong>AND</strong>")
+        $toggleButton.html("AND")
     } else if (buttonValue === "AND") {
         $toggleButton.data("value", "OR")
-        $toggleButton.html("<strong>OR</strong>")
+        $toggleButton.html("OR")
     }
     const containerID = options.containerID
-    console.log(containerID + '_logic')
     Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
 
 }

@@ -301,7 +301,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
     // We add a toggle button which switches from OR to AND and vice versa when clicked
     if (options.showToggle) {
         let $toggleButton = $("<button>", {"class": `btn btn-outline-fg border-bottom border-start ${styles.treeCheckboxToggleButton}`, "type": "button"})
-        $toggleButton.html(`<strong>${options.toggleDefaultState}</strong>`)
+        $toggleButton.html(`${options.toggleDefaultState}`)
         $toggleButton.css("border-radius", "0")
         // Add the value to the button
         $toggleButton.data("value", options.toggleDefaultState)

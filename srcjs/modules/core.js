@@ -29,12 +29,12 @@ let TreeCheckbox = {
  *    "text-primary",
  *    "bg-primary text-white",
  *    '<svg...></svg> // The svg code for the symbol',
- *     true // Whether the cursor should be skipped when clicked. Default is false, we set it true for states like indeterminate
+ *     true // Whether the cursor should be skipped when clicked.
  *     )
  *
  * @example 2
  * // Create a fully custom states which can be used in the TreeCheckbox
- * // We will create a custom state for the checkbox. There will be four states: none, include, exclude and indeterminate. The default state is none.
+ * // We will create a custom state for the checkbox. There will be four states: none, include, exclude and indeterminate.
  * const states = {
  *    none: TreeCheckbox.createState( // The none state is required and should be named none
  *    "text-secondary",
