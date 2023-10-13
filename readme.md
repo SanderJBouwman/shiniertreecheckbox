@@ -3,6 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/sanderJBouwman/shiniertreecheckbox)
 ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/sanderJbouwman/shiniertreecheckbox)
 
+<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/5da548d1-c59f-4043-865b-74ab447e41df" width=50% height=50%>
 
 ## Description
 This package allows for the rendering of hierarchical checkboxes in Shiny. It uses bootstrap 5 for the styling. 
