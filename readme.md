@@ -225,10 +225,11 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 ____
 
 ### States
-You can customize the behaviour of the checkboxes by setting the `options.states` parameter. This parameter accepts a string that specifies the mode of the checkboxes.
-Currently adding more states in R is not supported. The available states are:
+You can customize the behaviour of the checkboxes by setting the `options.states` parameter. This parameter accepts a string that specifies the mode of the checkboxes. 
+All states have default values. These can be changed by setting the `options.defaultState` parameter. This parameter accepts a string that specifies the default state of the checkboxes.
+Currently adding more states in R is not supported, but can be added by editing the JS module (core.js -> TreeCheckbox.defaultStates). The available states are:
 
-| Mode     | States                 | Initial Value | Description                                                                                                                     |
+| Mode     | States                 | Default Value | Description                                                                                                                     |
 |----------|------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------|
 | Include  | None, Include, Exclude | `None`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.               |
 | Exclude  | None, Exclude          | `None`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.             |
@@ -236,8 +237,6 @@ Currently adding more states in R is not supported. The available states are:
 | Toggle   | Include, Exclude       | `Include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state. |
 
 
-
-> Note: you can add more states by editing the JS module (TreeCheckbox.defaultStates). 
 ____
 ### Callbacks
 Callbacks are an important part of the TreeCheckbox component. They allow you to respond to events that occur in the component, such as when the tree is updated or when a label is clicked.
