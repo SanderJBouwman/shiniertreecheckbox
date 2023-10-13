@@ -54,8 +54,6 @@ Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 
 ____
 
 ## Installation
-Provide instructions on how to install and use your R Shiny widget. Include code snippets if necessary. For example:
-
 ```R
 # Install the development version from GitHub:
 # install.packages("devtools")
