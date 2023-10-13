@@ -192,7 +192,15 @@ ____
 
 ### Options Parameter
 The options parameter is an object that contains a large number of options to customize the behaviour of the checkboxes. The following table lists all available options.
-You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget.
+You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget. 
+Example:
+```r
+shiniertreecheckbox("mytestID",
+                  data = '[{"label":"Panthera leo"},{"label":"Canis lupus"},{"label":"Felis catus"},{"label":"Equus ferus caballus"},{"label":"Puma concolor"}]',
+                  options=list(clickableLabels = TRUE,
+                  hideCheckboxes = TRUE)
+)
+```
 
 | Option                      | Data Type | Default Value   | Description                                                                                                                                                                                                                                   |
 |-----------------------------|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
