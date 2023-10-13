@@ -231,10 +231,10 @@ Currently, adding more states in R is not supported, but can be added by editing
 
 | Mode     | States                 | Default Value | Description                                                                                                                     |
 |----------|------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `include`  | None, Include, Exclude | `None`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.               |
-| `exclude`  | None, Exclude          | `None`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.             |
-| `checkbox` | None, Include          | `None`        | This mode allows you to select a checkbox. Clicking the checkbox will toggle between the None and Include states.               |
-| `toggle`   | Include, Exclude       | `Include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state. |
+| `include`  | `none`, `include`, `exclude` | `none`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.               |
+| `exclude`  | `none`, `exclude`            | `none`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.             |
+| `checkbox` | `none`, `include`            | `none`        | This mode allows you to select a checkbox. Clicking the checkbox will toggle between the None and Include states.               |
+| `toggle`   | `include`, `exclude`         | `include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state. |
 
 
 ____
