@@ -98,25 +98,6 @@ TreeCheckbox.defaultStates = {
      * The default checkbox state. There are three states: none, include and indeterminate. The default state is none.
      * The other states can be found here {@link TreeCheckbox.options.defaultStates}
      * @access public
-     * @example
-     * // We can recreate the checkbox state with the following code:
-     * const states = {
-     *    none: TreeCheckbox.createState(
-     *    "text-secondary",
-     *    "bg-secondary text-white",
-     *    '<svg...></svg>'
-     *    ),
-     *    include: TreeCheckbox.createState(
-     *    "text-success",
-     *    "bg-success text-white",
-     *    '<svg...></svg>'
-     *    ),
-     *    indeterminate: TreeCheckbox.createState(
-     *    "text-warning",
-     *    "bg-warning text-white",
-     *    '<svg...></svg>',
-     *    true // We set skipCursor to true, because we don't want to pass over the indeterminate state when clicking
-     *    )
      */
     checkbox: {
         none: TreeCheckbox.createState(
@@ -259,7 +240,7 @@ TreeCheckbox.defaultStates = {
  * and "indeterminate" are required.
  * @property {string} defaultState - The default state for the checkboxes. The default state is "none".
  * @property {string} returnValue - The value to return from the tree. The default value is "label". The other option is "nodeId" or a custom value.
- * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, a ID will be generated.
+ * @property {string} nodeIdProperty - The property to use as the id for the nodes. This should be unique for each node. If it is not supplied, an ID will be generated.
  * @property {boolean} searchTriggersLabelClick - Whether to trigger a label click when a search result is clicked.
  * @property {boolean} showToggle - Whether to show the toggle button (OR/AND).
  * @property {string} toggleDefaultState - The default state for the toggle button. The default state is "OR".
@@ -543,8 +524,7 @@ TreeCheckbox.values = function (containerID) {
     return values;
 };
 
-// We add a option to add to the TreeCheckbox options data
-
+// We add an option to add to the TreeCheckbox options data
 TreeCheckbox.editOptions = function (containerID, options) {
     let containerOptions = $(containerID).find(`.${styles.treeCheckboxContainer}`).data("options")
     // We are are going to merge the new options with the old options. The new options will overwrite the old options

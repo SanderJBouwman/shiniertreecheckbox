@@ -1,6 +1,7 @@
 import styles from "./checkbox.css";
 import utilities from "./utilities";
 import DOMPurify from "dompurify";
+/* global jQuery */
 
 /**
  * Performs a search logic operation within a specified main container.

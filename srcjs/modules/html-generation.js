@@ -3,6 +3,8 @@ import utilities from "./utilities";
 import styles from "./checkbox.css"
 import searchLogic from "./search-functions";
 
+/* global jQuery */
+
 const htmlGenerators = {
 }
 
@@ -145,7 +147,7 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
             utilities.runUpdateCallback($mainContainer,"deSelectAll" ,null, newState)
         })
     } else {
-        // We can now only select and not deselect. Thus we changed the text from $selectButton to Select
+        // We can now only select and not deselect. Thus, we changed the text from $selectButton to Select
         $selectButton.html("Select")
     }
 
@@ -287,7 +289,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
         }
     }
 
-    // We also have to add a search bar which will be in another group. There will be a input and search button
+    // We also have to add a search bar which will be in another group. There will be an input and search button
     if (options.showSearchBar) {
         const $searchResultsContainer = $("<div>", {
             "class": `${styles.treeCheckboxSearchResultsContainer} overflow-auto flex-grow-1`,
