@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/sanderJBouwman/shiniertreecheckbox)
 ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/sanderJbouwman/shiniertreecheckbox)
 
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/5da548d1-c59f-4043-865b-74ab447e41df" width=50% height=50%>
+<img alt = "Overview image that shows the ShinierTreecheckbox" src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/5da548d1-c59f-4043-865b-74ab447e41df" width=50% height=50%>
 
 ## Description
 This package allows for the rendering of hierarchical checkboxes in Shiny. It uses bootstrap 5 for the styling. 
@@ -19,7 +19,7 @@ ____
 ____
 
 ## Features
-- Able to process large amounts of items in the treecheckbox > 50.000 items
+- Able to process large amounts of items in the ShinierTreeCheckbox > 50.000 items
 - Only renders the visible checkboxes using Lazy Loading
 - Fast searching
 - (customisable) Callback functions to Shiny
@@ -30,25 +30,25 @@ ____
 ### Multiple modes 
 <details>
   <summary>Checkbox</summary>
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/6f0d3384-722b-44c7-8c56-c941ac9bef4b" width=50% height=50%>
+<img alt="shows the Checkbox mode" src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/6f0d3384-722b-44c7-8c56-c941ac9bef4b" width=50% height=50%>
 </details>
 
 <details>
   <summary>Include/exclude</summary>
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/829d455c-2b24-4f63-8ee1-81b9dfd0ab93" width=50% height=50%>
+<img alt="shows the include mode" src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/829d455c-2b24-4f63-8ee1-81b9dfd0ab93" width=50% height=50%>
 </details>
 
 <details>
   <summary>Remove checkboxes</summary>  
   
 Combine this with the clickableLabels [callback](#callbacks) to use the treecheckbox as a navigation tool.
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/1e29dc3e-e2d9-485b-8938-2900564491b2" width=50% height=50%>
+<img alt="shows the clickable labels" src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/1e29dc3e-e2d9-485b-8938-2900564491b2" width=50% height=50%>
 </details>
 
 <details>
   <summary>Allow search of items</summary>
 Searching is very fast. A ShinierTreeCheckbox with 27.000 items takes less than 8ms to search. 
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/fa223d6e-f902-4b60-aa7b-5d64254af957" width=50% height=50%>
+<img alt="shows the search mode"  src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/fa223d6e-f902-4b60-aa7b-5d64254af957" width=50% height=50%>
 </details>
 
 ____
@@ -132,12 +132,12 @@ The most simple way of creating non-hierarchical checkboxes. Only an array of st
 #### Method 2: JSON String that is list containing objects (allows for hierarchical data)
 The first data structure is an array which contains one or more objects. Each object represents a node in the tree. Each object must contain the following properties:
 
-| Property                   | Description                                                                                   |
-|----------------------------|-----------------------------------------------------------------------------------------------|
-| `label`                    | The label to display for the node.                                                            |
-| `children`                 | An array of child nodes. Not required, but needed to create hierarchical relationships.
+| Property   | Description                                                                             |
+|------------|-----------------------------------------------------------------------------------------|
+| `label`    | The label to display for the node.                                                      |
+| `children` | An array of child nodes. Not required, but needed to create hierarchical relationships. |
 
-> Note: You can supply a unique string value for the `nodeId` property to make every item unique. If you don't supply a `nodeId` propery, Shinier Treecheckbox will generate one for you. You can also set a different property to be used as the unique ID by setting the options.nodeIdProperty option. So for example if you have a json consisting of the property `value` that is unique, you can set the nodeIdProperty to `value`
+> Note: You can supply a unique string value for the `nodeId` property to make every item unique. If you don't supply a `nodeId` property, Shinier Treecheckbox will generate one for you. You can also set a different property to be used as the unique ID by setting the options.nodeIdProperty option. So for example if you have a json consisting of the property `value` that is unique, you can set the nodeIdProperty to `value`
 > ```R
 > options = list(nodeIdProperty = 'value')
 > # Now the Shinier Treecheckbox will use the `value` property as the unique ID. 
@@ -146,7 +146,7 @@ The first data structure is an array which contains one or more objects. Each ob
 #### Examples
 <details>
   <summary>Simplest form (method 1)</summary>
-This is the simplest form of creating a shiniertreecheckbox (method 1)
+This is the simplest form of creating a ShinierTreeCheckbox (method 1)
 
 ```r
 shiniertreecheckbox("mytestID",
@@ -160,7 +160,7 @@ Results in:
 
 <details>
   <summary>Simplest form (method 2)</summary>
-This is the simplest form of creating a shiniertreecheckbox using method 2
+This is the simplest form of creating a ShinierTreeCheckbox using method 2
     
 ```r
 shiniertreecheckbox("mytestID",
@@ -184,7 +184,7 @@ shiniertreecheckbox("mytestID",
 
 Results in:   
 
-<img src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/319cdc6d-69fd-4c30-a7a9-d34c16bdc962" width=50% height=50%>
+<img alt="Shows the ShinierTreecheckbox when rendered" src="https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/319cdc6d-69fd-4c30-a7a9-d34c16bdc962" width=50% height=50%>
 </details>
 
 ____
@@ -218,7 +218,7 @@ You can customize the behavior and appearance of the TreeCheckbox component by p
 | returnValue                 | string    | `"label"`       | The value that will be returned on a event. It is also possible to add a custom value. You can do this by adding a new property to the input data and than setting that property as the returnValue. See [returnValue](#Custom return values) |
 | returnNonLeafNodes          | boolean   | `false`         | Whether to return non-leaf nodes in tree operations. Meaning that all (active e.g. included/excluded) values in the tree not just the leaf nodes will be parsed to Shiny.                                                                     |
 | nodeIdProperty              | string    | `nodeId`        | If not supplied Shinier Treecheckbox will create its own internal IDS. It is also possible to set the unique ID property using the options.nodeIdProperty, all the id's should be unique and a string.                                        |
-| showToggle                  | boolean   | `false`         | Whether to show the logic switch button. This allows the user to change the search query from AND to OR. (Note: the logic for this has to be implemented in the Shiny app. Accessable by the ([id]_logic) variable.                           |
+| showToggle                  | boolean   | `false`         | Whether to show the logic switch button. This allows the user to change the search query from AND to OR. (Note: the logic for this has to be implemented in the Shiny app. Accessible by the ([id]_logic) variable.                           |
 | toggleDefaultState          | string    | `OR`            | The default value for the toggle button. Can be OR and AND.                                                                                                                                                                                   |
 
 
@@ -227,7 +227,7 @@ ____
 ### States
 You can customize the behaviour of the checkboxes by setting the `options.states` parameter. This parameter accepts a string that specifies the mode of the checkboxes. 
 All states have default values. These can be changed by setting the `options.defaultState` parameter. This parameter accepts a string that specifies the default state of the checkboxes.
-Currently adding more states in R is not supported, but can be added by editing the JS module (core.js &rarr; TreeCheckbox.defaultStates). The available states are:
+Currently, adding more states in R is not supported, but can be added by editing the JS module (core.js &rarr; TreeCheckbox.defaultStates). The available states are:
 
 | Mode     | States                 | Default Value | Description                                                                                                                     |
 |----------|------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------|
@@ -289,7 +289,7 @@ ____
 
 #### Callback - Clickable Labels  
 
-The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked. There is also a default callback which will return the `returnValue` of the item to to a Shiny variable. View the _Default callback_ section for more information. The labels are not clickable by default, but this can be changed by setting the options.clickableLabels to `TRUE`. Just as the updateCallback the clickableLabelsCallback also has a default function that would suffice in most situations. The default behaviour is that when a label is clicked it gets reported back to Shiny. The clicked label value can be accessed by `input$mytestID_click` (<inputID> + "_click"). 
+The clickableLabelsCallback option allows you to specify a callback function that will be called when a label is clicked. There is also a default callback which will return the `returnValue` of the item to a Shiny variable. View the _Default callback_ section for more information. The labels are not clickable by default, but this can be changed by setting the options.clickableLabels to `TRUE`. Just as the updateCallback the clickableLabelsCallback also has a default function that would suffice in most situations. The default behaviour is that when a label is clicked it gets reported back to Shiny. The clicked label value can be accessed by `input$mytestID_click` (<inputID> + "_click"). 
 
 ```R
   # Gets triggered whenever a label got clicked. 
@@ -299,7 +299,7 @@ The clickableLabelsCallback option allows you to specify a callback function tha
 ```
 
 ##### Adjusting the _clickableLabelsCallback_
-The callback will always receive the `returnValue` (of the label clicked). Thus the callback should always have one parameter. Just as the _update_ callback it is here also possible to add extra arguments. This can be done by parsing the arguments to the `options.clickableLabelsCallbackArgs` variable (list). 
+The callback will always receive the `returnValue` (of the label clicked). Thus, the callback should always have one parameter. Just as the _update_ callback it is here also possible to add extra arguments. This can be done by parsing the arguments to the `options.clickableLabelsCallbackArgs` variable (list). 
 
 <details>
   <summary>Default callback</summary>  
@@ -339,7 +339,7 @@ ____
 ### Custom return values
 It is possible to return custom return values. This can be done by setting the `options.returnValue` parameter. The default value is `label`, but you can set this to any property in the data. 
 
-It is also possible to add your own custom data to the items, whereafter it is possible to return them by setting the `options.returnValue`. For this you must add it to the input data, which can be seen below. 
+It is also possible to add your own custom data to the items, where after it is possible to return them by setting the `options.returnValue`. For this you must add it to the input data, which can be seen below. 
 We want to add a new return value called `labeled_value`.  
 <details>
   <summary>Altered JSON with new property</summary>
