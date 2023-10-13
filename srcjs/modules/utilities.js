@@ -1,53 +1,78 @@
 import htmlGenerators from "./html-generation";
 import styles from "./checkbox.css"
+
+/* global jQuery */
+
 const utilities = {
 }
 
+/**
+ * Create a tree structure within a parent element based on provided data and options. This is the main function
+ * that should be called to create a tree. It will create the main container, button container, node container and
+ * add the nodes to the tree.
+ *
+ * @param {jQuery} $parent - The parent element where the tree will be created.
+ * @param {Object} data - The hierarchical data structure for the tree.
+ * @param {object} options - Configuration options for the tree.
+ */
 utilities.createTree = function ($parent, data, options) {
-    let $mainContainer = htmlGenerators.createTreeCheckboxContainer(options)
-    $parent.append($mainContainer)
+    // Create the main container for the tree
+    let $mainContainer = htmlGenerators.createTreeCheckboxContainer(options);
+    $parent.append($mainContainer);
 
+    // Flatten the hierarchical data structure, for easier processing
+    let flattenedData = this.flattenJSON(data, options);
 
+    // Store the flattened data in the main container
+    $mainContainer.data("treeData", flattenedData);
 
-    let flattenedData = this.flattenJSON(data, options)
+    // Store the options in the main container
+    $mainContainer.data("options", options);
 
-    // The whole module is based on the data object, so we store it in the main container
-    $mainContainer.data("treeData", flattenedData)
+    // Create the button container for tree operations
+    let $buttonContainer = htmlGenerators.createTreeButtonContainer($mainContainer, options);
 
-    // We also add the options to the main container
-    $mainContainer.data("options", options)
-
-    let $buttonContainer = htmlGenerators.createTreeButtonContainer($mainContainer, options)
-
-    // If the $buttonContainer.find("btn-group) is empty, then we hide it
-    $mainContainer.append($buttonContainer)
+    // Check if the button container is empty and hide it if so
+    $mainContainer.append($buttonContainer);
     if ($buttonContainer.find(".btn-group").children().length === 0) {
-        $buttonContainer.hide()
+        $buttonContainer.hide();
     }
 
+    // Create a container for the nodes
+    let $nodeContainer = $("<div>", { "class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100 flex-grow-1` });
+    $mainContainer.append($nodeContainer);
 
+    // Add element nodes to the tree
+    this.addElementNodes($mainContainer, $nodeContainer, options);
 
-    // Create a container for the nodes $nodeContainer which has class styles.tree_checkbox_node_container
-    let $nodeContainer = $("<div>", {"class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100 flex-grow-1`})
-
-    $mainContainer.append($nodeContainer)
-
-    this.addElementNodes($mainContainer, $nodeContainer, options)
-
-    // We have to check if we have to start collapsed
+    // Expand all nodes if the startCollapsed option is false
     if (!options.startCollapsed) {
-        this.expandAll($mainContainer)
+        this.expandAll($mainContainer);
     }
-}
+};
 
+
+/**
+ * Flatten a hierarchical JSON structure into a map for easy access.
+ *
+ * @param {Object} data - The hierarchical data structure to be flattened.
+ * @param {object} options - Configuration options.
+ * @returns {Object} A flattened map of the data.
+ */
 utilities.flattenJSON = function (data, options) {
-    let map;
-    map = {};
+    let map = {};
+
+    /**
+     * Recursively flatten a hierarchical structure.
+     *
+     * @param {Object|Array} node - The current node or array of nodes to flatten.
+     * @param {string|null} parent - The parent node's ID.
+     * @param {boolean} isRendered - Indicates if the node has been rendered.
+     */
     function flatten(node, parent = null, isRendered = false) {
-        if (node && Array.isArray(node)) {
+        if (Array.isArray(node)) {
             node.forEach((item) => {
-                //
-                // Check if the item has the options.nodeIdProperty property
+                // Check for the existence and validity of the nodeIdProperty
                 if (!item.hasOwnProperty(options.nodeIdProperty)) {
                     throw new Error(`Item (${item.label}) does not have the '${options.nodeIdProperty}' property, 
                     which was set using the options.idProperty parameter. 
@@ -55,28 +80,27 @@ utilities.flattenJSON = function (data, options) {
                     If the default value is used, then the property must be called 'nodeId', 
                     which will generate unique IDs for each item. If the value property is not supplied.`);
                 } else {
-                    // Check if the value is a string or number and if it is not empty
                     if (typeof item[options.nodeIdProperty] !== "string" && typeof item[options.nodeIdProperty] !== "number") {
                         throw new Error(`Item (${item.label}) does not have a valid value for the '${options.nodeIdProperty}' property. 
                         The value must be a string or number.`);
                     }
-
                     if (item[options.nodeIdProperty] === "") {
                         throw new Error(`Item (${item.label}) does not have a valid value for the '${options.nodeIdProperty}' property. 
                         The value must not be empty.`);
                     }
                 }
-                // Check if the item has already been added to the map
+
+                // Check for duplicates in nodeIdProperty
                 if (map[item[options.nodeIdProperty]]) {
                     throw new Error(`Received a duplicate value/ID '${item.value}'. All values/IDs must be unique`);
                 }
 
-                // If the item has the parent property, then we use that as the parent
+                // If the item has the parent property, use that as the parent
                 if (item.parent) {
-                    parent = item.parent
+                    parent = item.parent;
                 }
 
-                // We have to check if the item has the options.returnValue property. If it does not we raise an error
+                // Check for the existence of the returnValue property
                 if (!item.hasOwnProperty(options.returnValue)) {
                     let errorMessage = `Item (${item.label}) does not have the '${options.returnValue}' property, which was set using the options.returnValue parameter. 
                     Available properties: ${Object.keys(item)}`;
@@ -92,7 +116,7 @@ utilities.flattenJSON = function (data, options) {
 
                 map[item[options.nodeIdProperty]] = flattenedItem;
 
-                // If it doesnt have the children property, then we add it
+                // If it doesn't have the children property, then add it
                 if (!item.hasOwnProperty("children")) {
                     flattenedItem.children = [];
                 }
@@ -107,16 +131,15 @@ utilities.flattenJSON = function (data, options) {
         }
     }
 
-    // If the nodeIdProperty is value, and it is not present, then we have to add it. This allows the user to not have to add the value property to the data.
-    if (options.nodeIdProperty === "nodeId") {
-        if (!data.hasOwnProperty("nodeId")) {
-            iterativeID(data, options)
-        }
+    // If the nodeIdProperty is "nodeId" and not present in data, add it
+    if (options.nodeIdProperty === "nodeId" && !data.hasOwnProperty("nodeId")) {
+        iterativeID(data, options);
     }
 
     flatten(data);
     return map;
-}
+};
+
 
 utilities.addNode = function(treeData, parentID, value, label, children) {
     // Validate parentID
@@ -173,24 +196,28 @@ utilities.addElementNodes = function($mainContainer, $nodeContainer) {
 
 
 utilities.setCheckBoxState = function($checkbox, state){
-
-    $checkbox.html($("<span>", {"class": state.textColour, html: state.symbol}))
-
-    // Add the cursor pointer to the checkbox
-    $checkbox.css("cursor", "pointer")
-
-    return state
+    $checkbox
+        .html($("<span>", {"class": state.textColour, html: state.symbol}))
+        .css("cursor", "pointer")
 }
 
 utilities.setChildState = function ($mainContainer, value, $node, options) {
-    // We have to set the state of the children as well
-    let children = $mainContainer.data("treeData")[value].children.map(child => $mainContainer.data("treeData")[child]);
+    // Retrieve the tree data and the children
+    const treeData = $mainContainer.data("treeData");
+    const children = treeData[value].children.map(childId => treeData[childId]);
+
+    // Update the state for each child node
     children.forEach(function (child) {
-        let $childNode = $mainContainer.find("#checkbox-node-" + child[options.nodeIdProperty])
-        $childNode.data("state", $node.data("state"))
-        utilities.setCheckBoxState($childNode.find(`.${styles.treeCheckboxNodeCheckbox}`), $node.data("state"))
-    })
+        const childNodeId = child[options.nodeIdProperty];
+        const $childNode = $mainContainer.find("#checkbox-node-" + childNodeId);
+
+        // Set the state and update the checkbox state
+        const nodeState = $node.data("state");
+        $childNode.data("state", nodeState);
+        utilities.setCheckBoxState($childNode.find(`.${styles.treeCheckboxNodeCheckbox}`), nodeState);
+    });
 }
+
 
 utilities.handleIntermediate = function ($mainContainer, value, options, $node) {
     // We have to set the state of the parents as well. If all the siblings are the same state, then the parent should be that state as well otherwise it should be indeterminate
@@ -232,170 +259,226 @@ utilities.handleIntermediate = function ($mainContainer, value, options, $node) 
     }
 }
 
-utilities.setCheckboxLogic = function($mainContainer, $checkbox, value, options, initialState=null) {
+/**
+ * Sets the logic for a checkbox and its associated node in the tree structure.
+ *
+ * @param {jQuery} $mainContainer - The main container element.
+ * @param {jQuery} $checkbox - The checkbox element.
+ * @param {string} value - The value associated with the checkbox node.
+ * @param {object} options - Configuration options.
+ * @param {string} [initialState=null] - The initial state for the checkbox (optional).
+ */
+utilities.setCheckboxLogic = function ($mainContainer, $checkbox, value, options, initialState = null) {
+    /**
+     * Gets the next state based on the current state and available states.
+     *
+     * @param {object} currentState - The current state.
+     * @param {object} states - Available states.
+     * @returns {object} The next state.
+     */
     function getNextState(currentState, states) {
-        let statesArray = Object.values(states).filter(state => !state.skipCursor)
+        let nonSkippedStates = Object.values(states).filter(state => !state.skipCursor);
         if (currentState.skipCursor) {
-            statesArray = statesArray.filter(state => !state.skipCursor)
+            nonSkippedStates = nonSkippedStates.filter(state => !state.skipCursor);
         }
 
-        let currentStateIndex = statesArray.indexOf(currentState)
-
-        return statesArray[(currentStateIndex + 1) % statesArray.length]
-
+        const currentStateIndex = nonSkippedStates.indexOf(currentState);
+        return nonSkippedStates[(currentStateIndex + 1) % nonSkippedStates.length];
     }
 
+    /**
+     * Sets the next state for a node and its associated checkbox.
+     *
+     * @param {jQuery} $node - The node element.
+     * @param {jQuery} $clickedCheckbox - The clicked checkbox element.
+     * @param {object} states - Available states.
+     * @returns {object} The next state.
+     */
     function setNextState($node, $clickedCheckbox, states) {
-        let currentState = $node.data("state")
-        let nextState = getNextState(currentState, states)
-        $node.data("state", nextState)
-        utilities.setCheckBoxState($clickedCheckbox, nextState)
-        return nextState
+        const currentState = $node.data("state");
+        const nextState = getNextState(currentState, states);
+        $node.data("state", nextState);
+        utilities.setCheckBoxState($clickedCheckbox, nextState);
+        return nextState;
     }
 
-    // Report the initial state
-    // Initialise the checkbox
-    let $node = $mainContainer.find("#checkbox-node-" + value)
+    // Report the initial state and initialize the checkbox
+    const $node = $mainContainer.find("#checkbox-node-" + value);
+
     if (initialState === null) {
-        // This is the default state assigned in the options
-        $node.data("state", options.states[options.defaultState])
-        utilities.setCheckBoxState($checkbox, options.states[options.defaultState])
+        // Use the default state from the options
+        const defaultState = options.states[options.defaultState];
+        $node.data("state", defaultState);
+        utilities.setCheckBoxState($checkbox, defaultState);
     } else {
-        // This is for when the state is not the default state (e.g. when the state of the parent is used)
-        $node.data("state", options.states[initialState])
-        utilities.setCheckBoxState($checkbox, options.states[initialState])
+        // Use the provided initial state
+        const initialStateValue = options.states[initialState];
+        $node.data("state", initialStateValue);
+        utilities.setCheckBoxState($checkbox, initialStateValue);
     }
 
-    $checkbox.on("click", function(){
+    $checkbox.on("click", function () {
         // A click means that the state should change
-        setNextState($node, $(this), options.states)
+        const nextState = setNextState($node, $(this), options.states);
 
-        // We have to set the state of the children as well
+        // Update the state of children
         utilities.setChildState($mainContainer, value, $node, options);
 
-        // We have to set the state of the parents as well. If all the siblings are the same state,
-        // then the parent should be that state as well otherwise it should be indeterminate
+        // Update the state of parents
         utilities.handleIntermediate($mainContainer, value, options, $node);
 
-        // We run the callback function
-        let stateKey = Object.keys(options.states).find(key => options.states[key] === $node.data("state"))
-
-        const returnValue = $mainContainer.data("treeData")[value][options.returnValue]
-        utilities.runUpdateCallback($mainContainer, "CheckboxChange", returnValue, stateKey)
-    })
-
-
+        // Run the callback function
+        const stateKey = Object.keys(options.states).find(key => options.states[key] === $node.data("state"));
+        const returnValue = $mainContainer.data("treeData")[value][options.returnValue];
+        utilities.runUpdateCallback($mainContainer, "CheckboxChange", returnValue, stateKey);
+    });
 }
 
-utilities.getNodeChildren = function($mainContainer, value) {
-    // We can get the node by using the value as the ID but first we have to check if it has been rendered yet
-    if (!data[value].isRendered) {
-        throw new Error("Node has not been rendered yet")
+/**
+ * Retrieves the child nodes of a parent node based on its value.
+ *
+ * @param {jQuery} $mainContainer - The main container element.
+ * @param {string} value - The value associated with the parent node.
+ * @returns {jQuery[]} An array of child node elements.
+ * @throws {Error} Throws an error if the parent or any of its children have not been rendered.
+ */
+utilities.getNodeChildren = function ($mainContainer, value) {
+    // Get the tree data
+    const treeData = $mainContainer.data("treeData");
+
+    // Check if the parent node has been rendered
+    if (!treeData[value].isRendered) {
+        throw new Error("Node has not been rendered yet");
     }
 
-    let childrenIDs = data[value].children
+    // Retrieve the IDs of child nodes
+    const childrenIDs = treeData[value].children;
 
-    // Check if the children have been rendered yet
-    let $children = []
-    childrenIDs.forEach(function(childID){
-        if (!data[childID].isRendered) {
-            throw new Error("Node has not been rendered yet")
-        } else{
-            $children.push($mainContainer.find("#checkbox-node-" + childID))
+    // Check if each child has been rendered, and if so, add them to the $children array
+    return childrenIDs.map(childID => {
+        if (!treeData[childID].isRendered) {
+            throw new Error("Node has not been rendered yet");
         }
-    })
-    return $children
-}
+        return $mainContainer.find("#checkbox-node-" + childID);
+    });
+};
 
-utilities.findNode = function($mainContainer, value, checkExist=true, checkRendered=true) {
-    let data = $mainContainer.data("treeData")
-    // Check if the value exists in the data object
-    if (!Object.keys(data).includes(value) && checkExist) {
-        throw new Error("Value does not exist")
-    }
-    // We can get the node by using the value as the ID but first we have to check if it has been rendered yet
-    if (!data[value].isRendered && checkRendered) {
-        throw new Error("Node has not been rendered yet")
-    }
-
-    return $mainContainer.find("#checkbox-node-" + value)
-}
-
+/**
+ * Attach a child node element to a parent node in the main container.
+ *
+ * @param {jQuery} $mainContainer - The main container element.
+ * @param {string} value - The value associated with the parent node.
+ * @param {jQuery} $node - The child node element to attach.
+ * @throws {Error} Throws an error if the parent node is not found.
+ */
 utilities.attachChildElement = function ($mainContainer, value, $node) {
-    // Find the parent "node-<value>" and append the child to it
-    let $parent = $mainContainer.find("#checkbox-node-" + value)
+    // Find the parent node element
+    const $parent = $mainContainer.find("#checkbox-node-" + value);
 
     if ($parent.length === 0) {
-        throw new Error("Parent node not found")
+        throw new Error("Parent node not found");
     }
 
-    // Now we get the child <ul> element
-    let $children = $parent.children(`.${styles.treeCheckboxNodeChildren}`)
+    // Get the child <ul> element
+    const $children = $parent.children(`.${styles.treeCheckboxNodeChildren}`);
+
+    // Wrap the child in an <li> element and append it to the children
+    const $childLi = $("<li>", { class: styles.treeCheckboxNodeChild, style: "list-style-type: none;" });
+    $childLi.append($node);
+    $children.append($childLi);
+};
 
 
-    // Wrap the child in a li and append it to the children
-    let $childLi = $("<li>", {"class": styles.treeCheckboxNodeChild, "style": "list-style-type: none;"})
-    $childLi.append($node)
-    $children.append($childLi)
-}
+/**
+ * Update child elements of a parent node with their rendering and state based on parent's expansion.
+ *
+ * @param {jQuery} $mainContainer - The main container element.
+ * @param {string} value - The value associated with the parent node.
+ * @param {jQuery} $node - The parent node element.
+ */
+utilities.updateChildrenElements = function ($mainContainer, value, $node) {
+    const options = $mainContainer.data("options");
 
-utilities.updateChildrenElements = function ($mainContainer, value, $node, initialState) {
-    const options = $mainContainer.data("options")
-    // Behaviour for expanded
-    // As the node is expanded, we check if the children have been rendered yet
-    let children = $mainContainer.data("treeData")[value].children.map(child => $mainContainer.data("treeData")[child]);
+    // Get the children of the parent node
+    const children = $mainContainer.data("treeData")[value].children.map(child => $mainContainer.data("treeData")[child]);
 
-
-    // We check if the children have been rendered yet. For this we use the isRendered property with filter
+    // Filter out children that haven't been rendered yet
     children.filter(child => !child.isRendered).forEach(function (child) {
-        let parentState = $node.data("state")
-        // The parentState variable holds the value instead of the key, we need to get the key
-        let parentStateKey = Object.keys(options.states).find(key => options.states[key] === parentState)
+        const parentState = $node.data("state");
 
-        // It is not possible for the children to be indeterminate, so we set it to none
+        // Convert parent state to its corresponding key
+        let parentStateKey = Object.keys(options.states).find(key => options.states[key] === parentState);
+
+        // Ensure children can't be indeterminate; set them to 'none'
         if (parentStateKey === "indeterminate") {
-            parentStateKey = "none"
+            parentStateKey = "none";
         }
 
-        let $childNode = htmlGenerators.createElementNode($mainContainer, child[options.nodeIdProperty], child.label, child.children.length > 0, parentStateKey)
-        // We have to attach the child to the parent
-        utilities.attachChildElement($mainContainer, value, $childNode, initialState)
-        $mainContainer.data("treeData")[child[options.nodeIdProperty]].isRendered = true
-    })
-}
+        // Create a child node element
+        const $childNode = htmlGenerators.createElementNode(
+            $mainContainer,
+            child[options.nodeIdProperty],
+            child.label,
+            child.children.length > 0,
+            parentStateKey
+        );
 
+        // Attach the child to the parent
+        utilities.attachChildElement($mainContainer, value, $childNode);
+
+        // Mark the child as rendered
+        $mainContainer.data("treeData")[child[options.nodeIdProperty]].isRendered = true;
+    });
+};
+
+
+/**
+ * Handle the logic for caret (expand/collapse) clicks on a node.
+ *
+ * @param {jQuery} $node - The node element.
+ * @param {jQuery} $mainContainer - The main container element.
+ * @param {string} value - The value associated with the node.
+ * @param {object} options - Configuration options.
+ * @param {string} initialState - The initial state for child nodes.
+ */
 utilities.caretClickLogic = function ($node, $mainContainer, value, options, initialState) {
     // Toggle the caret
-    let $clickedCaret = $(this)
-    //  We also toggle the caret, for visual purposes
-    $clickedCaret.toggleClass(styles.collapsed)
-    $clickedCaret.toggleClass(styles.expanded)
+    const $clickedCaret = $(this);
 
-    // We set the $node class to collapsed and expanded
-    $node.toggleClass(styles.collapsed)
-    $node.toggleClass(styles.expanded)
+    // Toggle the caret and node classes for visual purposes
+    $clickedCaret.toggleClass(styles.collapsed);
+    $clickedCaret.toggleClass(styles.expanded);
+    $node.toggleClass(styles.collapsed);
+    $node.toggleClass(styles.expanded);
 
     if ($node.hasClass(styles.expanded)) {
-        // We have to update the children elements as well if needed
-        utilities.updateChildrenElements($mainContainer, value, $node, initialState);
-        $clickedCaret.parent().siblings(`.${styles.treeCheckboxNodeChildren}`).slideDown()
+        // Update the children elements and slide down if needed
+        utilities.updateChildrenElements($mainContainer, value, $node);
+        $clickedCaret.parent().siblings(`.${styles.treeCheckboxNodeChildren}`).slideDown();
     } else if ($node.hasClass(styles.collapsed)) {
-        $clickedCaret.parent().siblings(`.${styles.treeCheckboxNodeChildren}`).slideUp()
+        $clickedCaret.parent().siblings(`.${styles.treeCheckboxNodeChildren}`).slideUp();
     }
-}
+};
 
+
+/**
+ * Handle the click logic for showing the search bar in the main container.
+ *
+ * @param {jQuery} $mainContainer - The main container element.
+ */
 utilities.searchBarClickLogic = function ($mainContainer) {
-    // Find the element with the class btn-group
-    $mainContainer.find(".btn-group").hide()
+    // Hide elements with the class "btn-group"
+    $mainContainer.find(".btn-group").hide();
 
-    // Find the search bar with class tree-checkbox-search-bar
-    let $searchBarContainer = $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`)
-    $searchBarContainer.show()
+    // Find and show the search bar container
+    let $searchBarContainer = $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`);
+    $searchBarContainer.show();
 
-    // Set the focus to the search bar
-    let $searchBar = $searchBarContainer.find(".tree-checkbox-search-bar")
-    $searchBar.focus()
-}
+    // Set focus to the search bar input field
+    let $searchBar = $searchBarContainer.find(".tree-checkbox-search-bar");
+    $searchBar.focus();
+};
+
 
 /**
  * (De)selects all tree nodes within a specified main container based on a given state name.
@@ -522,44 +605,66 @@ utilities.labelClickLogic = function ($mainContainer, returnValue, options) {
     }
 }
 
-// Create a function that will receive node data in the form of a object with three properties: value, label and children
-// Replace the value with a unique ID and then go through the children and replace the value with a unique ID
-let idCounter = 0
+/**
+ * Iteratively assign unique IDs to nodes in a hierarchical data structure.
+ *
+ * @param {Object|Array} data - The hierarchical data structure to assign IDs to.
+ * @param {Object} options - Configuration options.
+ */
 function iterativeID(data, options) {
-    // If the data is an array then we have to itterate through it and call the function again
-    if (Array.isArray(data)) {
-        data.forEach(function (item) {
-            iterativeID(item, options)
-        })
-    } else {
-            // If the data is an object then we have to check if it has a value property
-            data[options.nodeIdProperty] = idCounter
-            idCounter++
+    let idCounter = 0; // Initialize idCounter as a local variable.
 
-            // We also have to check if the children property exists
-            if (data.hasOwnProperty("children")) {
-                // We have to call the function again with the children property
-                iterativeID(data.children, options)
+    /**
+     * Recursively assign IDs to nodes.
+     *
+     * @param {Object|Array} item - The data item to assign an ID to.
+     */
+    function assignIDsRecursively(item) {
+        if (Array.isArray(item)) {
+            item.forEach(function (childItem) {
+                assignIDsRecursively(childItem);
+            });
+        } else if (typeof item === 'object') {
+            // Assign an ID to the node
+            item[options.nodeIdProperty] = idCounter;
+            idCounter++;
+
+            if (item.hasOwnProperty("children")) {
+                // Recursively process child nodes
+                assignIDsRecursively(item.children);
             }
+        }
     }
+
+    assignIDsRecursively(data);
 }
 
-utilities.toggleLogic = function ($mainContainer, options){
-    // Get the state of the button
-    const $toggleButton = $mainContainer.find(`.${styles.treeCheckboxToggleButton}`)
-    const buttonValue = $toggleButton.data("value")
-    // IF the button has the value "OR" then we have to change it to "AND" and vice versa
+/**
+ * Toggle the logic (AND/OR) and update the button state in the main container.
+ *
+ * @param {jQuery} $mainContainer - The main container element.
+ * @param {object} options - Configuration options.
+ */
+utilities.toggleLogic = function ($mainContainer, options) {
+    // Find the toggle button element and get its current value
+    const $toggleButton = $mainContainer.find(`.${styles.treeCheckboxToggleButton}`);
+    const buttonValue = $toggleButton.data("value");
+
+    // Toggle the button value between "OR" and "AND"
     if (buttonValue === "OR") {
-        $toggleButton.data("value", "AND")
-        $toggleButton.html("AND")
+        $toggleButton.data("value", "AND");
+        $toggleButton.html("AND");
     } else if (buttonValue === "AND") {
-        $toggleButton.data("value", "OR")
-        $toggleButton.html("OR")
+        $toggleButton.data("value", "OR");
+        $toggleButton.html("OR");
     }
-    const containerID = options.containerID
-    Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
 
-}
+    // Get the container ID from options
+    const containerID = options.containerID;
+
+    // Update the value in Shiny with the new button value
+    Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), { priority: 'event' });
+};
 
 utilities.validateOptions = function(options){
         // The options.startCollapsed must be a boolean

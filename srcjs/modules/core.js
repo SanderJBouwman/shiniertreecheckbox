@@ -468,7 +468,7 @@ TreeCheckbox.addNodes = function(containerID, data){
                 }
 
                 $(document).ready(function () {
-                    utilities.updateChildrenElements($mainContainer, parentValue, $parentNode, parentStateKey)
+                    utilities.updateChildrenElements($mainContainer, parentValue, $parentNode)
                 })
             }
         }

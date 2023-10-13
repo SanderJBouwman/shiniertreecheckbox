@@ -153,7 +153,8 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
 
     // Cycle over the states
     for (let state in options.states) {
-        if (!options.states[state].skipCursor) {
+        // If the state is none, then we do not need to add a button for it or if the state is skipCursor
+        if (!options.states[state].skipCursor && state !== "none") {
             const stateName = state.toLowerCase();
             const $selectButtonButton = $("<button>", {"class": "dropdown-item", "type": "button", "id": "tree-checkbox-select-all-button"});
             $selectButtonButton.html(`Select All (${stateName})`);
@@ -306,7 +307,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
             "type": "button",
             "data-bs-toggle": "tooltip",
             "data-bs-placement": "bottom",
-            "title": "Switch between requiring all selected checkboxes (AND) or any of them (OR) in the search.", // Add the tooltip title
+            "title": "Switch between requiring all selected checkboxes (AND) or any of them (OR).", // Add the tooltip title
             "data-value": options.toggleDefaultState,
         });
 
@@ -320,12 +321,11 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
             utilities.toggleLogic($mainContainer, options);
         });
 
-        // When the document is ready, set the initial value of the toggle button
-        $(document).ready(function () {
+        $(document).on("shiny:sessioninitialized", function (event) {
             Shiny.setInputValue(options.containerID + '_logic', $toggleButton.data("value"), {
                 priority: 'event'
             });
-        });
+        })
     }
 
 
