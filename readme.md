@@ -240,25 +240,25 @@ Currently adding more states in R is not supported. The available states are:
     <tr>
       <td>Include</td>
       <td>None, Include, Exclude</td>
-      <td>None</td>
+      <td>`None`</td>
       <td>This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.</td>
     </tr>
     <tr>
       <td>Exclude</td>
       <td>None, Exclude</td>
-      <td>None</td>
+      <td>`None`</td>
       <td>This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.</td>
     </tr>
     <tr>
       <td>Checkbox</td>
       <td>None, Include</td>
-      <td>None</td>
+      <td>`None`</td>
       <td>This mode allows you to select a checkbox. Clicking the checkbox will toggle between the None and Include states.</td>
     </tr>
     <tr>
       <td>Toggle</td>
       <td>Include, Exclude</td>
-      <td>Include</td>
+      <td>`Include`</td>
       <td>This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state.</td>
     </tr>
   </tbody>
