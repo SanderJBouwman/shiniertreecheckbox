@@ -308,6 +308,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
             "class": `btn btn-outline-fg border-bottom border-start ${styles.treeCheckboxToggleButton}`,
             "type": "button",
             "data-bs-toggle": "tooltip",
+            "data-bs-delay": "100",
             "data-bs-placement": "bottom",
             "title": "Switch between requiring all selected checkboxes (AND) or any of them (OR).", // Add the tooltip title
             "data-value": options.toggleDefaultState,

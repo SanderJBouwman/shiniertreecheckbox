@@ -149,9 +149,8 @@ function showSearchResultsSimpleSearch($mainContainer, searchResults, searchTerm
 
             if (result.parent !== null) {
                 // Add a badge with the parent label
-                let $badge = $("<span>", {"class": "badge bg-secondary rounded-pill float-right"})
-                    .html(parentLabel)
-                ;
+                let $badge = $("<span>", {"class": "badge rounded-pill bg-transparent border border-black text-black fw-lighter float-right"});
+                $badge.html(parentLabel);
                 $labelContainer.append($badge);
             }
         }
