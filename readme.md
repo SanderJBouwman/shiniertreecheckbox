@@ -192,7 +192,15 @@ ____
 
 ### Options Parameter
 The options parameter is an object that contains a large number of options to customize the behaviour of the checkboxes. The following table lists all available options.
-You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget.
+You can customize the behavior and appearance of the TreeCheckbox component by providing values for these options when creating the widget. 
+Example:
+```r
+shiniertreecheckbox("mytestID",
+                  data = '[{"label":"Panthera leo"},{"label":"Canis lupus"},{"label":"Felis catus"},{"label":"Equus ferus caballus"},{"label":"Puma concolor"}]',
+                  options=list(clickableLabels = TRUE,
+                  hideCheckboxes = TRUE)
+)
+```
 
 | Option                      | Data Type | Default Value   | Description                                                                                                                                                                                                                                   |
 |-----------------------------|-----------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -231,10 +239,10 @@ Currently, adding more states in R is not supported, but can be added by editing
 
 | Mode     | States                 | Default Value | Description                                                                                                                     |
 |----------|------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------|
-| Include  | None, Include, Exclude | `None`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.               |
-| Exclude  | None, Exclude          | `None`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.             |
-| Checkbox | None, Include          | `None`        | This mode allows you to select a checkbox. Clicking the checkbox will toggle between the None and Include states.               |
-| Toggle   | Include, Exclude       | `Include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state. |
+| `include`  | `none`, `include`, `exclude` | `none`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.               |
+| `exclude`  | `none`, `exclude`            | `none`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.             |
+| `checkbox` | `none`, `include`            | `none`        | This mode allows you to select a checkbox. Clicking the checkbox will toggle between the None and Include states.               |
+| `toggle`   | `include`, `exclude`         | `include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state. |
 
 
 ____
