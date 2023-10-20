@@ -159,7 +159,7 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
         if (!options.states[state].skipCursor && state !== "none") {
             const stateName = state.toLowerCase();
             const $selectButtonButton = $("<button>", {"class": "dropdown-item", "type": "button", "id": "tree-checkbox-select-all-button"});
-            $selectButtonButton.html(`Select All (${stateName})`);
+            $selectButtonButton.html(`${stateName} All`);
             $dropdownMenu.append($("<li>").append($selectButtonButton));
 
             $selectButtonButton.on("click", function () {
