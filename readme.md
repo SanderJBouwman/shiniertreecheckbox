@@ -236,7 +236,7 @@ ____
 ### States
 You can customize the behaviour of the checkboxes by setting the `options.states` parameter. This parameter accepts a string that specifies the mode of the checkboxes. 
 All states have default values. These can be changed by setting the `options.defaultState` parameter. This parameter accepts a string that specifies the default state of the checkboxes.
-Currently, adding more states in R is not supported, but can be added by editing the JS module (core.js &rarr; TreeCheckbox.defaultStates). 
+Currently, adding more states in R is not supported, but can be added by editing the JS module (view How to add more states).
 
 <details>
   <summary>How to add more states</summary>  
@@ -244,16 +244,20 @@ Currently, adding more states in R is not supported, but can be added by editing
 >Note: Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox library.
 
 1. Clone this repository. (e.g. `git clone https://github.com/SanderJBouwman/shiniertreecheckbox.git`
-2. Navigate to the `srcjs/modules/core.js` module.   
-3. Find the `TreeCheckbox.defaultStates` object and add the custom state there.   
-4. Rebuild the module: 
+2. Navigate into repository root `cd shiniertreecheckbox`
+3. Install the dependencies `npm install`
+4. Navigate to the `srcjs/modules/core.js` module and open it.   
+5. Find the `TreeCheckbox.defaultStates` object and add the custom state there.  Find the 
+6. Rebuild the module:
    ```R
-   #Run the following R commands. 
-   devtools::document()
+   # We first bundle the JS files. We do this using the Packer package.
    packer::bundle(mode="production")
+   # We then install the adjusted package.
    devtools::install()
-   ```  
-5. Use the new states.
+   ```
+7. We should now be able to use the newly added states. 
+ >Note: If the states do now show up, reload your R session.
+
    
 >Note: It is possible that the new states are not properly loaded. Emptying cache and reloading the webpage should fix this.
    
