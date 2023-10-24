@@ -8,8 +8,6 @@
 #' @param options A list of options for the tree.
 #' @export
 shiniertreecheckbox <- function(elementId, data, options=NULL) {
-
-
   if (is.null(options)) {
     options <- list()
   }
@@ -67,30 +65,20 @@ shiniertreecheckbox <- function(elementId, data, options=NULL) {
   )
 }
 
-#' Shiny bindings for shiniertreecheckbox
+#' update_shiniertreecheckbox
 #'
-#' Output and render functions for using shiniertreecheckbox within Shiny
-#' applications and interactive Rmd documents.
+#' See the Github page for more information: https://github.com/SanderJBouwman/shiniertreecheckbox
 #'
-#' @param outputId output variable to read from
-#' @param width,height Must be a valid CSS unit (like \code{'100\%'},
-#'   \code{'400px'}, \code{'auto'}) or a number, which will be coerced to a
-#'   string and have \code{'px'} appended.
-#' @param expr An expression that generates a shiniertreecheckbox
-#' @param env The environment in which to evaluate \code{expr}.
-#' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
-#'   is useful if you want to save an expression in a variable.
-#'
-#' @name shiniertreecheckbox-shiny
-#'
+#' @import htmlwidgets
+#' @param elementId The ID of the HTML element used to hold the tree.
+#' @param data A list of nodes to display in the tree.
 #' @export
-shiniertreecheckboxOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'shiniertreecheckbox', width, height, package = 'shiniertreecheckbox')
-}
-
-#' @rdname shiniertreecheckbox-shiny
-#' @export
-renderShiniertreecheckbox <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
-  htmlwidgets::shinyRenderWidget(expr, shiniertreecheckboxOutput, env, quoted = TRUE)
+update_shiniertreecheckbox <- function(elementId, data, session = getDefaultReactiveDomain()) {
+  session$sendCustomMessage(
+    'updateTreeCheckbox',
+    list(
+      elementId = elementId,
+      data = data
+    )
+  )
 }

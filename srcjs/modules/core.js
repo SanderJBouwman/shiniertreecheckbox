@@ -534,4 +534,35 @@ TreeCheckbox.editOptions = function (containerID, options) {
     $(containerID).find(`.${styles.treeCheckboxContainer}`).data("options", newOptions)
 }
 
+TreeCheckbox.updateTree = function (containerID, data) {
+    // Find the container with id "#" + containerID
+    const $container = $(`#${containerID}`)
+    // If the container does not exist we throw an error
+    if ($container.length === 0) {
+        throw new Error(`The container with id ${containerID} does not exist`)
+    }
+
+    const $mainContainer = $container.find(`.${styles.treeCheckboxContainer}`)
+    // We determine the format. If the data is a string we assume that its a state change for all the nodes
+    if (typeof data === "string") {
+        // Check if the data is a valid state
+        if (!Object.keys($mainContainer.data("options").states).includes(data)) {
+            throw new Error(`The state ${data} is not available. The available states are: ${Object.keys($mainContainer.data("options").states)}`)
+        }
+
+        const newState = $mainContainer.data("options").states[data]
+        utilities.setAllNodes($mainContainer, newState)
+    }
+}
+
+// We also have to add a Shiny.addCustomMessageHandler to update the tree. We load this when shiny is available
+$(document).on("shiny:sessioninitialized", function (event) {
+    // We have to check if the shiny object is available
+    if (typeof Shiny !== "undefined") {
+        // We have to add a custom message handler to update the tree
+        Shiny.addCustomMessageHandler("updateTreeCheckbox", function (data) {
+            // We have to check if the data is in the correct format
+            TreeCheckbox.updateTree(data.elementId, data.data)
+})}})
+
 export {TreeCheckbox}

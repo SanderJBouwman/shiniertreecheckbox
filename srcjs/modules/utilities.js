@@ -758,4 +758,28 @@ utilities.validateContainer = function(containerId){
     return containerId
 }
 
+utilities.setAllNodes = function($mainContainer, state){
+    const options = $mainContainer.data("options")
+    const treeData = $mainContainer.data("treeData")
+
+    Object.keys(treeData).forEach(function(key){
+        let node = treeData[key]
+
+        if (node.isRendered) {
+            // Update the state for each child node
+            let $node = $mainContainer.find("#checkbox-node-" + node[options.nodeIdProperty]);
+            $node.data("state", state)
+
+            // Update the checkbox state HTML
+            utilities.setCheckBoxState($node.find(`.${styles.treeCheckboxNodeCheckbox}`), state);
+
+            // Run the callback function
+            const stateKey = Object.keys(options.states).find(key => options.states[key] === $node.data("state"));
+            const returnValue = node[options.returnValue];
+            utilities.runUpdateCallback($mainContainer, "CheckboxChange", returnValue, stateKey);
+
+        }
+    })
+}
+
 export default utilities
