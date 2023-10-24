@@ -507,7 +507,7 @@ options = list(
 )
 ```
 ____
-### updating server-side
+### updating checkboxes server-side
 Currently only updating all values is supported server-side. This can be done by using the `update_shiniertreecheckbox` function. This functions accepts three parameters:
 - `elementId`: The id of the widget that needs to be updated. For example: `mytestID`
 - `newState`: The new state of all the items. This should be a valid state. For example: `include` or `none`
