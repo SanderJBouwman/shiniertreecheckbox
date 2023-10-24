@@ -5,8 +5,7 @@ import searchLogic from "./search-functions";
 
 /* global jQuery */
 
-const htmlGenerators = {
-}
+const htmlGenerators = {}
 
 htmlGenerators.createUniqueID = (() => {
     let i = 0;
@@ -17,16 +16,18 @@ htmlGenerators.createUniqueID = (() => {
 
 
 htmlGenerators.createTreeCheckboxContainer = function (options) {
-    let $container = $("<div>", {"class": `${styles.treeCheckboxContainer} border border-fg rounded d-flex flex-column`,
-        "id": `tree-checkbox-container-${htmlGenerators.createUniqueID()}`})
+    let $container = $("<div>", {
+        "class": `${styles.treeCheckboxContainer} border border-fg rounded d-flex flex-column`,
+        "id": `tree-checkbox-container-${htmlGenerators.createUniqueID()}`
+    })
 
     // Set the max width of the container
-    if (options.maxWidth !== null){
+    if (options.maxWidth !== null) {
         $container.css("max-width", options.maxWidth)
     }
 
     // Set the height of the container
-    if (options.height !== null){
+    if (options.height !== null) {
         $container.css("height", options.height)
     }
 
@@ -36,8 +37,7 @@ htmlGenerators.createTreeCheckboxContainer = function (options) {
 }
 
 
-
-htmlGenerators.createElementNode = function ($mainContainer, value, label, hasChildren, initialState=null) {
+htmlGenerators.createElementNode = function ($mainContainer, value, label, hasChildren, initialState = null) {
     // We create a span which hold the caret, checkbox and label. And then we create a div which holds the children
     let $node = $("<div>", {"class": `${styles.treeCheckboxNode} ${styles.collapsed}`, "id": "checkbox-node-" + value})
     let $checkBoxSpan = $("<span>", {"class": styles.treeCheckboxNodeSpan})
@@ -48,12 +48,12 @@ htmlGenerators.createElementNode = function ($mainContainer, value, label, hasCh
     let $caret = htmlGenerators.createCaret(hasChildren)
     $checkBoxSpan.append($caret)
 
-    $caret.on("click", function(){
+    $caret.on("click", function () {
         utilities.caretClickLogic.call(this, $node, $mainContainer, value, options, initialState);
     })
 
     // We convert to case
-    if (!options.hideCheckboxes){
+    if (!options.hideCheckboxes) {
         let $checkbox = htmlGenerators.attachCheckbox($mainContainer, $node, value, options, initialState)
         $checkBoxSpan.append($checkbox)
     }
@@ -85,7 +85,7 @@ htmlGenerators.createElementNode = function ($mainContainer, value, label, hasCh
     return $node
 }
 
-htmlGenerators.attachCheckbox = function ($mainContainer, $node, value, options, initialState=null) {
+htmlGenerators.attachCheckbox = function ($mainContainer, $node, value, options, initialState = null) {
     let $checkbox = $("<span>", {"class": styles.treeCheckboxNodeCheckbox, "value": value})
 
     // Add events to button
@@ -96,7 +96,7 @@ htmlGenerators.attachCheckbox = function ($mainContainer, $node, value, options,
     return $checkbox
 }
 
-htmlGenerators.createCaret = function (hasChildren, startCollapsed=true) {
+htmlGenerators.createCaret = function (hasChildren, startCollapsed = true) {
     if (hasChildren) {
         let $caret = $("<span>", {"class": styles.treeCheckboxCaret})
         if (!startCollapsed) {
@@ -118,7 +118,13 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
     // The goal here to create a button which has a dropdown menu. The dropdown menu will have two buttons, one for
     // deselecting all and one for selecting all
     // We should use the bootstrap 5 classes for styling and use the deselectAllID for the id
-    let $selectButton = $("<button>", {"class": "btn btn-outline-fg dropdown-toggle border-bottom", "type": "button", "id": deselectAllID, "data-bs-toggle": "dropdown", "aria-expanded": "false"})
+    let $selectButton = $("<button>", {
+        "class": "btn btn-outline-fg dropdown-toggle border-bottom",
+        "type": "button",
+        "id": deselectAllID,
+        "data-bs-toggle": "dropdown",
+        "aria-expanded": "false"
+    })
     $selectButton.html("(De)select")
     $selectButton.css("border-radius", "0")
     $buttonGroup.append($selectButton)
@@ -144,7 +150,7 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
             // Else we use the defaultState
             const newState = options.states.hasOwnProperty("none") ? "none" : options.defaultState;
             utilities.deSelectAll($mainContainer, options, newState)
-            utilities.runUpdateCallback($mainContainer,"deSelectAll" ,null, newState)
+            utilities.runUpdateCallback($mainContainer, "deSelectAll", null, newState)
         })
     } else {
         // We can now only select and not deselect. Thus, we changed the text from $selectButton to Select
@@ -158,13 +164,17 @@ htmlGenerators.generateDeSelectAllButton = function ($mainContainer, $buttonGrou
         // If the state is none, then we do not need to add a button for it or if the state is skipCursor
         if (!options.states[state].skipCursor && state !== "none") {
             const stateName = state.toLowerCase();
-            const $selectButtonButton = $("<button>", {"class": "dropdown-item", "type": "button", "id": "tree-checkbox-select-all-button"});
+            const $selectButtonButton = $("<button>", {
+                "class": "dropdown-item",
+                "type": "button",
+                "id": "tree-checkbox-select-all-button"
+            });
             $selectButtonButton.html(`${stateName} All`);
             $dropdownMenu.append($("<li>").append($selectButtonButton));
 
             $selectButtonButton.on("click", function () {
                 utilities.deSelectAll($mainContainer, options, state)
-                utilities.runUpdateCallback($mainContainer,"SelectAllChange" ,null, stateName)
+                utilities.runUpdateCallback($mainContainer, "SelectAllChange", null, stateName)
             })
         }
     }
@@ -176,7 +186,11 @@ htmlGenerators.generateCollapseButton = function ($mainContainer, $buttonGroup) 
 
     // We only need a single button which collapses all nodes. This is not a dropdown button
 
-    let $collapseButton = $("<button>", {"class": "btn btn-outline-fg border-bottom", "type": "button", "id": collapseExpandID})
+    let $collapseButton = $("<button>", {
+        "class": "btn btn-outline-fg border-bottom",
+        "type": "button",
+        "id": collapseExpandID
+    })
     $collapseButton.html('Collapse All')
     $collapseButton.css("border-radius", "0")
     $buttonGroup.append($collapseButton)

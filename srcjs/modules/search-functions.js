@@ -1,6 +1,7 @@
 import styles from "./checkbox.css";
 import utilities from "./utilities";
 import DOMPurify from "dompurify";
+
 /* global jQuery */
 
 /**
@@ -16,6 +17,7 @@ function searchLogic($mainContainer, options) {
         doSimpleSearch($mainContainer, options)
     }
 }
+
 /**
  * Performs a simple search operation by searching for the search term in the label of each node.
  * It does not use the labels, but uses the tree data map instead. This is much faster and need because
@@ -37,6 +39,7 @@ function doSimpleSearch($mainContainer, options) {
 
     showSearchResultsSimpleSearch($mainContainer, searchResults, cleanSearchTerm)
 }
+
 /**
  * Performs an advanced search operation within the main container. This will work with a database search.
  * The goal is that
@@ -197,7 +200,7 @@ function nodeToRoot(data, value, queue) {
 }
 
 //colorize search term occurrences in the label
-function colorizeLabel (label, searchTerm) {
+function colorizeLabel(label, searchTerm) {
     let labelLowerCase = label.toLowerCase()
     let searchTermLowerCase = searchTerm.toLowerCase()
 

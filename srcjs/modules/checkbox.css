@@ -1,9 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Cairo+Play');
 
-:local .collapsed{}
-:local .expanded{}
-:local .highlight{}
-:local .clickable{}
+:local .collapsed {
+}
+
+:local .expanded {
+}
+
+:local .highlight {
+}
+
+:local .clickable {
+}
 
 :local .treeCheckboxContainer {
     background-color: white;
@@ -31,7 +38,7 @@
 
 }
 
-:local .treeCheckboxToggleButton{
+:local .treeCheckboxToggleButton {
     max-width: 4em;
     font-weight: 700;
     font-size: medium;
@@ -53,6 +60,7 @@
     transform: rotate(45deg);
 
 }
+
 :local .treeCheckboxCaret.expanded > svg {
     transform-origin: center;
     transition: transform 0.3s ease; /* You can adjust the duration and timing function */
@@ -68,11 +76,11 @@
 }
 
 
-:local .treeCheckboxCaret:hover{
+:local .treeCheckboxCaret:hover {
     fill: #e37225;
 }
 
-:local .treeCheckboxNodeLabel.highlight{
+:local .treeCheckboxNodeLabel.highlight {
     color: var(--bs-black);
     /* Make the label bold and underlined */
     font-weight: bold;
@@ -89,28 +97,30 @@
     min-height: 16px;
     margin-right: 5px;
 }
-:local .treeCheckboxSearchBarContainer{
+
+:local .treeCheckboxSearchBarContainer {
     padding: 0;
     margin: 0;
 }
-:local .treeCheckboxSearchBarContainer.clickable{
+
+:local .treeCheckboxSearchBarContainer.clickable {
     cursor: pointer;
 }
 
-:local .treeCheckboxNodeLabel.clickable:hover{
+:local .treeCheckboxNodeLabel.clickable:hover {
     /* Make the label bold and underlined */
     font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
 }
 
-:local .treeCheckboxSearchResultsContainer{
+:local .treeCheckboxSearchResultsContainer {
 }
 
-:local .treeCheckboxNodeChild{
+:local .treeCheckboxNodeChild {
     white-space: nowrap;
 }
 
-:local .treeCheckboxNode{
+:local .treeCheckboxNode {
 
 }

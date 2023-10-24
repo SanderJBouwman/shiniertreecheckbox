@@ -9,10 +9,9 @@ import utilities from "./utilities.js";
 import styles from './checkbox.css';
 
 let TreeCheckbox = {
-    defaultStates:{},
+    defaultStates: {},
     options: {},
 }
-
 
 
 /**
@@ -65,7 +64,7 @@ let TreeCheckbox = {
  * @param {boolean} isDefault - Whether the state is a default state. Default is false. There should be only one default state.
  * @returns {{symbol, textColour, spanClasses, skipCursor: boolean}}
  */
-TreeCheckbox.createState = function (textColour, spanClasses, symbol, skipCursor=false, isDefault=false) {
+TreeCheckbox.createState = function (textColour, spanClasses, symbol, skipCursor = false, isDefault = false) {
     let defaultStates = {
         "textColour": "text-secondary",
         "spanClasses": "bg-secondary text-white",
@@ -296,7 +295,7 @@ TreeCheckbox.options = {
  * @param {Object} data - The data to be added to the TreeCheckbox.
  * @param {object} options - The options to configure the TreeCheckbox. See {@link TreeCheckboxOptions} for more information.
  */
-TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.options) {
+TreeCheckbox.createTreeCheckbox = function (containerID, data, options = this.options) {
     // Validate options
     if (typeof options !== "object") {
         throw new Error("options must be an object")
@@ -383,14 +382,14 @@ TreeCheckbox.createTreeCheckbox = function (containerID, data, options=this.opti
  * @param {Object} data - The data to be added to the TreeCheckbox. The data should be an array of objects with
  * the following format: [{"label":str, "value":int, "parent":int, "children":[...]}]
  */
-TreeCheckbox.addNodes = function(containerID, data){
+TreeCheckbox.addNodes = function (containerID, data) {
     if (typeof containerID !== "string") {
         throw new Error("containerID must be a string")
     }
 
     // We need to check if the container exists
     let $container = $(containerID)
-    if($container.length === 0){
+    if ($container.length === 0) {
         throw new Error("Container does not exist, first create the tree with TreeCheckbox.createTreeCheckbox()")
     }
 
@@ -490,7 +489,7 @@ TreeCheckbox.values = function (containerID) {
 
     const options = $mainContainer.data("options");
 
-    if (options.hideCheckboxes){
+    if (options.hideCheckboxes) {
         return []
     }
 
@@ -567,6 +566,8 @@ $(document).on("shiny:sessioninitialized", function (event) {
         Shiny.addCustomMessageHandler("updateTreeCheckbox", function (data) {
             // We have to check if the data is in the correct format
             TreeCheckbox.updateTree(data.elementId, data.data)
-})}})
+        })
+    }
+})
 
 export {TreeCheckbox}

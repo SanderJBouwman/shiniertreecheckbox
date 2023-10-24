@@ -3,8 +3,7 @@ import styles from "./checkbox.css"
 
 /* global jQuery */
 
-const utilities = {
-}
+const utilities = {}
 
 /**
  * Create a tree structure within a parent element based on provided data and options. This is the main function
@@ -39,7 +38,7 @@ utilities.createTree = function ($parent, data, options) {
     }
 
     // Create a container for the nodes
-    let $nodeContainer = $("<div>", { "class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100 flex-grow-1` });
+    let $nodeContainer = $("<div>", {"class": `${styles.treeCheckboxNodeContainer} overflow-auto w-100 flex-grow-1`});
     $mainContainer.append($nodeContainer);
 
     // Add element nodes to the tree
@@ -141,7 +140,7 @@ utilities.flattenJSON = function (data, options) {
 };
 
 
-utilities.addNode = function(treeData, parentID, value, label, children) {
+utilities.addNode = function (treeData, parentID, value, label, children) {
     // Validate parentID
     if (!Object.keys(treeData).includes(parentID)) {
         throw new Error("Invalid parentID")
@@ -164,13 +163,13 @@ utilities.addNode = function(treeData, parentID, value, label, children) {
 
 }
 
-utilities.validateData = function(data) {
+utilities.validateData = function (data) {
     // If the data is an Array we convert it to an object
     if (Array.isArray(data)) {
         // If the data is an array and it  contains strings, then we convert it to an object
         if (data.every(item => typeof item === "string")) {
             let newData = []
-            data.forEach(function(item){
+            data.forEach(function (item) {
                 newData.push({"label": item})
             })
             return newData
@@ -183,11 +182,11 @@ utilities.validateData = function(data) {
 
 }
 
-utilities.addElementNodes = function($mainContainer, $nodeContainer) {
+utilities.addElementNodes = function ($mainContainer, $nodeContainer) {
     let data = $mainContainer.data("treeData")
     let options = $mainContainer.data("options")
     let queue = Array.from(Object.values(data)).filter(item => item.parent === null && !item.isRendered)
-    queue.forEach(function(item){
+    queue.forEach(function (item) {
         let $node = htmlGenerators.createElementNode($mainContainer, item[options.nodeIdProperty], item.label, item.children.length > 0)
         $nodeContainer.append($node)
         data[item[options.nodeIdProperty]].isRendered = true
@@ -195,7 +194,7 @@ utilities.addElementNodes = function($mainContainer, $nodeContainer) {
 }
 
 
-utilities.setCheckBoxState = function($checkbox, state){
+utilities.setCheckBoxState = function ($checkbox, state) {
     $checkbox
         .html($("<span>", {"class": state.textColour, html: state.symbol}))
         .css("cursor", "pointer")
@@ -383,7 +382,7 @@ utilities.attachChildElement = function ($mainContainer, value, $node) {
     const $children = $parent.children(`.${styles.treeCheckboxNodeChildren}`);
 
     // Wrap the child in an <li> element and append it to the children
-    const $childLi = $("<li>", { class: styles.treeCheckboxNodeChild, style: "list-style-type: none;" });
+    const $childLi = $("<li>", {class: styles.treeCheckboxNodeChild, style: "list-style-type: none;"});
     $childLi.append($node);
     $children.append($childLi);
 };
@@ -487,8 +486,8 @@ utilities.searchBarClickLogic = function ($mainContainer) {
  * @param {object} options - An object containing configuration options.
  * @param {string} stateName - The name of the state to set for deselection.
  */
-utilities.deSelectAll = function ($mainContainer, options, stateName){
-    $mainContainer.find(`.${styles.treeCheckboxNode}`).each(function(){
+utilities.deSelectAll = function ($mainContainer, options, stateName) {
+    $mainContainer.find(`.${styles.treeCheckboxNode}`).each(function () {
         let $node = $(this)
         $node.data("state", options.states[stateName])
         utilities.setCheckBoxState($node.find(`.${styles.treeCheckboxNodeCheckbox}`), options.states[stateName])
@@ -507,7 +506,7 @@ utilities.deSelectAll = function ($mainContainer, options, stateName){
  * @param {string} stateKey The (new) state of the node that was clicked or null if the event was "deSelectAll"
  *
  */
-utilities.runUpdateCallback = function ($mainContainer, event, value=null, stateKey=null) {
+utilities.runUpdateCallback = function ($mainContainer, event, value = null, stateKey = null) {
     const options = $mainContainer.data("options")
     if (options.updateCallback !== null) {
         // We have have the value but we have to get the state key
@@ -555,13 +554,14 @@ utilities.expandAll = function ($mainContainer) {
     $collapsedNodes.each(function () {
         let $node = $(this)
         $node.find(`.${styles.treeCheckboxCaret}`).click()
-    })}
+    })
+}
 
 /**
  * This function will be called when the search bar is closed. It will hide the search bar and the search results
  * @param  $mainContainer
  */
-utilities.searchBarCloseLogic = function ($mainContainer){
+utilities.searchBarCloseLogic = function ($mainContainer) {
     $mainContainer.find(`.${styles.treeCheckboxSearchBarContainer}`).hide()
     $mainContainer.find(`.${styles.treeCheckboxSearchResultsContainer}`).hide()
     $mainContainer.find(`.${styles.treeCheckboxButtonContainer}`).css("height", "")
@@ -663,11 +663,11 @@ utilities.toggleLogic = function ($mainContainer, options) {
     const containerID = options.containerID;
 
     // Update the value in Shiny with the new button value
-    Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), { priority: 'event' });
+    Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
 };
 
-utilities.validateOptions = function(options){
-        // The options.startCollapsed must be a boolean
+utilities.validateOptions = function (options) {
+    // The options.startCollapsed must be a boolean
     if (typeof options.startCollapsed !== "boolean") {
         throw new Error("options.startCollapsed must be a boolean")
     }
@@ -740,7 +740,7 @@ utilities.validateOptions = function(options){
     }
 }
 
-utilities.validateContainer = function(containerId){
+utilities.validateContainer = function (containerId) {
     if (typeof containerId !== "string") {
         throw new Error("containerID must be a string")
     }
@@ -751,18 +751,18 @@ utilities.validateContainer = function(containerId){
     }
 
     let $container = $(containerId)
-    if($container.length === 0){
+    if ($container.length === 0) {
         throw new Error("Container does not exist")
     }
 
     return containerId
 }
 
-utilities.setAllNodes = function($mainContainer, state){
+utilities.setAllNodes = function ($mainContainer, state) {
     const options = $mainContainer.data("options")
     const treeData = $mainContainer.data("treeData")
 
-    Object.keys(treeData).forEach(function(key){
+    Object.keys(treeData).forEach(function (key) {
         let node = treeData[key]
 
         if (node.isRendered) {
