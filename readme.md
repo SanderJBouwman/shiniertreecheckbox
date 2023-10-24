@@ -24,6 +24,7 @@ ____
 - Fast searching
 - (customisable) Callback functions to Shiny
 - Let users change the search logic toggling between "OR" & "AND"
+- Update checkboxes server-side
 
 ____
 
