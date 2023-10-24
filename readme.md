@@ -513,10 +513,12 @@ Currently only updating all values is supported server-side. This can be done by
 - `newState`: The new state of all the items. This should be a valid state. For example: `include` or `none`
 - `session`: The current Shiny session.
 
+
 ```R
 # Switch all items to the `include` state
 update_shiniertreecheckbox("mytestID", "include", session)
 ```
+![server_side](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/209f0046-6c25-494a-910f-61bc6ed1f691)
 
 ____
 
