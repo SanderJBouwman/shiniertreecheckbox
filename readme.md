@@ -241,17 +241,22 @@ Currently, adding more states in R is not supported, but can be added by editing
 <details>
   <summary>How to add more states</summary>  
 
->Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox library.
-1. Navigate to the `srcjs/modules/core.js` module.   
-2. Find the `TreeCheckbox.defaultStates` object and add the custom state there.   
-3. Rebuild the module: 
+>Note: Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox library.
+
+1. Download the library repo.
+2. Navigate to the `srcjs/modules/core.js` module.   
+3. Find the `TreeCheckbox.defaultStates` object and add the custom state there.   
+4. Rebuild the module: 
    ```R
    #Run the following R commands. 
    devtools::document()
    packer::bundle(mode="production")
    devtools::install()
    ```  
-
+5. Use the new states.
+   
+>Note: It is possible that the new states are not properly loaded. Emptying cache and reloading the webpage should fix this.
+   
 </details>
 
 The available states are:
