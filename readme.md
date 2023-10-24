@@ -243,20 +243,30 @@ Currently, adding more states in R is not supported, but can be added by editing
 
 >Note: Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox package.
 
-1. Clone this repository. (e.g. `git clone https://github.com/SanderJBouwman/shiniertreecheckbox.git`
-2. Navigate into repository root `cd shiniertreecheckbox`
-3. Install the dependencies `npm install`
-4. Navigate to the `srcjs/modules/core.js` module and open it.   
-5. Find the `TreeCheckbox.defaultStates` object and add the custom state there.  Find the 
-6. Rebuild the module:
-   ```R
-   # We first bundle the JS files. We do this using the Packer package.
-   packer::bundle(mode="production")
-   # We then install the adjusted package.
-   devtools::install()
-   ```
-7. We should now be able to use the newly added states. 
+1. Clone the repository and navigate into the package root
+	```bash
+	git clone https://github.com/SanderJBouwman/shiniertreecheckbox.git
+	cd shiniertreecheckbox 
+	```
+2. Install dependencies using [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+	```bash 
+	npm install
+	```
+3. Add new state(s).
+	- Open the `shiniertreecheckbox/srcjs/modules/core.js` module.  
+	- Find the `TreeCheckbox.defaultStates` object and add your new state.
+	>Note: This step should be self-explanatory when viewing the `TreeCheckbox.defaultStates`object.
+
+4. Rebuild the module. Navigate back to the root of the package and start R interactive terminal.
+	```R
+	# Bundle the JS files using Packer.
+	packer::bundle(mode="production")
+	# Install the package
+	devtools::install()
+	```
+5. We should now be able to use the newly added states. 
  >Note: If the states do now show up, reload your R session.
+
 
    
 >Note: It is possible that the new states are not properly loaded. Emptying cache and reloading the webpage should fix this.
