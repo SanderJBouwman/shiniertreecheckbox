@@ -521,9 +521,11 @@ update_shiniertreecheckbox("mytestID", "include", session)
 
 <details>
   <summary>Result</summary>  
+  
 ![server_side](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/209f0046-6c25-494a-910f-61bc6ed1f691)
+  
 </details>
-
+  
 ____
 
 ## Maintainer
