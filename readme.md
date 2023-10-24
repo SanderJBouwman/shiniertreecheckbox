@@ -24,6 +24,7 @@ ____
 - Fast searching
 - (customisable) Callback functions to Shiny
 - Let users change the search logic toggling between "OR" & "AND"
+- Update checkbox state server-side
 
 ____
 
@@ -235,14 +236,37 @@ ____
 ### States
 You can customize the behaviour of the checkboxes by setting the `options.states` parameter. This parameter accepts a string that specifies the mode of the checkboxes. 
 All states have default values. These can be changed by setting the `options.defaultState` parameter. This parameter accepts a string that specifies the default state of the checkboxes.
-Currently, adding more states in R is not supported, but can be added by editing the JS module (core.js &rarr; TreeCheckbox.defaultStates). The available states are:
+Currently, adding more states in R is not supported, but can be added by editing the JS module (core.js &rarr; TreeCheckbox.defaultStates). 
+
+<details>
+  <summary>How to add more states</summary>  
+
+>Note: Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox library.
+
+1. Clone this repository. (e.g. `git clone https://github.com/SanderJBouwman/shiniertreecheckbox.git`
+2. Navigate to the `srcjs/modules/core.js` module.   
+3. Find the `TreeCheckbox.defaultStates` object and add the custom state there.   
+4. Rebuild the module: 
+   ```R
+   #Run the following R commands. 
+   devtools::document()
+   packer::bundle(mode="production")
+   devtools::install()
+   ```  
+5. Use the new states.
+   
+>Note: It is possible that the new states are not properly loaded. Emptying cache and reloading the webpage should fix this.
+   
+</details>
+
+The available states are:
 
 | Mode     | States                 | Default Value | Description                                                                                                                     |
 |----------|------------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `include`  | `none`, `include`, `exclude` | `none`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.               |
-| `exclude`  | `none`, `exclude`            | `none`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.             |
-| `checkbox` | `none`, `include`            | `none`        | This mode allows you to select a checkbox. Clicking the checkbox will toggle between the None and Include states.               |
-| `toggle`   | `include`, `exclude`         | `include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state. |
+| `include`  | `none`, `include`, `exclude` | `none`        | This mode allows you to select or deselect a checkbox. Clicking the checkbox will cycle through the three states.                             |
+| `exclude`  | `none`, `exclude`            | `none`        | This mode allows you to deselect a checkbox. Clicking the checkbox will toggle between the None and Exclude states.                           |
+| `checkbox` | `none`, `include`            | `none`        | This mode allows you to select a checkbox (default checkbox behaviour). Clicking the checkbox will toggle between the None and Include states.|
+| `toggle`   | `include`, `exclude`         | `include`     | This mode allows you to toggle between the Include and Exclude states. Clicking the checkbox will switch to the opposite state.               |
 
 
 ____
@@ -507,17 +531,25 @@ options = list(
 )
 ```
 ____
-### updating server-side
+### updating checkboxes server-side
 Currently only updating all values is supported server-side. This can be done by using the `update_shiniertreecheckbox` function. This functions accepts three parameters:
 - `elementId`: The id of the widget that needs to be updated. For example: `mytestID`
 - `newState`: The new state of all the items. This should be a valid state. For example: `include` or `none`
 - `session`: The current Shiny session.
+
 
 ```R
 # Switch all items to the `include` state
 update_shiniertreecheckbox("mytestID", "include", session)
 ```
 
+<details>
+  <summary>Result</summary>  
+  
+![server_side](https://github.com/SanderJBouwman/shiniertreecheckbox/assets/45181109/209f0046-6c25-494a-910f-61bc6ed1f691)
+  
+</details>
+  
 ____
 
 ## Maintainer
