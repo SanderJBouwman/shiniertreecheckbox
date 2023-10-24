@@ -236,10 +236,10 @@ ____
 ### States
 You can customize the behaviour of the checkboxes by setting the `options.states` parameter. This parameter accepts a string that specifies the mode of the checkboxes. 
 All states have default values. These can be changed by setting the `options.defaultState` parameter. This parameter accepts a string that specifies the default state of the checkboxes.
-Currently, adding more states in R is not supported, but can be added by editing the JS module (view How to add more states).
+Currently, adding more states in R is not supported, but can be added by editing the package and installing it (view How to add custom states).
 
 <details>
-  <summary>How to add more states</summary>  
+  <summary>How to add custom states</summary>  
 
 >Note: Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox library.
 
