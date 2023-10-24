@@ -265,11 +265,7 @@ Currently, adding more states in R is not supported, but can be added by editing
 	devtools::install()
 	```
 5. We should now be able to use the newly added states. 
- >Note: If the states do now show up, reload your R session.
-
-
-   
->Note: It is possible that the new states are not properly loaded. Emptying cache and reloading the webpage should fix this.
+ >Note: Please reload your R session if your changes do not seem to have any effect.
    
 </details>
 
