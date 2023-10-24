@@ -243,7 +243,7 @@ Currently, adding more states in R is not supported, but can be added by editing
 
 >Note: Adding custom states requires [packer](https://packer.john-coene.com/#/guide/installation) and [devtools](https://cran.r-project.org/package=devtools), as you will re-build the shiniertreecheckbox library.
 
-1. Download the library repo.
+1. Clone this repository. (e.g. `git clone https://github.com/SanderJBouwman/shiniertreecheckbox.git`
 2. Navigate to the `srcjs/modules/core.js` module.   
 3. Find the `TreeCheckbox.defaultStates` object and add the custom state there.   
 4. Rebuild the module: 
