@@ -8,5 +8,7 @@ Description: This package allows for the rendering of hierarchical checkboxes in
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
+Imports:
+  htmlwidgets
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
