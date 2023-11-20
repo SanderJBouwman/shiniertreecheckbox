@@ -27,7 +27,6 @@
     padding: 0;
     margin: 0;
     width: 100%;
-    /*height: 100%;*/
 }
 
 :local .treeCheckboxNodeChildren {
@@ -39,10 +38,9 @@
 }
 
 :local .treeCheckboxToggleButton {
-    max-width: 4em;
-    font-weight: 700;
-    font-size: medium;
-    font-family: 'Cairo Play', 'Arial', serif;
+    max-width: 5.3rem;
+    border-radius: 0;
+    background-color: transparent;
 }
 
 :local .treeCheckboxCaret {

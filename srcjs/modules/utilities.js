@@ -318,7 +318,7 @@ utilities.setCheckboxLogic = function ($mainContainer, $checkbox, value, options
 
     $checkbox.on("click", function () {
         // A click means that the state should change
-        const nextState = setNextState($node, $(this), options.states);
+        setNextState($node, $(this), options.states);
 
         // Update the state of children
         utilities.setChildState($mainContainer, value, $node, options);
@@ -440,7 +440,7 @@ utilities.updateChildrenElements = function ($mainContainer, value, $node) {
  * @param {object} options - Configuration options.
  * @param {string} initialState - The initial state for child nodes.
  */
-utilities.caretClickLogic = function ($node, $mainContainer, value, options, initialState) {
+utilities.caretClickLogic = function ($node, $mainContainer, value) {
     // Toggle the caret
     const $clickedCaret = $(this);
 
@@ -644,27 +644,27 @@ function iterativeID(data, options) {
  *
  * @param {jQuery} $mainContainer - The main container element.
  * @param {object} options - Configuration options.
+ * @param value
  */
 utilities.toggleLogic = function ($mainContainer, options) {
     // Find the toggle button element and get its current value
-    const $toggleButton = $mainContainer.find(`.${styles.treeCheckboxToggleButton}`);
-    const buttonValue = $toggleButton.data("value");
 
-    // Toggle the button value between "OR" and "AND"
-    if (buttonValue === "OR") {
-        $toggleButton.data("value", "AND");
-        $toggleButton.html("AND");
-    } else if (buttonValue === "AND") {
-        $toggleButton.data("value", "OR");
-        $toggleButton.html("OR");
+    const $toggleButton = $mainContainer.find(`.${styles.treeCheckboxToggleButton}`);
+
+    const currentValue = $toggleButton.val()
+
+    if (currentValue !== "AND" && currentValue !== "OR") {
+        throw new Error("Invalid value for toggle button")
     }
 
-    // Get the container ID from options
-    const containerID = options.containerID;
-
     // Update the value in Shiny with the new button value
-    Shiny.setInputValue(containerID + '_logic', $toggleButton.data("value"), {priority: 'event'});
+    Shiny.setInputValue(options.containerID + '_logic', currentValue, {
+        priority: 'event'
+    });
 };
+
+// Make a toggle logic function
+
 
 utilities.validateOptions = function (options) {
     // The options.startCollapsed must be a boolean

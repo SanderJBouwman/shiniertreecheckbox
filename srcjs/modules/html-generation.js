@@ -49,7 +49,7 @@ htmlGenerators.createElementNode = function ($mainContainer, value, label, hasCh
     $checkBoxSpan.append($caret)
 
     $caret.on("click", function () {
-        utilities.caretClickLogic.call(this, $node, $mainContainer, value, options, initialState);
+        utilities.caretClickLogic.call(this, $node, $mainContainer, value);
     })
 
     // We convert to case
@@ -57,7 +57,6 @@ htmlGenerators.createElementNode = function ($mainContainer, value, label, hasCh
         let $checkbox = htmlGenerators.attachCheckbox($mainContainer, $node, value, options, initialState)
         $checkBoxSpan.append($checkbox)
     }
-
 
     // Create the label, and add the click event if clickableLabels is true
     // use tree-checkbox-node-label when clickableLabels is false else use tree_checkbox_node_label_clickable
@@ -224,7 +223,7 @@ htmlGenerators.generateSearchBar = function ($buttonGroup, $buttonContainer, opt
     $searchBarContainer.append($searchBar)
 
 
-    $searchBar.on("keyup", function (event) {
+    $searchBar.on("keyup", function () {
         const searchBarValue = $searchBar.val().trim();
         const characterWord = options.minSearchChars === 1 ? "character" : "characters";
 
@@ -317,32 +316,47 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
 
     // We add a toggle button which switches from OR to AND and vice versa when clicked
     if (options.showToggle) {
-        // Create the toggle button element with a class and type
-        let $toggleButton = $("<button>", {
-            "class": `btn btn-outline-fg border-bottom border-start ${styles.treeCheckboxToggleButton}`,
-            "type": "button",
+        let $toggleButton = $("<select>", {
+            "class": `form-select border-top-0 border-end-0 ${styles.treeCheckboxToggleButton}`,
             "data-bs-toggle": "tooltip",
             "data-bs-delay": "100",
             "data-bs-placement": "bottom",
-            "title": "Switch between requiring all selected checkboxes (AND) or any of them (OR).", // Add the tooltip title
+            "title": "Toggle between requiring all selected checkboxes (AND) or just one of them (OR) to match the search criteria.", // Add the tooltip title
             "data-value": options.toggleDefaultState,
         });
 
-        $toggleButton.html(options.toggleDefaultState);
+        // Add the options to the select
+        let $toggleButtonAND = $("<option>", {
+            "value": "AND",
+            "selected": options.toggleDefaultState === "AND",
+            "html": "AND"
+        });
 
-        $toggleButton.css("border-radius", "0");
+        let $toggleButtonOR = $("<option>", {
+            "value": "OR",
+            "selected": options.toggleDefaultState === "OR",
+            "html": "OR"
+        });
 
+        // Add the radio buttons to the toggleButton
+        $toggleButton.append($toggleButtonAND);
+        $toggleButton.append($toggleButtonOR);
+
+        // Add the toggleButton to the buttonGroup
         $buttonGroup.append($toggleButton);
 
-        $toggleButton.on("click", function () {
+
+        // Create an event when the toggleButton state is changed
+        $toggleButton.on("change", function () {
             utilities.toggleLogic($mainContainer, options);
         });
 
-        $(document).on("shiny:sessioninitialized", function (event) {
-            Shiny.setInputValue(options.containerID + '_logic', $toggleButton.data("value"), {
+        // We set the toggleButton to the default state
+        $(document).on("shiny:sessioninitialized", function () {
+            Shiny.setInputValue(options.containerID + '_logic', currentValue, {
                 priority: 'event'
             });
-        })
+        });
     }
 
 
