@@ -41,6 +41,7 @@
     max-width: 5.3rem;
     border-radius: 0;
     background-color: transparent;
+    font-weight: 600;
 }
 
 :local .treeCheckboxCaret {
