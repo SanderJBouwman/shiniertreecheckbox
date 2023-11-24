@@ -353,7 +353,7 @@ htmlGenerators.createTreeButtonContainer = function ($mainContainer, options) {
 
         // We set the toggleButton to the default state
         $(document).on("shiny:sessioninitialized", function () {
-            Shiny.setInputValue(options.containerID + '_logic', currentValue, {
+            Shiny.setInputValue(options.containerID + '_logic', options.toggleDefaultState, {
                 priority: 'event'
             });
         });
